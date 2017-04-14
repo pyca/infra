@@ -1,4 +1,7 @@
-FROM debian:unstable
+# The Debian Dockerfiles can be de-duplicated once
+# a docker with support for ARG in FROM is released.
+# See: https://github.com/docker/docker/pull/31352
+FROM debian:stretch
 
 ARG user=jenkins
 ARG group=jenkins
@@ -22,9 +25,7 @@ RUN apt-get install -qq -y \
     git \
     curl
 
-RUN curl -s -O https://bootstrap.pypa.io/get-pip.py
-
-RUN python get-pip.py
+RUN curl -s -O https://bootstrap.pypa.io/get-pip.py && python get-pip.py && rm get-pip.py
 
 RUN pip install -q tox
 

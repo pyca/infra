@@ -1,6 +1,3 @@
-# The Debian Dockerfiles can be de-duplicated once
-# a docker with support for ARG in FROM is released.
-# See: https://github.com/docker/docker/pull/31352
 FROM debian:jessie
 
 ARG user=jenkins
@@ -19,11 +16,20 @@ RUN apt-get -qq update
 
 RUN apt-get install -qq -y \
     build-essential \
-    libssl-dev \
     libffi-dev \
     python-dev \
     git \
     curl
+
+ARG LIBRE_VERSION=2.5.3
+
+RUN curl -s -O https://ftp.openbsd.org/pub/OpenBSD/LibreSSL/libressl-${LIBRE_VERSION}.tar.gz
+
+RUN tar zxvf libressl-${LIBRE_VERSION}.tar.gz
+
+WORKDIR libressl-${LIBRE_VERSION}
+
+RUN ./config -Wl -Wl,-Bsymbolic-functions -fPIC shared --prefix=/usr/local/libressl && make -j4 install
 
 RUN curl -s -O https://bootstrap.pypa.io/get-pip.py && python get-pip.py && rm get-pip.py
 

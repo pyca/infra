@@ -1,7 +1,7 @@
 [Unit]
 Description=Caddy
-After=docker.service
-Requires=docker.service
+After=docker.service jenkins.service
+Requires=docker.service jenkins.service
 
 [Service]
 TimeoutStartSec=0

@@ -5,7 +5,7 @@ import subprocess
 
 IMAGES = [
     ("jenkins", "crypto-jenkins"),
-    ("caddy", "caddy")
+    ("caddy", "caddy"),
 ]
 
 def docker_build(path, tag):

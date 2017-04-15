@@ -25,11 +25,15 @@ ARG LIBRE_VERSION=2.5.3
 
 RUN curl -s -O https://ftp.openbsd.org/pub/OpenBSD/LibreSSL/libressl-${LIBRE_VERSION}.tar.gz
 
-RUN tar zxvf libressl-${LIBRE_VERSION}.tar.gz
+RUN tar zxf libressl-${LIBRE_VERSION}.tar.gz
 
 WORKDIR libressl-${LIBRE_VERSION}
 
 RUN ./config -Wl -Wl,-Bsymbolic-functions -fPIC shared --prefix=/usr/local/libressl && make -j4 install
+
+WORKDIR ../
+
+RUN rm -rf libressl*
 
 RUN curl -s -O https://bootstrap.pypa.io/get-pip.py && python get-pip.py && rm get-pip.py
 

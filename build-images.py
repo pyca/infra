@@ -9,25 +9,25 @@ Image = collections.namedtuple("Image", ["tag", "path", "build_args"])
 
 IMAGES = [
     Image(
-        tag="crypto-jenkins", path=["jenkins"], build_args=None
+        tag="crypto-jenkins", path=["jenkins"], build_args=[]
     ),
     Image(
-        tag="caddy", path=["caddy"], build_args=None
+        tag="caddy", path=["caddy"], build_args=[]
     ),
     Image(
         tag="cryptography-runner:centos7",
         path=["runners", "centos7"],
-        build_args=None
+        build_args=[]
     ),
     Image(
         tag="cryptography-runner:jessie",
         path=["runners", "jessie"],
-        build_args=None
+        build_args=[]
     ),
     Image(
         tag="cryptography-runner:stretch",
         path=["runners", "stretch"],
-        build_args=None
+        build_args=[]
     ),
     Image(
         tag="cryptography-runner:jessie-libressl-2.4.5",
@@ -44,9 +44,8 @@ IMAGES = [
 
 def docker_build(image):
     shell_cmd = ["docker", "build", "-t", image.tag, os.path.join(*image.path)]
-    if image.build_args is not None:
-        for build_arg in image.build_args:
-            shell_cmd += ["--build-arg", build_arg]
+    for build_arg in image.build_args:
+        shell_cmd += ["--build-arg", build_arg]
 
     subprocess.check_call(shell_cmd)
 

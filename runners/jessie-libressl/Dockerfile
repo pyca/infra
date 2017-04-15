@@ -33,7 +33,7 @@ RUN ./config -Wl -Wl,-Bsymbolic-functions -fPIC shared --prefix=/usr/local/libre
 
 WORKDIR ../
 
-RUN rm -rf libressl-${LIBRE_VERSION} && rm libressl-${LIBRE_VERSION}.tar.gz
+RUN rm -rf libressl-${LIBRE_VERSION} libressl-${LIBRE_VERSION}.tar.gz
 
 RUN curl -s -O https://bootstrap.pypa.io/get-pip.py && python get-pip.py && rm get-pip.py
 

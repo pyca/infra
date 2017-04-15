@@ -8,6 +8,7 @@ IMAGES = [
     ("caddy", "caddy"),
 ]
 
+
 def docker_build(path, tag):
     subprocess.check_call(["docker", "build", "-t", tag, path])
 

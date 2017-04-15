@@ -21,7 +21,7 @@ RUN apt-get install -qq -y \
 
 ARG LIBRE_VERSION
 
-ADD https://ftp.openbsd.org/pub/OpenBSD/LibreSSL/libressl-${LIBRE_VERSION}.tar.gz
+ADD https://ftp.openbsd.org/pub/OpenBSD/LibreSSL/libressl-${LIBRE_VERSION}.tar.gz .
 RUN tar zxf libressl-${LIBRE_VERSION}.tar.gz
 
 WORKDIR libressl-${LIBRE_VERSION}

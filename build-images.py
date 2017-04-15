@@ -4,7 +4,7 @@ import subprocess
 
 
 IMAGES = [
-    ("jenkins", "crypto-jenkins"),
+    ("crypto-jenkins", "jenkins"),
     ("caddy", "caddy"),
 ]
 

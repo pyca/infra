@@ -21,7 +21,6 @@ RUN apt-get install -qq -y \
     libssl-dev \
     libffi-dev \
     python-dev \
-    python3-dev \
     git \
     curl
 

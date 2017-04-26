@@ -1,25 +1,28 @@
-import groovy.json.JsonSlurperClassic
-
 def builders = [:]
 
-@NonCPS
-def jsonParse(json) {
-    new groovy.json.JsonSlurperClassic().parseText(json)
+def parseConfig(data) {
+    // readJSON returns a non-serializable object, which we need to
+    // iterate over and store into a new list because pipelines require
+    // serializable data.
+    configs = []
+    for (el in data) {
+        configs << el
+    }
+    return configs
 }
 
 stage("Build Configs") {
     node {
         checkout scm
-        configs = jsonParse(readFile('config.json'))
-        for (x in configs) {
-            def name = x["tag"]
-            def path = x["path"]
-            def base_image = x["base_image"]
+        configs = parseConfig(readJSON(file: 'config.json'))
+        for (config in configs) {
+            def name = config["tag"]
+            def path = config["path"]
+            def base_image = config["base_image"]
             def build_args = ""
-            for (build_arg in x["build_args"]) {
+            for (build_arg in config["build_args"]) {
                 build_args += "--build-arg $build_arg"
             }
-            println builders
             builders[name] = {
                 node("docker") {
                         stage("Checkout") {
@@ -41,6 +44,6 @@ parallel builders
 
 stage("Prune") {
     node("docker") {
-        sh "docker system prune -f"
+        sh "docker rmi \$(docker images -q -f dangling=true)"
     }
 }

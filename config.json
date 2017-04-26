@@ -1,5 +1,15 @@
 [
     {
+        "tag": "pyca/crypto-jenkins",
+        "path": "jenkins",
+        "build_args": []
+    },
+    {
+        "tag": "pyca/caddy",
+        "path": "caddy",
+        "build_args": []
+    },
+    {
         "tag": "pyca/cryptography-runner-centos7:latest",
         "path": "runners/centos7",
         "build_args": []

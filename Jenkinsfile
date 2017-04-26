@@ -23,16 +23,23 @@ stage("Build Configs") {
             for (build_arg in config["build_args"]) {
                 build_args += "--build-arg $build_arg"
             }
+            if (env.BRANCH_NAME == 'master') {
+                tag = "-t $name"
+            } else {
+                tag = ''
+            }
             builders[name] = {
                 node("docker") {
                         stage("Checkout") {
                             checkout scm
                         }
                         stage("Build") {
-                            sh "docker build --pull -t $name $path $build_args"
+                            sh "docker build --pull $tag $path $build_args"
                         }
-                        stage("Publish") {
-                            echo "todo"
+                        if (env.BRANCH_NAME == 'master') {
+                            stage("Publish") {
+                                echo "todo"
+                            }
                         }
                 }
             }

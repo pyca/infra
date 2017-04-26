@@ -38,7 +38,10 @@ stage("Build Configs") {
                         }
                         if (env.BRANCH_NAME == 'master') {
                             stage("Publish") {
-                                echo "todo"
+                                docker.withRegistry('', 'dockerhub-credentials') {
+                                    image = docker.image(name)
+                                    image.push()
+                                }
                             }
                         }
                 }

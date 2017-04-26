@@ -39,6 +39,11 @@
           state: started
           enabled: yes
       with_items: "{{ services }}"
+    - command: docker info
+      register: docker_info
+    - name: "set up a single node docker swarm"
+      command: docker swarm init --advertise-addr bond0
+      when: "'Swarm: active' not in docker_info.stdout"
   handlers:
     - name: restart caddy
       systemd:

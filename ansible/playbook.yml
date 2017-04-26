@@ -42,6 +42,11 @@
     - command: docker info
       register: docker_info
     - name: "set up a single node docker swarm"
+      # docker swarm needs a single address to advertise its existence.
+      # Our server, however, has two addresses. By specifying an explicit
+      # named interface on the server (bond0 in this case) we make docker
+      # happy. If we stop using OnMetal in the future this name will
+      # change.
       command: docker swarm init --advertise-addr bond0
       when: "'Swarm: active' not in docker_info.stdout"
   handlers:

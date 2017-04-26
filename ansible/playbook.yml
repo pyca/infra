@@ -5,6 +5,7 @@
       services:
           - caddy
           - jenkins
+      swarm_advertise_addr: bond0
   tasks:
     - name: ensure docker is running
       service:
@@ -47,7 +48,7 @@
       # named interface on the server (bond0 in this case) we make docker
       # happy. If we stop using OnMetal in the future this name will
       # change.
-      command: docker swarm init --advertise-addr bond0
+      command: "docker swarm init --advertise-addr {{ swarm_advertise_addr }}"
       when: "'Swarm: active' not in docker_info.stdout"
   handlers:
     - name: restart caddy

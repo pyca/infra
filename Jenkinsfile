@@ -36,8 +36,9 @@ stage("Build Configs") {
                         stage("Build") {
                             sh "docker build --pull $tag $path $build_args"
                         }
-                        if (env.BRANCH_NAME == 'master') {
-                            stage("Publish") {
+                        stage("Publish") {
+                            // Only publish if this is a master build
+                            if (env.BRANCH_NAME == 'master') {
                                 docker.withRegistry('', 'dockerhub-credentials') {
                                     image = docker.image(name)
                                     image.push()

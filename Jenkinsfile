@@ -18,15 +18,15 @@ stage("Build Configs") {
         for (config in configs) {
             def name = config["tag"]
             def path = config["path"]
-            def base_image = config["base_image"]
             def build_args = ""
             for (build_arg in config["build_args"]) {
-                build_args += "--build-arg $build_arg"
+                build_args += "--build-arg $build_arg "
             }
+            // In jenkinsfiles PRs are named with BRANCH_NAME of "PR-<number>"
+            // so only the origin master branch can satisfy this conditional
+            def tag = ""
             if (env.BRANCH_NAME == 'master') {
                 tag = "-t $name"
-            } else {
-                tag = ''
             }
             builders[name] = {
                 node("docker") {
@@ -34,10 +34,11 @@ stage("Build Configs") {
                             checkout scm
                         }
                         stage("Build") {
+                            println "Building name: $name path: $path build_args: $build_args"
                             sh "docker build --pull $tag $path $build_args"
                         }
                         stage("Publish") {
-                            // Only publish if this is a master build
+                            // Only publish if this is a merge to master
                             if (env.BRANCH_NAME == 'master') {
                                 docker.withRegistry('', 'dockerhub-credentials') {
                                     image = docker.image(name)

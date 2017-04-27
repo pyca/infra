@@ -54,6 +54,6 @@ parallel builders
 
 stage("Prune") {
     node("docker") {
-        sh "docker rmi \$(docker images -q -f dangling=true)"
+        sh "docker image prune -f"
     }
 }

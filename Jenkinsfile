@@ -34,7 +34,6 @@ stage("Build Configs") {
                             checkout scm
                         }
                         stage("Build") {
-                            println "Building name: $name path: $path build_args: $build_args"
                             sh "docker build --pull $tag $path $build_args"
                         }
                         stage("Publish") {

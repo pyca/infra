@@ -20,9 +20,9 @@ RUN chown -R hubot:hubot /home/hubot
 USER hubot
 WORKDIR /home/hubot/bot
 
-COPY ["data/package.json", "/home/hubot/bot/"]
-COPY ["data/scripts/", "/home/hubot/bot/scripts"]
-COPY ["data/bin/", "/home/hubot/bot/bin"]
+COPY data/package.json /home/hubot/bot/
+COPY data/scripts/ /home/hubot/bot/scripts
+COPY data/bin/ /home/hubot/bot/bin
 
 RUN npm install
 

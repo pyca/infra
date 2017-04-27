@@ -1,3 +1,24 @@
 stage("test") {
-    println env
+    println env.BRANCH_NAME
+    println env.CHANGE_ID
+    println env.CHANGE_URL
+    println env.CHANGE_TITLE
+    println env.CHANGE_AUTHOR
+    println env.CHANGE_AUTHOR_DISPLAY_NAME
+    println env.CHANGE_AUTHOR_EMAIL
+    println env.CHANGE_TARGET
+    println env.BUILD_NUMBER
+    println env.BUILD_ID
+    println env.BUILD_DISPLAY_NAME
+    println env.JOB_NAME
+    println env.JOB_BASE_NAME
+    println env.BUILD_TAG
+    println env.EXECUTOR_NUMBER
+    println env.NODE_NAME
+    println env.NODE_LABELS
+    println env.WORKSPACE
+    println env.JENKINS_HOME
+    println env.JENKINS_URL
+    println env.BUILD_URL
+    println env.JOB_URL
 }

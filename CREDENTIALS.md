@@ -12,6 +12,6 @@ Creation/Rotation:
 
 * Using the cryptojenkins GitHub user
   * Delete the existing `hubot` personal access token under Settings:Personal Access Tokens (if rotating)
-  * Generate a new token with all scopes unchecked and name it hubot.
+  * Generate a new token with all scopes unchecked and name it `hubot`.
   * Write the resulting token (a hexadecimal string) to a file.
 * `./set-production-secret HUBOR_GITHUB_TOCKET "$VALUE"`

@@ -21,6 +21,14 @@ pyopenssl.org {
     }
 }
 
+www.pyopenssl.org {
+    tls paul.l.kehrer@gmail.com
+    redir https://pyopenssl.org{uri} 301
+    header / {
+        Strict-Transport-Security "max-age=31557600; includeSubDomains; preload"
+    }
+}
+
 ci.cryptography.io {
     tls paul.l.kehrer@gmail.com
 

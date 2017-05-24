@@ -8,16 +8,16 @@ RUN curl -sSL https://get.docker.com/ | sh
 RUN usermod -a -G staff,docker jenkins
 
 RUN /usr/local/bin/install-plugins.sh \
-    "AnsiColor" \
-    "Blue Ocean" \
-    "GitHub Authentication plugin" \
-    "IRC Plugin" \
-    "MapDB API Plugin" \
-    "Pipeline" \
-    "Pipeline Utility Steps" \
-    "Simple Theme Plugin" \
-    "SSH Slaves plugin" \
-    "Timestamper" \
-    "Workspace Cleanup Plugin"
+    "ansicolor" \
+    "blueocean" \
+    "github-oauth" \
+    "ircbot" \
+    "mapdb-api" \
+    "workflow-aggregator" \
+    "pipeline-utility-steps" \
+    "simple-theme-plugin" \
+    "ssh-slaves" \
+    "timestamper" \
+    "ws-cleanup"
 
 USER jenkins

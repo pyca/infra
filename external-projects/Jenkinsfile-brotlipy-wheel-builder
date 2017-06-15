@@ -76,7 +76,7 @@ def build(version, label, imageName) {
                         virtualenv .venv -p ${pythonPath[version]}
                         source .venv/bin/activate
                         pip install -U wheel # upgrade wheel to latest before we use it to build the wheel
-                        pip wheel brotlipy --wheel-dir=wheelhouse
+                        pip wheel brotlipy --wheel-dir=wheelhouse --no-binary brotlipy
                         pip install -f wheelhouse brotlipy --no-index
                         python -c "import brotli; assert brotli.decompress(b'\\x06') == b''"
                     """

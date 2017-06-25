@@ -92,6 +92,7 @@ def build(version, label, imageName) {
                 sh """#!/usr/bin/env bash
                     set -x -e
                     LIBFFI_SHA256="d06ebb8e1d9a22d19e38d63fdb83954253f39bedc5d46232a05645685722ca37"
+                    export LIBFFI_VERSION="3.2.1"
 
                     function check_sha256sum {
                         local fname=\$1
@@ -106,17 +107,16 @@ def build(version, label, imageName) {
                     chmod -R 777 tmpwheelhouse
                     chmod -R 777 wheelhouse
 
-                    # Get & Build libffi. Unfortunately the sourceware FTP is junk and hitting it with 12 simultaneous requests appears to
-                    # break it. So let's insert a jitter. Sleep from 1-6 seconds.
-                    curl -#O https://mirrors.ocf.berkeley.edu/debian/pool/main/libf/libffi/libffi_3.2.1.orig.tar.gz
-                    check_sha256sum libffi_3.2.1.orig.tar.gz \${LIBFFI_SHA256}
-                    tar zxf libffi_3.2.1.orig.tar.gz
+                    curl -#O https://mirrors.ocf.berkeley.edu/debian/pool/main/libf/libffi/libffi_\${LIBFFI_VERSION}.orig.tar.gz
+                    check_sha256sum libffi_\${LIBFFI_VERSION}.orig.tar.gz \${LIBFFI_SHA256}
+                    tar zxf libffi_\${LIBFFI_VERSION}.orig.tar.gz
                     # More root use permission nonsense
                     chmod -R 777 libffi*
-                    pushd libffi-3.2.1
+                    pushd libffi-\${LIBFFI_VERSION}
                     #CFLAGS needed to override the Makefile and prevent -march optimization
-                    #This flag set taken from Ubuntu 14.04's defaults
-                    $linux32 ./configure CFLAGS="-g -O2 -fstack-protector --param=ssp-buffer-size=4 -Wformat -Werror=format-security"
+                    #This flag set taken from Ubuntu 14.04's defaults and then updated based on comments in
+                    #https://github.com/pyca/infra/pull/101
+                    $linux32 ./configure CFLAGS="-g -O2 -fstack-protector-string -Wformat -Werror=format-security"
                     $linux32 make install
                     popd
                     # More root use permission nonsense

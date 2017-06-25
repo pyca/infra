@@ -29,11 +29,11 @@ RUN pip install -q tox
 
 WORKDIR /root
 
-RUN git clone --depth=1 https://github.com/openssl/openssl openssl
+RUN git clone --depth=1 https://github.com/openssl/openssl
 
 RUN cd openssl && \
     ./config --prefix=/opt/pyca/cryptography/openssl \
-             --openssldir=/opt/pyca/cryptography/openssl && \
+             --openssldir=/opt/pyca/cryptography/openssl no-comp && \
     make depend && \
     make -j4 && \
     make install && \

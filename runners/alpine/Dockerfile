@@ -15,8 +15,7 @@ ENV LANG C.UTF-8
 RUN addgroup -g ${gid} ${group}
 RUN adduser -u ${uid} -G ${group} -D ${user}
 
-RUN apk update && \
-    apk add git libffi-dev curl python-dev \
+RUN apk add --no-cache git libffi-dev curl python-dev \
     python3-dev libressl-dev bash gcc musl-dev
 
 RUN curl -sSL https://bootstrap.pypa.io/get-pip.py | python

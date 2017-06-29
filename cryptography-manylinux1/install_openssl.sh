@@ -8,9 +8,9 @@ OPENSSL_SHA256="12f746f3f2493b2f39da7ecf63d7ee19c6ac9ec6a4fcd8c229da8a522cb12765
 function check_sha256sum {
     local fname=$1
     local sha256=$2
-    echo "${sha256}  ${fname}" > ${fname}.sha256
-    sha256sum -c ${fname}.sha256
-    rm ${fname}.sha256
+    echo "${sha256}  ${fname}" > "${fname}.sha256"
+    sha256sum -c "${fname}.sha256"
+    rm "${fname}.sha256"
 }
 
 curl -#O ${OPENSSL_URL}/${OPENSSL_NAME}.tar.gz

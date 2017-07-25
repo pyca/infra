@@ -1,7 +1,8 @@
 ARG ARCH
 FROM quay.io/pypa/manylinux1_${ARCH}
 MAINTAINER Python Cryptographic Authority
-# ARCH before FROM is unavailable to later RUN calls so we have to take matters into our own hands. https://github.com/moby/moby/issues/34129
+# ARCH before FROM is unavailable to later RUN calls so we have to take
+# matters into our own hands. https://github.com/moby/moby/issues/34129
 ARG ARCH2ELECTRICBOOGALOO
 WORKDIR /root
 RUN curl -O https://www.cpan.org/src/5.0/perl-5.24.1.tar.gz

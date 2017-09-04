@@ -1,4 +1,4 @@
-FROM node:7.9-slim
+FROM node:7.10-slim
 
 RUN apt-get -qq update && apt-get install -qq -y runit
 

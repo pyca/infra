@@ -51,7 +51,7 @@ def build(version, label, imageName) {
 
                     virtualenv -p %PYTHON% .release
                     call .release\\Scripts\\activate
-                    pip install wheel virtualenv
+                    pip install "wheel<=0.29" virtualenv
                     pip wheel cffi --wheel-dir=wheelhouse --no-binary cffi
                     pip install -f wheelhouse cffi --no-index
                     python -c "import cffi;print(cffi.__version__)"
@@ -78,7 +78,8 @@ def build(version, label, imageName) {
 
                         virtualenv .venv -p ${pythonPath[version]}
                         source .venv/bin/activate
-                        pip install -U wheel # upgrade wheel to latest before we use it to build the wheel
+                        # upgrade wheel to latest before we use it to build the wheel
+                        pip install -U wheel
                         pip wheel cffi --wheel-dir=wheelhouse --no-binary cffi
                         pip install -f wheelhouse cffi --no-index
                         python -c "import cffi;print(cffi.__version__)"

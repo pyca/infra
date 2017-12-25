@@ -56,6 +56,11 @@
       # named interface on the server we make docker happy.
       command: "docker swarm init --advertise-addr {{ swarm_advertise_addr }}"
       when: "'Swarm: active' not in docker_info.stdout"
+    - command: docker service ls
+      register: docker_service_ls
+    - name: "configure docker service for hubot"
+      command: docker service create --name="hubot" --secret="HUBOT_GITHUB_TOKEN" pyca/hubot
+      when: "'pyca/hubot' not in docker_service_ls.stdout"
   handlers:
     - name: restart docker
       systemd:

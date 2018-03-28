@@ -23,4 +23,4 @@ ADD Caddyfile /etc/Caddyfile
 USER nobody
 
 ENTRYPOINT ["/usr/bin/caddy"]
-CMD ["--conf", "/etc/Caddyfile", "--log", "stdout"]
+CMD ["--conf", "/etc/Caddyfile", "--log", "stdout", "-agree"]

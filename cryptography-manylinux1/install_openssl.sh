@@ -27,4 +27,5 @@ else
 fi
 make depend
 make -j4
-make install
+# avoid installing the docs
+make install_sw install_ssldirs

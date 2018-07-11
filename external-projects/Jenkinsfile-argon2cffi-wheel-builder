@@ -78,7 +78,7 @@ def build(version, label, imageName) {
                             PY_LIMITED_API="--build-option --py-limited-api=cp3\${BASH_REMATCH[1]}"
                         fi
 
-                        pip wheel argon2_cffi --wheel-dir=wheelhouse \$PY_LIMITED_API --no-binary argon2_cffi
+                        pip wheel argon2_cffi --wheel-dir=wheelhouse \$PY_LIMITED_API --no-binary argon2_cffi --no-deps
                         pip install -f wheelhouse argon2_cffi --no-index
                         python -c "import argon2; argon2.verify_password(argon2.hash_password(b'secret', b'somesalt'), b'secret')"
                     """

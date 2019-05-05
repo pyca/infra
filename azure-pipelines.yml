@@ -28,10 +28,6 @@ jobs:
                   DOCKER_TAG_NAME: pyca/cryptography-runner-stretch
                   DOCKERFILE_PATH: runners/debian
                   DOCKER_BUILD_ARGS: "--build-arg RELEASE=stretch"
-              cryptography-runner-stretch-openssl-master:
-                  DOCKER_TAG_NAME: pyca/cryptography-runner-stretch-openssl-master
-                  DOCKERFILE_PATH: runners/stretch-openssl-master
-                  DOCKER_BUILD_ARGS: ""
               cryptography-runner-buster:
                   DOCKER_TAG_NAME: pyca/cryptography-runner-buster
                   DOCKERFILE_PATH: runners/debian

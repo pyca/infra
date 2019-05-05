@@ -65,5 +65,5 @@ jobs:
                   DOCKERFILE_PATH: cryptography-manylinux1
                   DOCKER_BUILD_ARGS: "--build-arg ARCH=x86_64 --build-arg ARCH2ELECTRICBOOGALOO=x86_64"
       steps:
-          - script: "docker build --pull $DOCKER_TAG_NAME $DOCKERFILE_PATH $DOCKER_BUILD_ARGS"
+          - script: "docker build --pull -t $DOCKER_TAG_NAME $DOCKERFILE_PATH $DOCKER_BUILD_ARGS"
             displayName: Build docker image

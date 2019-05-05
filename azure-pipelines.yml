@@ -1,0 +1,69 @@
+jobs:
+    - job: 'Docker Build'
+      pool:
+          vmImage: 'ubuntu-16.04'
+      strategy:
+          matrix:
+              pyca/crypto-jenkins:
+                  DOCKER_TAG_NAME: pyca/crypto-jenkins
+                  DOCKERFILE_PATH: jenkins
+                  DOCKER_BUILD_ARGS: ""
+              pyca/caddy:
+                  DOCKER_TAG_NAME: pyca/caddy
+                  DOCKERFILE_PATH: caddy
+                  DOCKER_BUILD_ARGS: ""
+              pyca/cryptography-runner-centos7:
+                  DOCKER_TAG_NAME: pyca/cryptography-runner-centos7
+                  DOCKERFILE_PATH: runners/centos7
+                  DOCKER_BUILD_ARGS: ""
+              pyca/cryptography-runner-fedora:
+                  DOCKER_TAG_NAME: pyca/cryptography-runner-fedora
+                  DOCKERFILE_PATH: runners/fedora
+                  DOCKER_BUILD_ARGS: ""
+              pyca/cryptography-runner-jessie:
+                  DOCKER_TAG_NAME: pyca/cryptography-runner-jessie
+                  DOCKERFILE_PATH: runners/debian
+                  DOCKER_BUILD_ARGS: "--build-arg RELEASE=jessie"
+              pyca/cryptography-runner-stretch:
+                  DOCKER_TAG_NAME: pyca/cryptography-runner-stretch
+                  DOCKERFILE_PATH: runners/debian
+                  DOCKER_BUILD_ARGS: "--build-arg RELEASE=stretch"
+              pyca/cryptography-runner-stretch-openssl-master:
+                  DOCKER_TAG_NAME: pyca/cryptography-runner-stretch-openssl-master
+                  DOCKERFILE_PATH: runners/stretch-openssl-master
+                  DOCKER_BUILD_ARGS: ""
+              pyca/cryptography-runner-buster:
+                  DOCKER_TAG_NAME: pyca/cryptography-runner-buster
+                  DOCKERFILE_PATH: runners/debian
+                  DOCKER_BUILD_ARGS: "--build-arg RELEASE=buster"
+              pyca/cryptography-runner-sid:
+                  DOCKER_TAG_NAME: pyca/cryptography-runner-sid
+                  DOCKERFILE_PATH: runners/debian
+                  DOCKER_BUILD_ARGS: "--build-arg RELEASE=sid"
+              pyca/cryptography-runner-ubuntu-trusty:
+                  DOCKER_TAG_NAME: pyca/cryptography-runner-ubuntu-trusty
+                  DOCKERFILE_PATH: runners/ubuntu
+                  DOCKER_BUILD_ARGS: "--build-arg RELEASE=trusty"
+              pyca/cryptography-runner-ubuntu-xenial:
+                  DOCKER_TAG_NAME: pyca/cryptography-runner-ubuntu-xenial
+                  DOCKERFILE_PATH: runners/ubuntu
+                  DOCKER_BUILD_ARGS: "--build-arg RELEASE=xenial"
+              pyca/cryptography-runner-ubuntu-rolling:
+                  DOCKER_TAG_NAME: pyca/cryptography-runner-ubuntu-rolling
+                  DOCKERFILE_PATH: runners/ubuntu
+                  DOCKER_BUILD_ARGS: "--build-arg RELEASE=rolling"
+              pyca/cryptography-runner-alpine:
+                  DOCKER_TAG_NAME: pyca/cryptography-runner-alpine
+                  DOCKERFILE_PATH: runners/alpine
+                  DOCKER_BUILD_ARGS: ""
+              pyca/cryptography-manylinux1-i686:
+                  DOCKER_TAG_NAME: pyca/cryptography-manylinux1:i686
+                  DOCKERFILE_PATH: cryptography-manylinux1
+                  DOCKER_BUILD_ARGS: "--build-arg ARCH=i686 --build-arg ARCH2ELECTRICBOOGALOO=i686"
+              pyca/cryptography-manylinux1-x86_64:
+                  DOCKER_TAG_NAME: pyca/cryptography-manylinux1:x86_64
+                  DOCKERFILE_PATH: cryptography-manylinux1
+                  DOCKER_BUILD_ARGS: "--build-arg ARCH=x86_64 --build-arg ARCH2ELECTRICBOOGALOO=x86_64"
+      steps:
+          - script: "docker build --pull $DOCKER_TAG_NAME $DOCKERFILE_PATH $DOCKER_BUILD_ARGS"
+            displayName: Build docker image

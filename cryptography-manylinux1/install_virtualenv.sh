@@ -2,5 +2,5 @@
 set -xe
 
 for python in /opt/python/*; do
-    $python/bin/pip install virtualenv
+    "$python/bin/pip" install virtualenv
 done

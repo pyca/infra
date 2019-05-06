@@ -95,15 +95,15 @@ jobs:
                   DOCKERFILE_PATH: windows/openssl
                   DOCKER_BUILD_ARGS: "--build-arg BUILDARCH=x64 --build-arg VSVERSION=2015"
       steps:
-          - script: "docker build --pull -t $env:DOCKER_TAG_NAME $env:DOCKERFILE_PATH $env:DOCKER_BUILD_ARGS"
+          - script: "docker build --pull -t %DOCKER_TAG_NAME% %DOCKERFILE_PATH% %DOCKER_BUILD_ARGS%"
             displayName: Build docker image
 
-          - script: docker login -u $env:DOCKER_USERNAME -p $env:DOCKER_PASSWORD
+          - script: "docker login -u %DOCKER_USERNAME% -p %DOCKER_PASSWORD%"
             displayName: Log in to docker
             condition: and(eq(variables['Build.SourceBranch'], 'refs/heads/master'), ne(variables['Build.Reason'], 'PullRequest'))
             env:
                 DOCKER_USERNAME: $(DOCKER_USERNAME)
                 DOCKER_PASSWORD: $(DOCKER_PASSWORD)
-          - script: "docker push $env:DOCKER_TAG_NAME"
+          - script: "docker push %DOCKER_TAG_NAME%"
             displayName: Push docker image
             condition: and(eq(variables['Build.SourceBranch'], 'refs/heads/master'), ne(variables['Build.Reason'], 'PullRequest'))

@@ -129,8 +129,7 @@ stages:
                     py27-x86:
                         DOCKER_TAG_NAME: pyca/cryptography-runner-windows:py27-x86
                         DOCKERFILE_PATH: windows/py27
-                        DOCKER_BUILD_ARGS: "--build-arg CPU_ARCH=x86"
-            steps:
+                        DOCKER_BUILD_ARGS: "--build-arg CPU_ARCH=x86" steps:
                 # - script: "docker pull %DOCKER_TAG_NAME%"
                 #   displayName: Pull the previous image
 

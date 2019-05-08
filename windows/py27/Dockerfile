@@ -6,7 +6,7 @@ COPY --from=pyca/openssl-windows-builder:win64-2010 "C:/build/openssl-win64-2010
 SHELL ["powershell", "-Command", "$ErrorActionPreference = 'Stop'; $ProgressPreference = 'SilentlyContinue';"]
 
 # Install Compiler
-RUN Invoke-WebRequest -Uri http://download.microsoft.com/download/7/9/6/796EF2E4-801B-4FC4-AB28-B59FBF6D907B/VCForPython27.msi -OutFile VCForPython27.msi; \
+RUN Invoke-WebRequest -Uri https://download.microsoft.com/download/7/9/6/796EF2E4-801B-4FC4-AB28-B59FBF6D907B/VCForPython27.msi -OutFile VCForPython27.msi; \
     Write-Host 'Installing VC For Python 2.7...'; \
     Start-Process msiexec -Wait \
         -ArgumentList @('/i', 'VCForPython27.msi', '/qn', 'ALLUSERS=1'); \

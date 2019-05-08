@@ -2,7 +2,7 @@ trigger:
     - master
 stages:
     - stage: base
-      displayName: 'build linux containers and openssl for windows'
+      displayName: 'base'
       jobs:
           - job: 'linux_docker'
             pool:
@@ -115,7 +115,7 @@ stages:
                   displayName: Push docker image
                   condition: and(eq(variables['Build.SourceBranch'], 'refs/heads/master'), ne(variables['Build.Reason'], 'PullRequest'))
     - stage: win
-      displayName: 'build windows containers'
+      displayName: 'win'
       jobs:
           - job: 'windows_docker'
             pool:

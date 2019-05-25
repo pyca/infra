@@ -1,7 +1,7 @@
 FROM mcr.microsoft.com/windows/servercore:ltsc2019
 
-COPY --from=pyca/openssl-windows-artifact:win32-2015 "C:/build/openssl-win32-2015" C:/OpenSSL-Win32-2015
-COPY --from=pyca/openssl-windows-artifact:win64-2015 "C:/build/openssl-win64-2015" C:/OpenSSL-Win64-2015
+COPY --from=pyca/openssl-windows-artifact:win32-2015 "C:/openssl-win32-2015" C:/OpenSSL-Win32-2015
+COPY --from=pyca/openssl-windows-artifact:win64-2015 "C:/openssl-win64-2015" C:/OpenSSL-Win64-2015
 
 SHELL ["powershell", "-Command", "$ErrorActionPreference = 'Stop'; $ProgressPreference = 'SilentlyContinue';"]
 

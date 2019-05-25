@@ -23,7 +23,7 @@ ARG VSVERSION
 
 RUN & 'C:\scripts\build_openssl.bat' %BUILDARCH% %VSVERSION%
 
-FROM mcr.microsoft.com/windows/nanoserver-insider:10.0.18885.1001
+FROM mcr.microsoft.com/windows/nanoserver-insider:10.0.18898.1000
 
 # We need these because ARGs from the previous stage don't carry over
 ARG BUILDARCHVSVERSION

@@ -60,6 +60,9 @@ jobs:
                   DOCKERFILE_PATH: cryptography-manylinux1
                   DOCKER_BUILD_ARGS: ""
       steps:
+          - script: "docker pull $DOCKER_TAG_NAME"
+            displayName: Pull the previous image
+
           - script: "docker build --pull --cache-from $DOCKER_TAG_NAME -t $DOCKER_TAG_NAME $DOCKERFILE_PATH $DOCKER_BUILD_ARGS"
             displayName: Build docker image
 
@@ -86,9 +89,6 @@ jobs:
                   DOCKERFILE_PATH: windows/py27
                   DOCKER_BUILD_ARGS: "--build-arg CPU_ARCH=x86"
       steps:
-          - script: "docker pull %DOCKER_TAG_NAME%"
-            displayName: Pull the previous image
-
           - script: "docker build --pull --cache-from %DOCKER_TAG_NAME% -t %DOCKER_TAG_NAME% %DOCKERFILE_PATH% %DOCKER_BUILD_ARGS%"
             displayName: Build docker image
 

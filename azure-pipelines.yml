@@ -75,7 +75,6 @@ jobs:
           - script: "docker push $DOCKER_TAG_NAME"
             displayName: Push docker image
             condition: and(eq(variables['Build.SourceBranch'], 'refs/heads/master'), ne(variables['Build.Reason'], 'PullRequest'))
-jobs:
     - job: 'windows_docker'
       pool:
           vmImage: 'windows-2019'

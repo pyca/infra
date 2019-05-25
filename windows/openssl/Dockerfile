@@ -23,7 +23,7 @@ COPY *.bat /scripts/
 
 # RUN & 'C:\scripts\build_openssl.bat' %BUILDARCH% %VSVERSION%
 
-FROM mcr.microsoft.com/windows/nanoserver:ltsc2019
+FROM mcr.microsoft.com/windows/nanoserver:1809
 
 # We need these because ARGs from the previous stage don't carry over
 ARG BUILDARCHVSVERSION

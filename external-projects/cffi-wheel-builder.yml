@@ -61,7 +61,7 @@ jobs:
     - job: 'manylinux1'
       pool:
           vmImage: 'ubuntu-16.04'
-      container: 'quay.io/pypa/manylinux1_x86_64:latest'
+      container: 'pyca/cryptography-manylinux1:x86_64'
       strategy:
           matrix:
               Python27m:
@@ -77,44 +77,21 @@ jobs:
               Python37m:
                   PYTHON_VERSION: 'cp37-cp37m'
       steps:
-          - script: /opt/python/$PYTHON_VERSION/bin/pip install pycparser
+          - script: /opt/python/$PYTHON_VERSION/bin/python -m virtualenv .venv
+            displayName: Create virtualenv
+          - script: .venv/bin/pip install pycparser
             displayName: Install our Python dependencies
           - script: |
               set -e
               set -x
-              LIBFFI_SHA256="d06ebb8e1d9a22d19e38d63fdb83954253f39bedc5d46232a05645685722ca37"
-              LIBFFI_VERSION="3.2.1"
-
-              function check_sha256sum {
-                  local fname=$1
-                  local sha256=$2
-                  echo "${sha256}  ${fname}" > ${fname}.sha256
-                  sha256sum -c ${fname}.sha256
-              }
-
-              curl -#O https://mirrors.ocf.berkeley.edu/debian/pool/main/libf/libffi/libffi_${LIBFFI_VERSION}.orig.tar.gz
-              check_sha256sum libffi_${LIBFFI_VERSION}.orig.tar.gz ${LIBFFI_SHA256}
-              tar zxf libffi_${LIBFFI_VERSION}.orig.tar.gz
-              pushd libffi-${LIBFFI_VERSION}
-              # CFLAGS needed to override the Makefile and prevent -march optimization
-              # This flag set taken from Ubuntu 14.04's defaults. We should update it
-              # to use -fstack-protector-strong if/when gcc 4.9+ is added to the
-              # manylinux1 images.
-              ./configure CFLAGS="-g -O2 -fstack-protector --param=ssp-buffer-size=4 -Wformat -Werror=format-security"
-              make install
-              popd
-            displayName: Compile libffi
-          - script: |
-              set -e
-              set -x
-              /opt/python/$PYTHON_VERSION/bin/pip wheel --no-binary cffi --no-deps cffi -w tmpwheelhouse/
+              .venv/bin/pip wheel --no-binary cffi --no-deps cffi -w tmpwheelhouse/
             displayName: Build the wheel
           - script: auditwheel repair tmpwheelhouse/cffi*.whl -w wheelhouse/
             displayName: Run auditwheel
-          - script: /opt/python/$PYTHON_VESRION/bin/pip install cffi --no-index -f wheelhouse/
+          - script: .venv/bin/pip install cffi --no-index -f wheelhouse/
             displayName: Test installing the wheel
           - script: |
-              /opt/python/$PYTHON_VERSION/bin/python -c "import cffi;print(cffi.__version__)"
+              .venv/bin/python -c "import cffi;print(cffi.__version__)"
             displayName: Print the cffi version
           - task: PublishBuildArtifacts@1
             inputs:

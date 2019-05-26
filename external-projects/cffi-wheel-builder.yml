@@ -74,16 +74,16 @@ jobs:
               LIBFFI_VERSION="3.2.1"
 
               function check_sha256sum {
-                  local fname=\$1
-                  local sha256=\$2
-                  echo "\${sha256}  \${fname}" > \${fname}.sha256
-                  sha256sum -c \${fname}.sha256
+                  local fname=$1
+                  local sha256=$2
+                  echo "${sha256}  ${fname}" > ${fname}.sha256
+                  sha256sum -c ${fname}.sha256
               }
 
-              curl -#O https://mirrors.ocf.berkeley.edu/debian/pool/main/libf/libffi/libffi_\${LIBFFI_VERSION}.orig.tar.gz
-              check_sha256sum libffi_\${LIBFFI_VERSION}.orig.tar.gz \${LIBFFI_SHA256}
-              tar zxf libffi_\${LIBFFI_VERSION}.orig.tar.gz
-              pushd libffi-\${LIBFFI_VERSION}
+              curl -#O https://mirrors.ocf.berkeley.edu/debian/pool/main/libf/libffi/libffi_${LIBFFI_VERSION}.orig.tar.gz
+              check_sha256sum libffi_${LIBFFI_VERSION}.orig.tar.gz ${LIBFFI_SHA256}
+              tar zxf libffi_${LIBFFI_VERSION}.orig.tar.gz
+              pushd libffi-${LIBFFI_VERSION}
               # CFLAGS needed to override the Makefile and prevent -march optimization
               # This flag set taken from Ubuntu 14.04's defaults. We should update it
               # to use -fstack-protector-strong if/when gcc 4.9+ is added to the
@@ -118,42 +118,42 @@ jobs:
               Python27-x86:
                   containerImage: 'pyca/cryptography-runner-windows:py27-x86'
                   PYTHON_VERSION: '27'
-                  OPENSSL_DIR: 'OpenSSL-Win32-2010'
                   WINDOWS_ARCH: 'x86'
               Python27-x86-64:
                   containerImage: 'pyca/cryptography-runner-windows:py27-x86_64'
                   PYTHON_VERSION: '27'
-                  OPENSSL_DIR: 'OpenSSL-Win64-2010'
                   WINDOWS_ARCH: 'x86_64'
               Python34-x86:
                   containerImage: 'pyca/cryptography-runner-windows:py34-x86'
                   PYTHON_VERSION: '34'
-                  OPENSSL_DIR: 'OpenSSL-Win32-2010'
                   WINDOWS_ARCH: 'x86'
               Python34-x86-64:
                   containerImage: 'pyca/cryptography-runner-windows:py34-x86_64'
                   PYTHON_VERSION: '34'
-                  OPENSSL_DIR: 'OpenSSL-Win64-2010'
+                  WINDOWS_ARCH: 'x86_64'
+              Python35-x86:
+                  containerImage: 'pyca/cryptography-runner-windows:py35-x86'
+                  PYTHON_VERSION: '35'
+                  WINDOWS_ARCH: 'x86'
+              Python35-x86-64:
+                  containerImage: 'pyca/cryptography-runner-windows:py35-x86_64'
+                  PYTHON_VERSION: '35'
                   WINDOWS_ARCH: 'x86_64'
               Python36-x86:
                   containerImage: 'pyca/cryptography-runner-windows:py3-x86'
                   PYTHON_VERSION: '36'
-                  OPENSSL_DIR: 'OpenSSL-Win32-2015'
                   WINDOWS_ARCH: 'x86'
               Python36-x86-64:
                   containerImage: 'pyca/cryptography-runner-windows:py3-x86_64'
                   PYTHON_VERSION: '36'
-                  OPENSSL_DIR: 'OpenSSL-Win64-2015'
                   WINDOWS_ARCH: 'x86_64'
               Python37-x86:
                   containerImage: 'pyca/cryptography-runner-windows:py3-x86'
                   PYTHON_VERSION: '37'
-                  OPENSSL_DIR: 'OpenSSL-Win32-2015'
                   WINDOWS_ARCH: 'x86'
               Python37-x86-64:
                   containerImage: 'pyca/cryptography-runner-windows:py3-x86_64'
                   PYTHON_VERSION: '37'
-                  OPENSSL_DIR: 'OpenSSL-Win64-2015'
                   WINDOWS_ARCH: 'x86_64'
       steps:
           - script: '"C:/Python%PYTHON_VERSION%/Scripts/pip" install pycparser wheel'

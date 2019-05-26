@@ -10,7 +10,6 @@ jobs:
               Python27:
                   PYTHON_DOWNLOAD_URL: "https://www.python.org/ftp/python/2.7.16/python-2.7.16-macosx10.6.pkg"
                   PYTHON_BIN_PATH: /Library/Frameworks/Python.framework/Versions/2.7/bin/python
-                  NEEDS_VIRTUALENV: 1
               Python34:
                   PYTHON_DOWNLOAD_URL: "https://www.python.org/ftp/python/3.4.4/python-3.4.4-macosx10.6.pkg"
                   PYTHON_BIN_PATH: /Library/Frameworks/Python.framework/Versions/3.4/bin/python3
@@ -30,17 +29,19 @@ jobs:
               curl "$PYTHON_DOWNLOAD_URL" -o python.pkg
               sudo installer -pkg python.pkg -target /
             displayName: Download and install Python
+
           - script: |
-              if [[! -z ${NEEDS_VIRTUALENV+x} ]]; then
-                $PYTHON_BIN_PATH -m pip install -U virtualenv
-              fi
-            displayName: Install virtualenv on py2
-          - script: |
-              if [[! -z ${NEEDS_VIRTUALENV+x} ]]; then
-                $PYTHON_BIN_PATH -m virtualenv .venv
-              else
-                $PYTHON_BIN_PATH -m venv .venv
-              fi
+              set -e
+              set -x
+              # This is done via get-pip because Python 3.4/3.5 are linked against
+              # an ancient OpenSSL so we have no TLS 1.2 unless we upgrade pip
+              # (which uses the SecureTransport ctypes shim)
+              curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py
+              $PYTHON_BIN_PATH get-pip.py
+            displayName: Upgrade pip to latest
+          - script: $PYTHON_BIN_PATH -m pip install -U virtualenv
+            displayName: Install virtualenv
+          - script: $PYTHON_BIN_PATH -m virtualenv .venv
             displayName: Create virtualenv
           - script: .venv/bin/pip install -U wheel
             displayName: Update wheel to the latest version

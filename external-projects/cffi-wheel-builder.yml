@@ -31,12 +31,12 @@ jobs:
               sudo installer -pkg python.pkg -target /
             displayName: Download and install Python
           - script: |
-              if [ -z ${NEEDS_VIRTUALENV+x} ]; then
+              if [[! -z ${NEEDS_VIRTUALENV+x} ]]; then
                 $PYTHON_BIN_PATH -m pip install -U virtualenv
               fi
             displayName: Install virtualenv on py2
           - script: |
-              if [ -z ${NEEDS_VIRTUALENV+x} ]; then
+              if [[! -z ${NEEDS_VIRTUALENV+x} ]]; then
                 $PYTHON_BIN_PATH -m virtualenv .venv
               else
                 $PYTHON_BIN_PATH -m venv .venv

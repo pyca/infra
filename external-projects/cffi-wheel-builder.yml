@@ -37,7 +37,8 @@ jobs:
               # an ancient OpenSSL so we have no TLS 1.2 unless we upgrade pip
               # (which uses the SecureTransport ctypes shim)
               curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py
-              $PYTHON_BIN_PATH get-pip.py
+              # pinning pip because pip > 19.1 drops 3.4 support
+              $PYTHON_BIN_PATH get-pip.py 'pip==19.1.1'
             displayName: Upgrade pip to latest
           - script: $PYTHON_BIN_PATH -m pip install -U virtualenv
             displayName: Install virtualenv

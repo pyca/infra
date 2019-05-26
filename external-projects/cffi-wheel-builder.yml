@@ -28,13 +28,13 @@ jobs:
             displayName: Create virtualenv
           - script: .venv/bin/pip install -U wheel
             displayName: Update wheel to the latest version
-          - script: .venv/bin/pip install cffi six asn1crypto ipaddress "enum34; python_version < '3'"
+          - script: .venv/bin/pip install pycparser
             displayName: Install our Python dependencies
 
           - script: |
               set -e
               set -x
-              .venv/bin/pip install -U wheel # upgrade wheel to latest before we use it to build the wheel
+              .venv/bin/pip wheel cffi --wheel-dir=wheelhouse --no-binary cffi
             displayName: Build the wheel
           - script: .venv/bin/pip install --no-index -f wheelhouse cffi
             displayName: Test installing the wheel
@@ -156,8 +156,8 @@ jobs:
                   PYTHON_VERSION: '37'
                   WINDOWS_ARCH: 'x86_64'
       steps:
-          - script: '"C:/Python%PYTHON_VERSION%/Scripts/pip" install pycparser wheel'
-            displayName: Install wheel and our Python dependencies
+          - script: '"C:/Python%PYTHON_VERSION%/Scripts/pip" install pycparser'
+            displayName: Install our Python dependencies
           - script: |
                     C:/Python%PYTHON_VERSION%/Scripts/pip wheel cffi --wheel-dir=wheelhouse --no-binary cffi
             displayName: Build the wheel

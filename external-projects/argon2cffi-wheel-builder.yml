@@ -44,7 +44,7 @@ jobs:
           - script: .venv/bin/pip install --no-index -f wheelhouse argon2_cffi
             displayName: Test installing the wheel
           - script: |
-              .venv/bin/python -c "import argon2; argon2.verify_password(argon2.hash_password(b'secre  t', b'somesalt'), b'secret')"
+              .venv/bin/python -c "import argon2; argon2.verify_password(argon2.hash_password(b'secret', b'somesalt'), b'secret')"
             displayName: Test the installed wheel
           - task: PublishBuildArtifacts@1
             inputs:
@@ -83,7 +83,7 @@ jobs:
           - script: .venv/bin/pip install argon2_cffi --no-index -f wheelhouse/
             displayName: Test installing the wheel
           - script: |
-              .venv/bin/python -c "import argon2; argon2.verify_password(argon2.hash_password(b'secre  t', b'somesalt'), b'secret')"
+              .venv/bin/python -c "import argon2; argon2.verify_password(argon2.hash_password(b'secret', b'somesalt'), b'secret')"
             displayName: Test the installed wheel
           - task: PublishBuildArtifacts@1
             inputs:
@@ -145,7 +145,7 @@ jobs:
           - script: '"C:/Python%PYTHON_VERSION%/Scripts/pip" install -f wheelhouse argon2_cffi --no-index'
             displayName: Test installing the wheel
           - script: |
-              "C:/Python%PYTHON_VERSION%/python" -c "import argon2; argon2.verify_password(argon2.hash_password(b'secre  t', b'somesalt'), b'secret')"
+              "C:/Python%PYTHON_VERSION%/python" -c "import argon2; argon2.verify_password(argon2.hash_password(b'secret', b'somesalt'), b'secret')"
             displayName: Test the installed wheel
           - script: mkdir argon2cffi-wheelhouse
             displayName: Create a directory for placing the final wheel in

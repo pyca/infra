@@ -8,18 +8,23 @@ jobs:
       strategy:
           matrix:
               Python27:
+                  python.version: '2.7'
                   PYTHON_DOWNLOAD_URL: "https://www.python.org/ftp/python/2.7.16/python-2.7.16-macosx10.6.pkg"
                   PYTHON_BIN_PATH: /Library/Frameworks/Python.framework/Versions/2.7/bin/python
               Python34:
+                  python.version: '3.4'
                   PYTHON_DOWNLOAD_URL: "https://www.python.org/ftp/python/3.4.4/python-3.4.4-macosx10.6.pkg"
                   PYTHON_BIN_PATH: /Library/Frameworks/Python.framework/Versions/3.4/bin/python3
               Python35:
+                  python.version: '3.5'
                   PYTHON_DOWNLOAD_URL: "https://www.python.org/ftp/python/3.5.4/python-3.5.4-macosx10.6.pkg"
                   PYTHON_BIN_PATH: /Library/Frameworks/Python.framework/Versions/3.5/bin/python3
               Python36:
+                  python.version: '3.6'
                   PYTHON_DOWNLOAD_URL: "https://www.python.org/ftp/python/3.6.8/python-3.6.8-macosx10.6.pkg"
                   PYTHON_BIN_PATH: /Library/Frameworks/Python.framework/Versions/3.6/bin/python3
               Python37:
+                  python.version: '3.7'
                   PYTHON_DOWNLOAD_URL: "https://www.python.org/ftp/python/3.7.3/python-3.7.3-macosx10.6.pkg"
                   PYTHON_BIN_PATH: /Library/Frameworks/Python.framework/Versions/3.7/bin/python3
       steps:

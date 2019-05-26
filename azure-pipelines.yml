@@ -59,6 +59,10 @@ jobs:
                   DOCKER_TAG_NAME: pyca/cryptography-manylinux1:x86_64
                   DOCKERFILE_PATH: cryptography-manylinux1
                   DOCKER_BUILD_ARGS: ""
+              cryptography-manylinux2010:
+                  DOCKER_TAG_NAME: pyca/cryptography-manylinux2010:x86_64
+                  DOCKERFILE_PATH: cryptography-manylinux2010
+                  DOCKER_BUILD_ARGS: ""
       steps:
           - script: "docker pull $DOCKER_TAG_NAME"
             displayName: Pull the previous image

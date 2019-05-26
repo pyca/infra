@@ -149,7 +149,7 @@ jobs:
             displayName: Test the installed wheel
           - script: mkdir argon2cffi-wheelhouse
             displayName: Create a directory for placing the final wheel in
-          - script: move wheelhouse\argon2cffi*.whl argon2cffi-wheelhouse\
+          - script: move wheelhouse\argon2_cffi*.whl argon2cffi-wheelhouse\
             displayName: Move the argon2cffi wheel into the final wheel house
           - task: PublishBuildArtifacts@1
             inputs:

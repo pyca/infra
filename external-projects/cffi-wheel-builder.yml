@@ -39,7 +39,7 @@ jobs:
               curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py
               # pinning pip because pip > 19.1 drops 3.4 support
               $PYTHON_BIN_PATH get-pip.py 'pip==19.1.1'
-            displayName: Upgrade pip to latest
+            displayName: Upgrade pip
           - script: $PYTHON_BIN_PATH -m pip install -U virtualenv
             displayName: Install virtualenv
           - script: $PYTHON_BIN_PATH -m virtualenv .venv

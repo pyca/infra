@@ -22,9 +22,6 @@ jobs:
               curl "$PYTHON_DOWNLOAD_URL" -o python.pkg
               sudo installer -pkg python.pkg -target /
             displayName: Download and install Python
-          - script: brew update
-            displayName: Update brew
-
           - script: $PYTHON_BIN_PATH -m pip install -U virtualenv
             displayName: Install virtualenv
           - script: $PYTHON_BIN_PATH -m virtualenv .venv

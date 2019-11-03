@@ -14,6 +14,6 @@ RUN touch /etc/system-fips
 
 RUN yum install -y gcc libffi-devel python2-devel python3-devel openssl-devel git which
 
-RUN curl -sSL https://bootstrap.pypa.io/get-pip.py | python
+RUN curl -sSL https://bootstrap.pypa.io/get-pip.py | python2
 
 RUN pip install -q tox

@@ -9,8 +9,6 @@ on:
     paths:
       - '.github/workflows/build-openssl.yml'
       - 'windows/openssl/**'
-  repository_dispatch:
-    types: [build-openssl]
 
 jobs:
   build:

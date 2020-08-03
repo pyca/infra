@@ -35,6 +35,7 @@ jobs:
           - {TAG_NAME: "pyca/cryptography-runner-bullseye", DOCKERFILE_PATH: "runners/debian", BUILD_ARGS: "--build-arg RELEASE=bullseye"}
           - {TAG_NAME: "pyca/cryptography-runner-sid", DOCKERFILE_PATH: "runners/debian", BUILD_ARGS: "--build-arg RELEASE=sid"}
 
+          - {TAG_NAME: "pyca/cryptography-runner-ubuntu-bionic", DOCKERFILE_PATH: "runners/ubuntu", BUILD_ARGS: "--build-arg RELEASE=bionic"}
           - {TAG_NAME: "pyca/cryptography-runner-ubuntu-focal", DOCKERFILE_PATH: "runners/ubuntu", BUILD_ARGS: "--build-arg RELEASE=focal"}
           - {TAG_NAME: "pyca/cryptography-runner-ubuntu-rolling", DOCKERFILE_PATH: "runners/ubuntu", BUILD_ARGS: "--build-arg RELEASE=rolling"}
 

@@ -23,6 +23,6 @@ RUN apt-get -qq update && apt-get install -qq -y \
 
 RUN if grep -q "sid" /etc/debian_version; then apt-get -qq update && apt-get install -qq -y python3-distutils python2-dev; else apt-get install -qq -y python-dev; fi
 
-RUN curl -sSL https://bootstrap.pypa.io/get-pip.py | python
+RUN curl -sSL https://bootstrap.pypa.io/get-pip.py | python3
 
 RUN pip install -q tox

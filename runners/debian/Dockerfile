@@ -16,13 +16,12 @@ RUN apt-get -qq update && apt-get install -qq -y \
     build-essential \
     libssl-dev \
     libffi-dev \
-    python-dev \
     python3-dev \
     git \
     curl \
     libenchant-dev
 
-RUN if grep -q "sid" /etc/debian_version; then apt-get -qq update && apt-get install -qq -y python3-distutils; fi
+RUN if grep -q "sid" /etc/debian_version; then apt-get -qq update && apt-get install -qq -y python3-distutils python2-dev; else apt-get install -qq -y python-dev; fi
 
 RUN curl -sSL https://bootstrap.pypa.io/get-pip.py | python
 

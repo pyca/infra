@@ -89,8 +89,8 @@ jobs:
       - name: Build image
         run: >
           docker buildx build --platform linux/arm64 --pull --cache-from ${{ matrix.IMAGE.TAG_NAME }}
-          --cache-to "type=local,dest=/tmp/.buildx-cache" --output "type=image,push=false"
-          -t ${{ matrix.IMAGE.TAG_NAME }} ${{ matrix.IMAGE.DOCKERFILE_PATH }} ${{ matrix.IMAGE.BUILD_ARGS }}
+            --cache-to "type=local,dest=/tmp/.buildx-cache" --output "type=image,push=false"
+            -t ${{ matrix.IMAGE.TAG_NAME }} ${{ matrix.IMAGE.DOCKERFILE_PATH }} ${{ matrix.IMAGE.BUILD_ARGS }}
       - name: Login to docker
         run: 'docker login -u "$DOCKER_USERNAME" -p "$DOCKER_PASSWORD"'
         env:
@@ -100,6 +100,6 @@ jobs:
       - name: Push image
         run: >
           docker buildx build --cache-from "type=local,src=/tmp/.buildx-cache"
-          --platform linux/arm64 --output "type=image,push=true" -t ${{ matrix.IMAGE.TAG_NAME }}
-          ${{ matrix.IMAGE.DOCKERFILE_PATH }} ${{ matrix.IMAGE.BUILD_ARGS }}
+            --platform linux/arm64 --output "type=image,push=true" -t ${{ matrix.IMAGE.TAG_NAME }}
+            ${{ matrix.IMAGE.DOCKERFILE_PATH }} ${{ matrix.IMAGE.BUILD_ARGS }}
         if: (github.event_name == 'push' || github.event_name == 'schedule') && github.ref == 'refs/heads/master'

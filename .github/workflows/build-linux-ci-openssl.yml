@@ -1,0 +1,81 @@
+name: Linux OpenSSL for CI
+on:
+  schedule:
+    # Run once a week on Fridays
+    - cron: "0 0 * * FRI"
+  pull_request:
+    paths:
+      - '.github/workflows/build-linux-ci-openssl.yml'
+  push:
+    branches:
+      - master
+    paths:
+      - '.github/workflows/build-linux-ci-openssl.yml'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        INFO:
+          - {TYPE: "openssl", VERSION: "1.1.0l"}
+          - {TYPE: "openssl", VERSION: "1.1.1h"}
+          - {TYPE: "openssl", VERSION: "1.1.1h", CONFIG_FLAGS: "no-engine no-rc2 no-srtp no-ct"}
+          - {TYPE: "libressl", VERSION: "2.9.2"}
+          - {TYPE: "libressl", VERSION: "3.0.2"}
+          - {TYPE: "libressl", VERSION: "3.1.4"}
+          - {TYPE: "libressl", VERSION: "3.2.2"}
+    name: "Build ${{ matrix.INFO.TYPE }} ${{ matrix.INFO.VERSION }} on Linux"
+    steps:
+      - name: Compute config hash and set config vars
+        run: |
+          DEFAULT_CONFIG_FLAGS="shared no-ssl2 no-ssl3"
+          CONFIG_FLAGS="$DEFAULT_CONFIG_FLAGS $CONFIG_FLAGS"
+          CONFIG_HASH=$(echo "$CONFIG_FLAGS" | sha1sum | sed 's/ .*$//')
+          echo "CONFIG_FLAGS=${CONFIG_FLAGS}" >> $GITHUB_ENV
+          echo "CONFIG_HASH=${CONFIG_HASH}" >> $GITHUB_ENV
+        env:
+          CONFIG_FLAGS: ${{ matrix.INFO.CONFIG_FLAGS }}
+      - name: Build it
+        run: |
+          shlib_sed() {
+              # modify the shlib version to a unique one to make sure the dynamic
+              # linker doesn't load the system one.
+              sed -i "s/^SHLIB_MAJOR=.*/SHLIB_MAJOR=100/" Makefile
+              sed -i "s/^SHLIB_MINOR=.*/SHLIB_MINOR=0.0/" Makefile
+              sed -i "s/^SHLIB_VERSION_NUMBER=.*/SHLIB_VERSION_NUMBER=100.0.0/" Makefile
+          }
+
+          OPENSSL_DIR="install-${TYPE}-${VERSION}"
+          if [[ "${TYPE}" == "openssl" ]]; then
+              curl -O "https://www.openssl.org/source/openssl-${VERSION}.tar.gz"
+              tar zxf "openssl-${VERSION}.tar.gz"
+              pushd "openssl-${VERSION}"
+              # CONFIG_FLAGS comes from the previous step. It's set as global.
+              ./config $CONFIG_FLAGS -fPIC --prefix="${{ github.workspace }}/$OPENSSL_DIR"
+              shlib_sed
+              make depend
+              make -j"$(nproc)"
+              # avoid installing the docs on versions of OpenSSL that aren't ancient.
+              # https://github.com/openssl/openssl/issues/6685#issuecomment-403838728
+              make install_sw install_ssldirs
+              popd
+          elif [[ "${TYPE}" == "libressl" ]]; then
+              curl -O "https://ftp.openbsd.org/pub/OpenBSD/LibreSSL/libressl-${VERSION}.tar.gz"
+              tar zxf "libressl-${VERSION}.tar.gz"
+              pushd "libressl-${VERSION}"
+              ./config -Wl -Wl,-Bsymbolic-functions -fPIC shared --prefix="${{ github.workspace }}/$OPENSSL_DIR"
+              shlib_sed
+              make -j"$(nproc)" install
+              popd
+          fi
+        env:
+          TYPE: ${{ matrix.INFO.TYPE }}
+          VERSION: ${{ matrix.INFO.VERSION }}
+
+      - uses: actions/upload-artifact@v2.2.0
+        with:
+          name: "${{ matrix.INFO.TYPE }}-${{ matrix.INFO.VERSION }}-${{ env.CONFIG_HASH }}"
+          path: |
+            ${{ github.workspace }}/install-${{ matrix.INFO.TYPE }}-${{ matrix.INFO.VERSION }}/include
+            ${{ github.workspace }}/install-${{ matrix.INFO.TYPE }}-${{ matrix.INFO.VERSION }}/lib

@@ -54,7 +54,7 @@ jobs:
         run: docker pull ghcr.io/pyca/${{ matrix.IMAGE.TAG_NAME }} || true
         if: github.event_name != 'schedule'
       - name: Build image
-        run: docker build --pull --cache-from ghcr.io/pyca/${{ matrix.IMAGE.TAG_NAME }} -t ghcr.io/pyca/${{ matrix.IMAGE.TAG_NAME }} ${{ matrix.IMAGE.DOCKERFILE_PATH }} ${{ matrix.IMAGE.BUILD_ARGS }}
+        run: docker build --pull --cache-from ghcr.io/pyca/${{ matrix.IMAGE.TAG_NAME }} -t ghcr.io/pyca/${{ matrix.IMAGE.TAG_NAME }} --env-file ./cache-buster ${{ matrix.IMAGE.DOCKERFILE_PATH }} ${{ matrix.IMAGE.BUILD_ARGS }}
       - name: Login to docker
         run: 'docker login -u "$DOCKER_USERNAME" -p "$DOCKER_PASSWORD" ghcr.io'
         env:
@@ -93,7 +93,7 @@ jobs:
         run: >
           docker buildx build --platform linux/arm64 --pull --cache-from ghcr.io/pyca/${{ matrix.IMAGE.TAG_NAME }}
           --cache-to "type=local,dest=/tmp/.buildx-cache" --output "type=image,push=false"
-          -t ghcr.io/pyca/${{ matrix.IMAGE.TAG_NAME }} ${{ matrix.IMAGE.DOCKERFILE_PATH }} ${{ matrix.IMAGE.BUILD_ARGS }}
+          -t ghcr.io/pyca/${{ matrix.IMAGE.TAG_NAME }} --env-file ./cache-buster ${{ matrix.IMAGE.DOCKERFILE_PATH }} ${{ matrix.IMAGE.BUILD_ARGS }}
       - name: Login to docker
         run: 'docker login -u "$DOCKER_USERNAME" -p "$DOCKER_PASSWORD" ghcr.io'
         env:

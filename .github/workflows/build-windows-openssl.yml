@@ -24,8 +24,7 @@ jobs:
     strategy:
       matrix:
         ARCH: ["win32", "win64"]
-        MSVC_VERSION: ["2019"]
-    name: "Build OpenSSL for ${{ matrix.ARCH }} on MSVC ${{ matrix.MSVC_VERSION }}"
+    name: "Build OpenSSL for ${{ matrix.ARCH }} on MSVC 2019"
     steps:
       - uses: actions/checkout@v2
       - run: choco install -y nasm winrar
@@ -51,9 +50,9 @@ jobs:
         shell: powershell
       - run: '"C:\Program Files\WinRAR\WinRAR.exe" -INUL x openssl-latest.tar.gz'
         shell: cmd
-      - run: windows\openssl\build_openssl.bat ${{ matrix.ARCH }} ${{ matrix.MSVC_VERSION }}
+      - run: windows\openssl\build_openssl.bat ${{ matrix.ARCH }}
         shell: cmd
       - uses: actions/upload-artifact@v2.2.2
         with:
-          name: "openssl-${{ matrix.ARCH }}-${{ matrix.MSVC_VERSION }}"
+          name: "openssl-${{ matrix.ARCH }}-2019"
           path: build\

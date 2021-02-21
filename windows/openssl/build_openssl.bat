@@ -1,5 +1,4 @@
 SET BUILDARCH=%1
-SET VSVERSION=%2
 
 cd openssl-1*
 

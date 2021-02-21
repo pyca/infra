@@ -1,4 +1,5 @@
-FROM quay.io/pypa/manylinux2010_x86_64
+ARG RELEASE
+FROM quay.io/pypa/${RELEASE}
 MAINTAINER Python Cryptographic Authority
 WORKDIR /root
 RUN yum -y install prelink && yum -y clean all

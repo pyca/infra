@@ -1,5 +1,6 @@
 ARG RELEASE
 FROM quay.io/pypa/${RELEASE}
+ARG RELEASE  # https://github.com/pyca/infra/issues/338
 MAINTAINER Python Cryptographic Authority
 WORKDIR /root
 RUN \

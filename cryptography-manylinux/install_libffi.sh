@@ -16,7 +16,7 @@ curl -#O "https://mirrors.ocf.berkeley.edu/debian/pool/main/libf/libffi/libffi_$
 check_sha256sum "libffi_${LIBFFI_VERSION}.orig.tar.gz" ${LIBFFI_SHA256}
 tar zxf libffi*.orig.tar.gz
 PATH=/opt/perl/bin:$PATH
-pushd libffi*
+pushd libffi*/
 ./configure CFLAGS="-g -O2 -fstack-protector-strong -Wformat -Werror=format-security"
 make install
 popd

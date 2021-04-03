@@ -6,7 +6,7 @@ RUN \
   if [ $(uname -m) = "x86_64" ]; \
   then \
     if stat /etc/redhat-release 1>&2 2>/dev/null; then \
-      yum -y install prelink && \
+      yum -y install prelink libffi-devel && \
       yum -y clean all && \
       rm -rf /var/cache/yum; \
     else \

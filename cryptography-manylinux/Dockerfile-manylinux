@@ -12,13 +12,11 @@ RUN \
     else \
       export DEBIAN_FRONTEND=noninteractive && \
       apt-get update -qq && \
-      apt-get install -qq -y --no-install-recommends prelink && \
+      apt-get install -qq -y --no-install-recommends prelink libffi-dev && \
       apt-get clean -qq && \
       rm -rf /var/lib/apt/lists/*; \
     fi; \
   fi
-ADD install_libffi.sh /root/install_libffi.sh
-RUN ./install_libffi.sh
 ADD install_openssl.sh /root/install_openssl.sh
 ADD openssl-version.sh /root/openssl-version.sh
 RUN ./install_openssl.sh

@@ -1,19 +1,6 @@
 #!/bin/bash
 set -xe
 
-# IMPORTANT:
-# The underlying build scripts of OpenSSL rely on the `${RELEASE}`
-# environment variable and if it's suddenly available in the env,
-# it goes crazy when the value is illegal.
-# 
-# It errors out with the following message:
-# 
-#   Operating system: x86_64-whatever-Linux
-#   This system (Linux) is not supported. See file INSTALL for details.
-# 
-# Ref: https://github.com/pyca/infra/issues/338
-unset RELEASE
-
 OPENSSL_URL="https://www.openssl.org/source/"
 source /root/openssl-version.sh
 

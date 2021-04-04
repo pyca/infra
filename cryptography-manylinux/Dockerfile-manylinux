@@ -1,5 +1,6 @@
-ARG RELEASE
-FROM quay.io/pypa/${RELEASE}
+ARG PYCA_RELEASE
+FROM quay.io/pypa/${PYCA_RELEASE}
+ARG PYCA_RELEASE
 MAINTAINER Python Cryptographic Authority
 WORKDIR /root
 RUN \

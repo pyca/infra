@@ -65,3 +65,32 @@ jobs:
         with:
           name: "openssl-macos-${{ matrix.ARCH.ARTIFACT_NAME }}"
           path: artifact/
+
+  universal2:
+    runs-on: macos-11.0
+    name: "Build OpenSSL for macOS universal2"
+    needs: [ build ]
+    steps:
+      - uses: actions/download-artifact@v2
+        with:
+          name: openssl-macos-x86-64
+          path: x86-64
+      - uses: actions/download-artifact@v2
+        with:
+          name: openssl-macos-arm64
+          path: arm64
+      - name: Create universal2 OpenSSL
+        run: |
+          mkdir artifact
+          cd artifact
+          mkdir bin lib
+          cp -r ../x86-64/include .
+          cp -r ../x86-64/lib/pkgconfig lib/
+          cp ../x86-64/bin/c_rehash bin/  # c_rehash is a perl script
+          lipo -create -output bin/openssl ../x86-64/bin/openssl ../arm64/bin/openssl
+          lipo -create -output lib/libssl.a ../x86-64/lib/libssl.a ../arm64/lib/libssl.a
+          lipo -create -output lib/libcrypto.a ../x86-64/lib/libcrypto.a ../arm64/lib/libcrypto.a
+      - uses: actions/upload-artifact@v2.2.2
+        with:
+          name: "openssl-macos-universal2"
+          path: artifact/

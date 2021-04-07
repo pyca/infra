@@ -52,7 +52,7 @@ jobs:
         shell: cmd
       - run: windows\openssl\build_openssl.bat ${{ matrix.ARCH }}
         shell: cmd
-      - uses: actions/upload-artifact@v2.2.2
+      - uses: actions/upload-artifact@v2.2.3
         with:
           name: "openssl-${{ matrix.ARCH }}-2019"
           path: build\

@@ -7,8 +7,6 @@ ENV LANG C.UTF-8
 RUN dnf install -y gcc redhat-rpm-config libffi-devel python python-devel \
     python3-devel openssl-devel git findutils which
 
-RUN curl -sSL https://bootstrap.pypa.io/get-pip.py | python
-
 RUN pip install tox coverage
 
 RUN curl https://sh.rustup.rs -sSf | sh -s -- -y --default-toolchain stable --profile minimal

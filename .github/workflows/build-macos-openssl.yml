@@ -32,7 +32,7 @@ jobs:
             OPENSSLDIR: "/opt/homebrew/etc/openssl@1.1"
     name: "Build OpenSSL for macOS (${{ matrix.ARCH.NAME }})"
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v2.3.4
       - name: Download OpenSSL
         run: |
           source ./cryptography-manylinux/openssl-version.sh

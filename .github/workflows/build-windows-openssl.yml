@@ -26,7 +26,7 @@ jobs:
         ARCH: ["win32", "win64"]
     name: "Build OpenSSL for ${{ matrix.ARCH }} on MSVC 2019"
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v2.3.4
       - run: choco install -y nasm winrar
       - name: Install nmake
         run: |

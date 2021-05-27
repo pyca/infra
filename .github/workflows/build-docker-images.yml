@@ -78,7 +78,7 @@ jobs:
     steps:
       - uses: actions/checkout@v2.3.4
       - name: Setup QEMU
-        uses: docker/setup-qemu-action@v1.1.0
+        uses: docker/setup-qemu-action@v1.2.0
         with:
           platforms: all
       - name: Setup Docker Buildx

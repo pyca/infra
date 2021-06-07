@@ -8,7 +8,7 @@ ENV CACHE_BUSTER 1
 ENV LANG C.UTF-8
 
 RUN apk add --no-cache git libffi-dev curl \
-    python3-dev libressl-dev bash gcc musl-dev
+    python3-dev libressl-dev bash gcc musl-dev tar
 
 RUN curl -sSL https://bootstrap.pypa.io/get-pip.py | python3
 

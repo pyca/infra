@@ -5,7 +5,7 @@ FROM registry.fedoraproject.org/fedora:latest
 ENV LANG C.UTF-8
 
 RUN dnf install -y gcc redhat-rpm-config libffi-devel python python-devel \
-    python3-devel openssl-devel git findutils which
+    python3-devel python-pip openssl-devel git findutils which
 
 RUN pip install tox coverage
 

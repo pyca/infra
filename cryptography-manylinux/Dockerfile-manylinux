@@ -10,7 +10,7 @@ RUN \
       yum -y install prelink && \
       yum -y clean all && \
       rm -rf /var/cache/yum; \
-    else \
+    elif stat /etc/debian_version 1>&2 2>/dev/null; then \
       export DEBIAN_FRONTEND=noninteractive && \
       apt-get update -qq && \
       apt-get install -qq -y --no-install-recommends prelink && \
@@ -28,7 +28,7 @@ RUN \
       yum -y install libffi-devel && \
       yum -y clean all && \
       rm -rf /var/cache/yum; \
-    else \
+    elif stat /etc/debian_version 1>&2 2>/dev/null; then \
       export DEBIAN_FRONTEND=noninteractive && \
       apt-get update -qq && \
       apt-get install -qq -y --no-install-recommends libffi-dev && \
@@ -42,8 +42,20 @@ ADD openssl-version.sh /root/openssl-version.sh
 RUN ./install_openssl.sh
 
 # Install PyPy
-RUN if [ $(uname -m) = "x86_64" ]; then curl https://downloads.python.org/pypy/pypy3.6-v7.3.3-linux64.tar.bz2 | tar jxf - -C /opt/ && mv /opt/pypy3.6* /opt/pypy3.6; fi
-RUN if [ $(uname -m) = "x86_64" ]; then curl https://downloads.python.org/pypy/pypy3.7-v7.3.4-linux64.tar.bz2 | tar jxf - -C /opt/ && mv /opt/pypy3.7* /opt/pypy3.7; fi
+RUN \
+  if [ $(uname -m) = "x86_64" ]; then \
+    if stat /etc/alpine-release 1>&2 2>/dev/null; then \
+      echo 'There are no prebuilt musl pypy so we are just gonna fake it till someone else makes it'; \
+      mkdir -p /opt/pypy3.6/bin /opt/pypy3.7/bin; \
+      ln -s /opt/python/cp36-cp36m/bin/python /opt/pypy3.6/bin/pypy; \
+      ln -s /opt/python/cp37-cp37m/bin/python /opt/pypy3.7/bin/pypy; \
+    else \
+      curl https://downloads.python.org/pypy/pypy3.6-v7.3.3-linux64.tar.bz2 | tar jxf - -C /opt/ && \
+        mv /opt/pypy3.6* /opt/pypy3.6; \
+      curl https://downloads.python.org/pypy/pypy3.7-v7.3.4-linux64.tar.bz2 | tar jxf - -C /opt/ && \
+        mv /opt/pypy3.7* /opt/pypy3.7; \
+    fi; \
+  fi
 
 RUN curl https://sh.rustup.rs -sSf | sh -s -- -y --default-toolchain stable --profile minimal
 ENV PATH="/root/.cargo/bin:$PATH"

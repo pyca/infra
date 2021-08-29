@@ -16,6 +16,8 @@ RUN \
       apt-get install -qq -y --no-install-recommends prelink && \
       apt-get clean -qq && \
       rm -rf /var/lib/apt/lists/*; \
+    else \
+      echo "This is alpine and we don't need any more packages"; \
     fi; \
   fi
 
@@ -34,6 +36,8 @@ RUN \
       apt-get install -qq -y --no-install-recommends libffi-dev && \
       apt-get clean -qq && \
       rm -rf /var/lib/apt/lists/*; \
+    else \
+      echo "This is alpine and we don't need any more packages"; \
     fi; \
   fi
 
@@ -45,10 +49,7 @@ RUN ./install_openssl.sh
 RUN \
   if [ $(uname -m) = "x86_64" ]; then \
     if stat /etc/alpine-release 1>&2 2>/dev/null; then \
-      echo 'There are no prebuilt musl pypy so we are just gonna fake it till someone else makes it'; \
-      mkdir -p /opt/pypy3.6/bin /opt/pypy3.7/bin; \
-      ln -s /opt/python/cp36-cp36m/bin/python /opt/pypy3.6/bin/pypy; \
-      ln -s /opt/python/cp37-cp37m/bin/python /opt/pypy3.7/bin/pypy; \
+      echo 'Skip building musl PyPy wheels for now'; \
     else \
       curl https://downloads.python.org/pypy/pypy3.6-v7.3.3-linux64.tar.bz2 | tar jxf - -C /opt/ && \
         mv /opt/pypy3.6* /opt/pypy3.6; \

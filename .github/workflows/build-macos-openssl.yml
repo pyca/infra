@@ -7,14 +7,14 @@ on:
     paths:
       - '.github/workflows/build-macos-openssl.yml'
       # Contains the OpenSSL version we'll build
-      - 'cryptography-manylinux/openssl-version.sh'
+      - 'cryptography-linux/openssl-version.sh'
   push:
     branches:
       - main
     paths:
       - '.github/workflows/build-macos-openssl.yml'
       # Contains the OpenSSL version we'll build
-      - 'cryptography-manylinux/openssl-version.sh'
+      - 'cryptography-linux/openssl-version.sh'
 
 jobs:
   build:
@@ -35,7 +35,7 @@ jobs:
       - uses: actions/checkout@v2.3.4
       - name: Download OpenSSL
         run: |
-          source ./cryptography-manylinux/openssl-version.sh
+          source ./cryptography-linux/openssl-version.sh
           curl -o openssl.tar.gz https://www.openssl.org/source/$OPENSSL_VERSION.tar.gz
           shasum -a 256 -c <<< "$OPENSSL_SHA256 *openssl.tar.gz"
       - name: Extract OpenSSL
@@ -44,7 +44,7 @@ jobs:
       - name: Build OpenSSL
         run: |
           set -x
-          source ./cryptography-manylinux/openssl-version.sh
+          source ./cryptography-linux/openssl-version.sh
           mkdir artifact
           BASEDIR=$(pwd)
           cd openssl*

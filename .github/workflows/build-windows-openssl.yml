@@ -8,7 +8,7 @@ on:
       - '.github/workflows/build-windows-openssl.yml'
       - 'windows/openssl/**'
       # Contains the OpenSSL version we'll build
-      - 'cryptography-manylinux/openssl-version.sh'
+      - 'cryptography-linux/openssl-version.sh'
   push:
     branches:
       - main
@@ -16,7 +16,7 @@ on:
       - '.github/workflows/build-windows-openssl.yml'
       - 'windows/openssl/**'
       # Contains the OpenSSL version we'll build
-      - 'cryptography-manylinux/openssl-version.sh'
+      - 'cryptography-linux/openssl-version.sh'
 
 jobs:
   build:
@@ -36,7 +36,7 @@ jobs:
         shell: powershell
       - name: Export OpenSSL version
         run: |
-          source ./cryptography-manylinux/openssl-version.sh
+          source ./cryptography-linux/openssl-version.sh
           echo "OPENSSL_VERSION=$OPENSSL_VERSION" >> $GITHUB_ENV
           echo "OPENSSL_SHA256=$OPENSSL_SHA256" >> $GITHUB_ENV
           echo "OPENSSL_BUILD_FLAGS_WINDOWS=$OPENSSL_BUILD_FLAGS_WINDOWS" >> $GITHUB_ENV

@@ -34,6 +34,7 @@ jobs:
           - {TAG_NAME: "cryptography-runner-stretch", DOCKERFILE_PATH: "runners/debian", BUILD_ARGS: "--build-arg RELEASE=stretch"}
           - {TAG_NAME: "cryptography-runner-buster", DOCKERFILE_PATH: "runners/debian", BUILD_ARGS: "--build-arg RELEASE=buster"}
           - {TAG_NAME: "cryptography-runner-bullseye", DOCKERFILE_PATH: "runners/debian", BUILD_ARGS: "--build-arg RELEASE=bullseye"}
+          - {TAG_NAME: "cryptography-runner-bookworm", DOCKERFILE_PATH: "runners/debian", BUILD_ARGS: "--build-arg RELEASE=bookworm"}
           - {TAG_NAME: "cryptography-runner-sid", DOCKERFILE_PATH: "runners/debian", BUILD_ARGS: "--build-arg RELEASE=sid"}
 
           - {TAG_NAME: "cryptography-runner-ubuntu-bionic", DOCKERFILE_PATH: "runners/ubuntu", BUILD_ARGS: "--build-arg RELEASE=bionic"}

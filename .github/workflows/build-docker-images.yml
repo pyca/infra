@@ -48,7 +48,7 @@ jobs:
 
     name: "Building docker image ${{ matrix.IMAGE.TAG_NAME }}"
     steps:
-      - uses: actions/checkout@v2.3.4
+      - uses: actions/checkout@v2.3.5
       # Pull the previous image, but if it fails return true anyway.
       # Sometimes we add new docker images and if they've never been pushed
       # they can't be pulled.
@@ -80,7 +80,7 @@ jobs:
 
     name: "Building docker image ${{ matrix.IMAGE.TAG_NAME }}"
     steps:
-      - uses: actions/checkout@v2.3.4
+      - uses: actions/checkout@v2.3.5
       - name: Setup QEMU
         uses: docker/setup-qemu-action@v1.2.0
         with:

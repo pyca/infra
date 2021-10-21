@@ -53,8 +53,10 @@ RUN \
     else \
       curl https://downloads.python.org/pypy/pypy3.6-v7.3.3-linux64.tar.bz2 | tar jxf - -C /opt/ && \
         mv /opt/pypy3.6* /opt/pypy3.6; \
-      curl https://downloads.python.org/pypy/pypy3.7-v7.3.4-linux64.tar.bz2 | tar jxf - -C /opt/ && \
+      curl https://downloads.python.org/pypy/pypy3.7-v7.3.6-linux64.tar.bz2 | tar jxf - -C /opt/ && \
         mv /opt/pypy3.7* /opt/pypy3.7; \
+      curl https://downloads.python.org/pypy/pypy3.8-v7.3.6-linux64.tar.bz2 | tar jxf - -C /opt/ && \
+        mv /opt/pypy3.8* /opt/pypy3.8; \
     fi; \
   fi
 

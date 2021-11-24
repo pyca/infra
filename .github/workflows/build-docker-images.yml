@@ -62,10 +62,10 @@ jobs:
         env:
           DOCKER_USERNAME: ${{ github.actor }}
           DOCKER_PASSWORD: ${{ secrets.GITHUB_TOKEN }}
-        if: (github.event_name == 'push' || github.event_name == 'schedule' || github.workflow_dispatch == 'workflow_dispatch') && github.ref == 'refs/heads/main'
+        if: (github.event_name == 'push' || github.event_name == 'schedule' || github.event_name == 'workflow_dispatch') && github.ref == 'refs/heads/main'
       - name: Push image
         run: docker push ghcr.io/pyca/${{ matrix.IMAGE.TAG_NAME }}
-        if: (github.event_name == 'push' || github.event_name == 'schedule' || github.workflow_dispatch == 'workflow_dispatch') && github.ref == 'refs/heads/main'
+        if: (github.event_name == 'push' || github.event_name == 'schedule' || github.event_name == 'workflow_dispatch') && github.ref == 'refs/heads/main'
 
   # Build the linux aarch64 containers
   build_linux_aarch64:
@@ -104,10 +104,10 @@ jobs:
         env:
           DOCKER_USERNAME: ${{ github.actor }}
           DOCKER_PASSWORD: ${{ secrets.GITHUB_TOKEN }}
-        if: (github.event_name == 'push' || github.event_name == 'schedule' || github.workflow_dispatch == 'workflow_dispatch') && github.ref == 'refs/heads/main'
+        if: (github.event_name == 'push' || github.event_name == 'schedule' || github.event_name == 'workflow_dispatch') && github.ref == 'refs/heads/main'
       - name: Push image
         run: >
           docker buildx build --cache-from "type=local,src=/tmp/.buildx-cache"
           --platform linux/arm64 --output "type=image,push=true" -t ghcr.io/pyca/${{ matrix.IMAGE.TAG_NAME }}
           ${{ matrix.IMAGE.DOCKERFILE_PATH }} ${{ matrix.IMAGE.BUILD_ARGS }}
-        if: (github.event_name == 'push' || github.event_name == 'schedule' || github.workflow_dispatch == 'workflow_dispatch') && github.ref == 'refs/heads/main'
+        if: (github.event_name == 'push' || github.event_name == 'schedule' || github.event_name == 'workflow_dispatch') && github.ref == 'refs/heads/main'

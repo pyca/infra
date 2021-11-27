@@ -1,4 +1,5 @@
-FROM centos:8
+ARG RELEASE
+FROM centos:${RELEASE}
 ARG FIPS
 
 # This is needed because otherwise `sys.getfilesystemencoding()` returns

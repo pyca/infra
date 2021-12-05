@@ -31,7 +31,6 @@ jobs:
           - {TAG_NAME: "cryptography-runner-fedora", DOCKERFILE_PATH: "runners/fedora"}
           - {TAG_NAME: "cryptography-runner-alpine", DOCKERFILE_PATH: "runners/alpine"}
 
-          - {TAG_NAME: "cryptography-runner-stretch", DOCKERFILE_PATH: "runners/debian", BUILD_ARGS: "--build-arg RELEASE=stretch"}
           - {TAG_NAME: "cryptography-runner-buster", DOCKERFILE_PATH: "runners/debian", BUILD_ARGS: "--build-arg RELEASE=buster"}
           - {TAG_NAME: "cryptography-runner-bullseye", DOCKERFILE_PATH: "runners/debian", BUILD_ARGS: "--build-arg RELEASE=bullseye"}
           - {TAG_NAME: "cryptography-runner-bookworm", DOCKERFILE_PATH: "runners/debian", BUILD_ARGS: "--build-arg RELEASE=bookworm"}

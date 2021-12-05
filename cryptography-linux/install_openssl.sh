@@ -15,7 +15,6 @@ function check_sha256sum {
 curl -#O "${OPENSSL_URL}/${OPENSSL_VERSION}.tar.gz"
 check_sha256sum ${OPENSSL_VERSION}.tar.gz ${OPENSSL_SHA256}
 tar zxf ${OPENSSL_VERSION}.tar.gz
-PATH=/opt/perl/bin:$PATH
 pushd ${OPENSSL_VERSION}
 ./config $OPENSSL_BUILD_FLAGS --prefix=/opt/pyca/cryptography/openssl --openssldir=/opt/pyca/cryptography/openssl
 make depend

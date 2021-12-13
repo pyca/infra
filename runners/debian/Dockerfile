@@ -14,7 +14,8 @@ RUN apt-get -qq update && apt-get install -qq -y \
     libffi-dev \
     python3-dev \
     git \
-    curl
+    curl \
+    pkg-config
 
 RUN apt-get -qq update; if grep -q "sid" /etc/os-release; then apt-get install -qq -y python3-distutils; fi
 

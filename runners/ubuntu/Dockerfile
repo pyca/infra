@@ -17,7 +17,8 @@ RUN apt-get -qq update && apt-get install -qq -y \
     python3-dev \
     git \
     curl \
-    tzdata
+    tzdata \
+    pkg-config
 
 RUN curl -sSL https://bootstrap.pypa.io/get-pip.py | python3
 

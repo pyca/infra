@@ -14,7 +14,8 @@ RUN apt-get -qq update && apt-get install -qq -y \
     libffi-dev \
     python3-dev \
     git \
-    curl
+    curl \
+    pkg-config
 
 # Remove when we drop 2.7 support from pyOpenSSL
 RUN apt-get -qq update; if grep -q "stretch" /etc/os-release; then apt-get install -qq -y python-dev; fi

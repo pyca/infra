@@ -25,8 +25,8 @@ jobs:
     strategy:
       matrix:
         IMAGE:
-          - {TAG_NAME: "cryptography-runner-centos8", DOCKERFILE_PATH: "runners/centos8"}
-          - {TAG_NAME: "cryptography-runner-centos8-fips", DOCKERFILE_PATH: "runners/centos8", BUILD_ARGS: "--build-arg FIPS=1"}
+          - {TAG_NAME: "cryptography-runner-rhel8", DOCKERFILE_PATH: "runners/rhel8"}
+          - {TAG_NAME: "cryptography-runner-rhel8-fips", DOCKERFILE_PATH: "runners/rhel8", BUILD_ARGS: "--build-arg FIPS=1"}
 
           - {TAG_NAME: "cryptography-runner-fedora", DOCKERFILE_PATH: "runners/fedora"}
           - {TAG_NAME: "cryptography-runner-alpine", DOCKERFILE_PATH: "runners/alpine"}

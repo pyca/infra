@@ -20,7 +20,7 @@ RUN apt-get -qq update && apt-get install -qq -y \
     tzdata \
     pkg-config
 
-RUN curl -sSL https://bootstrap.pypa.io/get-pip.py | python3
+RUN if grep -q "Bionic" /etc/os-release; then curl -sSL https://bootstrap.pypa.io/pip/3.6/get-pip.py | python3; else curl -sSL https://bootstrap.pypa.io/get-pip.py | python3; fi
 
 RUN pip install tox coverage
 

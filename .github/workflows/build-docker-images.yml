@@ -23,6 +23,7 @@ jobs:
   build:
     runs-on: ubuntu-latest
     strategy:
+      fail-fast: false
       matrix:
         IMAGE:
           - {TAG_NAME: "cryptography-runner-rhel8", DOCKERFILE_PATH: "runners/rhel8"}
@@ -70,6 +71,7 @@ jobs:
   build_linux_aarch64:
     runs-on: ubuntu-latest
     strategy:
+      fail-fast: false
       matrix:
         IMAGE:
           - {TAG_NAME: "cryptography-manylinux2014_aarch64", DOCKERFILE_PATH: "cryptography-linux", BUILD_ARGS: "-f cryptography-linux/Dockerfile-linux --build-arg PYCA_RELEASE=manylinux2014_aarch64"}

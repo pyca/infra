@@ -20,7 +20,7 @@ on:
 
 jobs:
   build:
-    runs-on: windows-latest
+    runs-on: windows-2019
     strategy:
       matrix:
         ARCH: ["win32", "win64"]

@@ -67,15 +67,6 @@ jobs:
         run: docker push ghcr.io/pyca/${{ matrix.IMAGE.TAG_NAME }}
         if: (github.event_name == 'push' || github.event_name == 'schedule' || github.event_name == 'workflow_dispatch') && github.ref == 'refs/heads/main'
 
-      - name: Install cosign
-        uses: sigstore/cosign-installer@v2.1.0
-        if: (github.event_name == 'push' || github.event_name == 'schedule' || github.event_name == 'workflow_dispatch') && github.ref == 'refs/heads/main'
-      - name: Sign the published Docker image
-        run: cosign sign ghcr.io/pyca/${{ matrix.IMAGE.TAG_NAME }}
-        env:
-          COSIGN_EXPERIMENTAL: "true"
-        if: (github.event_name == 'push' || github.event_name == 'schedule' || github.event_name == 'workflow_dispatch') && github.ref == 'refs/heads/main'
-
   # Build the linux aarch64 containers
   build_linux_aarch64:
     runs-on: ubuntu-latest

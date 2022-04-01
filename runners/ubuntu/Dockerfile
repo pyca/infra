@@ -15,14 +15,13 @@ RUN apt-get -qq update && apt-get install -qq -y \
     libssl-dev \
     libffi-dev \
     python3-dev \
+    python3-venv \
     git \
     curl \
     tzdata \
     pkg-config
 
-RUN if grep -q "Bionic" /etc/os-release; then curl -sSL https://bootstrap.pypa.io/pip/3.6/get-pip.py | python3; else curl -sSL https://bootstrap.pypa.io/get-pip.py | python3; fi
-
-RUN pip install tox coverage
+RUN python3 -m venv /venv && /venv/bin/pip install tox coverage
 
 RUN curl https://sh.rustup.rs -sSf | sh -s -- -y --default-toolchain stable --profile minimal
 ENV PATH="/root/.cargo/bin:$PATH"

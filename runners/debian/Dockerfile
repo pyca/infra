@@ -21,7 +21,11 @@ RUN apt-get -qq update; if grep -q "sid" /etc/os-release; then apt-get install -
 
 RUN curl -sSL https://bootstrap.pypa.io/pip/get-pip.py | python3
 
-RUN pip install tox coverage
+# Temporarily use tox from apt because of
+# https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=1008783
+# RUN pip install tox coverage
+RUN pip install coverage
+RUN apt-get -qq update && apt-get install -qq -y tox
 
 RUN curl https://sh.rustup.rs -sSf | sh -s -- -y --default-toolchain stable --profile minimal
 ENV PATH="/root/.cargo/bin:$PATH"

@@ -1,3 +1,4 @@
+@echo on
 SET BUILDARCH=%1
 
 cd openssl-1*

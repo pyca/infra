@@ -26,8 +26,10 @@ jobs:
       fail-fast: false
       matrix:
         IMAGE:
-          - {TAG_NAME: "cryptography-runner-rhel8", DOCKERFILE_PATH: "runners/rhel8"}
-          - {TAG_NAME: "cryptography-runner-rhel8-fips", DOCKERFILE_PATH: "runners/rhel8", BUILD_ARGS: "--build-arg FIPS=1"}
+          - {TAG_NAME: "cryptography-runner-rhel8", DOCKERFILE_PATH: "runners/rhel", BUILD_ARGS: "--build-arg RELEASE=redhat/ubi8"}
+          - {TAG_NAME: "cryptography-runner-rhel8-fips", DOCKERFILE_PATH: "runners/rhel", BUILD_ARGS: "--build-arg FIPS=1 --build-arg RELEASE=redhat/ubi8"}
+          - {TAG_NAME: "cryptography-runner-centos-stream9", DOCKERFILE_PATH: "runners/rhel", BUILD_ARGS: "--build-arg RELEASE=quay.io/centos/centos:stream9"}
+          - {TAG_NAME: "cryptography-runner-centos-stream9-fips", DOCKERFILE_PATH: "runners/rhel", BUILD_ARGS: "--build-arg FIPS=1 --build-arg RELEASE=quay.io/centos/centos:stream9"}
 
           - {TAG_NAME: "cryptography-runner-fedora", DOCKERFILE_PATH: "runners/fedora"}
           - {TAG_NAME: "cryptography-runner-alpine", DOCKERFILE_PATH: "runners/alpine"}
@@ -39,6 +41,7 @@ jobs:
 
           - {TAG_NAME: "cryptography-runner-ubuntu-bionic", DOCKERFILE_PATH: "runners/ubuntu", BUILD_ARGS: "--build-arg RELEASE=bionic"}
           - {TAG_NAME: "cryptography-runner-ubuntu-focal", DOCKERFILE_PATH: "runners/ubuntu", BUILD_ARGS: "--build-arg RELEASE=focal"}
+          - {TAG_NAME: "cryptography-runner-ubuntu-jammy", DOCKERFILE_PATH: "runners/ubuntu", BUILD_ARGS: "--build-arg RELEASE=jammy"}
           - {TAG_NAME: "cryptography-runner-ubuntu-rolling", DOCKERFILE_PATH: "runners/ubuntu", BUILD_ARGS: "--build-arg RELEASE=rolling"}
 
           - {TAG_NAME: "cryptography-manylinux2010:x86_64", DOCKERFILE_PATH: "cryptography-linux", BUILD_ARGS: "-f cryptography-linux/Dockerfile-linux --build-arg PYCA_RELEASE=manylinux2010_x86_64"}

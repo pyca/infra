@@ -49,7 +49,7 @@ jobs:
           - {TAG_NAME: "cryptography-manylinux_2_24:x86_64", DOCKERFILE_PATH: "cryptography-linux", BUILD_ARGS: "-f cryptography-linux/Dockerfile-linux --build-arg PYCA_RELEASE=manylinux_2_24_x86_64"}
           - {TAG_NAME: "cryptography-musllinux_1_1:x86_64", DOCKERFILE_PATH: "cryptography-linux", BUILD_ARGS: "-f cryptography-linux/Dockerfile-linux --build-arg PYCA_RELEASE=musllinux_1_1_x86_64"}
 
-    name: "Docker build ${{ matrix.IMAGE.TAG_NAME }}"
+    name: "${{ matrix.IMAGE.TAG_NAME }}"
     steps:
       - uses: actions/checkout@v3
       # Pull the previous image, but if it fails return true anyway.
@@ -83,7 +83,7 @@ jobs:
           - {TAG_NAME: "cryptography-runner-ubuntu-focal:aarch64", DOCKERFILE_PATH: "runners/ubuntu", BUILD_ARGS: "--build-arg RELEASE=focal"}
           - {TAG_NAME: "cryptography-runner-alpine:aarch64", DOCKERFILE_PATH: "runners/alpine"}
 
-    name: "Docker build ${{ matrix.IMAGE.TAG_NAME }}"
+    name: "${{ matrix.IMAGE.TAG_NAME }}"
     steps:
       - uses: actions/checkout@v3
       - name: Setup QEMU

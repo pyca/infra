@@ -1,6 +1,7 @@
+@echo on
 SET BUILDARCH=%1
 
-cd openssl-1*
+cd openssl-*
 
 if "%BUILDARCH%" == "win32" (
     CALL ..\windows\openssl\build_openssl_win32.bat

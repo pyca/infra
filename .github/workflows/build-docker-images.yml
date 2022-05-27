@@ -18,6 +18,10 @@ on:
       - 'runners/**'
       - 'cryptography-linux/**'
 
+permissions:
+  contents: read
+  packages: write
+
 jobs:
   # Build containers for x86
   build:

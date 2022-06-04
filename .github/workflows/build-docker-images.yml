@@ -48,10 +48,10 @@ jobs:
           - {TAG_NAME: "cryptography-runner-ubuntu-jammy", DOCKERFILE_PATH: "runners/ubuntu", BUILD_ARGS: "--build-arg RELEASE=jammy"}
           - {TAG_NAME: "cryptography-runner-ubuntu-rolling", DOCKERFILE_PATH: "runners/ubuntu", BUILD_ARGS: "--build-arg RELEASE=rolling"}
 
-          - {TAG_NAME: "cryptography-manylinux2010:x86_64", DOCKERFILE_PATH: "cryptography-linux", BUILD_ARGS: "-f cryptography-linux/Dockerfile-linux --build-arg PYCA_RELEASE=manylinux2010_x86_64"}
-          - {TAG_NAME: "cryptography-manylinux2014:x86_64", DOCKERFILE_PATH: "cryptography-linux", BUILD_ARGS: "-f cryptography-linux/Dockerfile-linux --build-arg PYCA_RELEASE=manylinux2014_x86_64"}
-          - {TAG_NAME: "cryptography-manylinux_2_24:x86_64", DOCKERFILE_PATH: "cryptography-linux", BUILD_ARGS: "-f cryptography-linux/Dockerfile-linux --build-arg PYCA_RELEASE=manylinux_2_24_x86_64"}
-          - {TAG_NAME: "cryptography-musllinux_1_1:x86_64", DOCKERFILE_PATH: "cryptography-linux", BUILD_ARGS: "-f cryptography-linux/Dockerfile-linux --build-arg PYCA_RELEASE=musllinux_1_1_x86_64"}
+          - {TAG_NAME: "cryptography-manylinux2010:x86_64", DOCKERFILE_PATH: "cryptography-linux", BUILD_ARGS: "--build-arg PYCA_RELEASE=manylinux2010_x86_64"}
+          - {TAG_NAME: "cryptography-manylinux2014:x86_64", DOCKERFILE_PATH: "cryptography-linux", BUILD_ARGS: "--build-arg PYCA_RELEASE=manylinux2014_x86_64"}
+          - {TAG_NAME: "cryptography-manylinux_2_24:x86_64", DOCKERFILE_PATH: "cryptography-linux", BUILD_ARGS: "--build-arg PYCA_RELEASE=manylinux_2_24_x86_64"}
+          - {TAG_NAME: "cryptography-musllinux_1_1:x86_64", DOCKERFILE_PATH: "cryptography-linux", BUILD_ARGS: "--build-arg PYCA_RELEASE=musllinux_1_1_x86_64"}
 
     name: "${{ matrix.IMAGE.TAG_NAME }}"
     steps:
@@ -81,9 +81,9 @@ jobs:
       fail-fast: false
       matrix:
         IMAGE:
-          - {TAG_NAME: "cryptography-manylinux2014_aarch64", DOCKERFILE_PATH: "cryptography-linux", BUILD_ARGS: "-f cryptography-linux/Dockerfile-linux --build-arg PYCA_RELEASE=manylinux2014_aarch64"}
-          - {TAG_NAME: "cryptography-manylinux_2_24:aarch64", DOCKERFILE_PATH: "cryptography-linux", BUILD_ARGS: "-f cryptography-linux/Dockerfile-linux --build-arg PYCA_RELEASE=manylinux_2_24_aarch64"}
-          - {TAG_NAME: "cryptography-musllinux_1_1:aarch64", DOCKERFILE_PATH: "cryptography-linux", BUILD_ARGS: "-f cryptography-linux/Dockerfile-linux --build-arg PYCA_RELEASE=musllinux_1_1_aarch64"}
+          - {TAG_NAME: "cryptography-manylinux2014_aarch64", DOCKERFILE_PATH: "cryptography-linux", BUILD_ARGS: "--build-arg PYCA_RELEASE=manylinux2014_aarch64"}
+          - {TAG_NAME: "cryptography-manylinux_2_24:aarch64", DOCKERFILE_PATH: "cryptography-linux", BUILD_ARGS: "--build-arg PYCA_RELEASE=manylinux_2_24_aarch64"}
+          - {TAG_NAME: "cryptography-musllinux_1_1:aarch64", DOCKERFILE_PATH: "cryptography-linux", BUILD_ARGS: "--build-arg PYCA_RELEASE=musllinux_1_1_aarch64"}
           - {TAG_NAME: "cryptography-runner-ubuntu-focal:aarch64", DOCKERFILE_PATH: "runners/ubuntu", BUILD_ARGS: "--build-arg RELEASE=focal"}
           - {TAG_NAME: "cryptography-runner-alpine:aarch64", DOCKERFILE_PATH: "runners/alpine"}
 

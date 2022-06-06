@@ -18,8 +18,6 @@ RUN apt-get -qq update && apt-get install -qq -y \
     curl \
     pkg-config
 
-RUN apt-get -qq update; if grep -q "sid" /etc/os-release; then apt-get install -qq -y python3-distutils; fi
-
 RUN python3 -m venv /venv && /venv/bin/pip install tox coverage
 
 RUN curl https://sh.rustup.rs -sSf | sh -s -- -y --default-toolchain stable --profile minimal

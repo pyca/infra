@@ -7,7 +7,7 @@ RUN \
   if [ $(uname -m) = "x86_64" ]; \
   then \
     if stat /etc/redhat-release 1>&2 2>/dev/null; then \
-      yum -y install prelink perl-IPC-Cmd && \
+      yum -y install binutils perl-IPC-Cmd && \
       yum -y clean all && \
       rm -rf /var/cache/yum; \
     elif stat /etc/debian_version 1>&2 2>/dev/null; then \
@@ -21,7 +21,7 @@ RUN \
     fi; \
   fi
 
-# This is done as two separate steps because prelink is not available on
+# This is done as two separate steps because readelf (binutils) is not available on
 # aarch64, and libffi-dev/devel isn't required on x86_64 (since wheels exist)
 RUN \
   if [ $(uname -m) = "aarch64" ]; \

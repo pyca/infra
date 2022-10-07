@@ -45,20 +45,5 @@ ADD install_openssl.sh /root/install_openssl.sh
 ADD openssl-version.sh /root/openssl-version.sh
 RUN ./install_openssl.sh
 
-# Install PyPy
-RUN \
-  if [ $(uname -m) = "x86_64" ]; then \
-    if stat /etc/alpine-release 1>&2 2>/dev/null; then \
-      echo 'Skip building musl PyPy wheels for now'; \
-    else \
-      curl https://downloads.python.org/pypy/pypy3.7-v7.3.9-linux64.tar.bz2 | tar jxf - -C /opt/ && \
-        mv /opt/pypy3.7* /opt/pypy3.7; \
-      curl https://downloads.python.org/pypy/pypy3.8-v7.3.9-linux64.tar.bz2 | tar jxf - -C /opt/ && \
-        mv /opt/pypy3.8* /opt/pypy3.8; \
-      curl https://downloads.python.org/pypy/pypy3.9-v7.3.9-linux64.tar.bz2 | tar jxf - -C /opt/ && \
-        mv /opt/pypy3.9* /opt/pypy3.9; \
-    fi; \
-  fi
-
 RUN curl https://sh.rustup.rs -sSf | sh -s -- -y --default-toolchain stable --profile minimal
 ENV PATH="/root/.cargo/bin:$PATH"

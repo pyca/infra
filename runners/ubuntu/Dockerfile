@@ -21,7 +21,7 @@ RUN apt-get -qq update && apt-get install -qq -y \
     tzdata \
     pkg-config
 
-RUN python3 -m venv /venv && /venv/bin/pip install tox coverage
+RUN python3 -m venv /venv
 
 RUN curl https://sh.rustup.rs -sSf | sh -s -- -y --default-toolchain stable --profile minimal
 ENV PATH="/root/.cargo/bin:$PATH"

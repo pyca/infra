@@ -8,7 +8,7 @@ ENV CACHE_BUSTER 1
 ENV LANG C.UTF-8
 
 RUN apk add --no-cache git libffi-dev curl \
-    python3-dev openssl-dev bash gcc musl-dev tar pkgconfig
+    python3-dev openssl-dev bash gcc musl-dev tar pkgconfig gcompat
 
 RUN python3 -m venv /venv
 

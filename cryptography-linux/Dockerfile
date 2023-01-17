@@ -37,7 +37,7 @@ RUN \
       apt-get clean -qq && \
       rm -rf /var/lib/apt/lists/*; \
     else \
-        apk add --no-cache gcompat; \
+       apk add --no-cache gcompat; \
     fi; \
   fi
 

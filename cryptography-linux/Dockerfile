@@ -37,7 +37,7 @@ RUN \
       apt-get clean -qq && \
       rm -rf /var/lib/apt/lists/*; \
     else \
-      echo "This is alpine and we don't need any more packages"; \
+        apk add --no-cache gcompat; \
     fi; \
   fi
 

@@ -11,6 +11,8 @@ resource "oci_containerengine_cluster" "generated_oci_containerengine_cluster" {
   name               = var.cluster_name
   options {
     admission_controller_options {
+      # pod security policies are deprecated and removed
+      # https://kubernetes.io/docs/concepts/security/pod-security-policy/
       is_pod_security_policy_enabled = "false"
     }
     persistent_volume_config {
@@ -28,7 +30,7 @@ resource "oci_containerengine_cluster" "generated_oci_containerengine_cluster" {
   vcn_id = oci_core_vcn.generated_oci_core_vcn.id
 }
 
-resource "oci_containerengine_node_pool" "create_node_pool_details0" {
+resource "oci_containerengine_node_pool" "create_node_pool_details1" {
   cluster_id     = oci_containerengine_cluster.generated_oci_containerengine_cluster.id
   compartment_id = var.compartment_id
   freeform_tags = {
@@ -45,9 +47,8 @@ resource "oci_containerengine_node_pool" "create_node_pool_details0" {
       "OKEnodePoolName" = "${var.cluster_name}-pool1"
     }
     placement_configs {
-      availability_domain = "XiYn:US-ASHBURN-AD-3"
-      #availability_domain = "ONbY:US-ASHBURN-AD-3"
-      subnet_id = oci_core_subnet.node_subnet.id
+      availability_domain = var.availability_domain
+      subnet_id           = oci_core_subnet.node_subnet.id
     }
     size = "1"
   }

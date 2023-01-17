@@ -11,7 +11,7 @@ Steps:
 * Configure the `values.yaml` with the GH app credentials
 * Configure the `terraform.tfvars` with OCI API key credentials
 * Create `bucket_credentials` with the OCI secret key (attached to a user).
-* terraform init
-* terraform apply
+* `terraform init -backend-config=backend.conf`
+* `terraform apply`
 
 This gets you a fully functioning deployment, but with no runners. Finally, run `kubectl apply -f runnerdeployment.yml` to deploy the runners. Or, conversely, `kubectl delete -f runnerdeployment.yml` to delete them.

@@ -44,3 +44,7 @@ variable "k8s_version" {
   description = "The version of k8s to use. e.g. v1.24.1"
   type        = string
 }
+variable "availability_domain" {
+  description = "The availability domain for the node"
+  type        = string
+}

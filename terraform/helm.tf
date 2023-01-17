@@ -16,7 +16,7 @@ resource "helm_release" "cm" {
     installCRDs: true
   EOF
   ]
-  depends_on = [resource.oci_containerengine_node_pool.create_node_pool_details0]
+  depends_on = [resource.oci_containerengine_node_pool.create_node_pool_details1]
 }
 
 

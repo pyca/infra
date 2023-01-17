@@ -1,5 +1,4 @@
 resource "helm_release" "cm" {
-  count            = 1
   name             = "cm"
   namespace        = "cert-manager"
   create_namespace = true
@@ -21,7 +20,6 @@ resource "helm_release" "cm" {
 
 
 resource "helm_release" "actions-runner-controller" {
-  count            = 1
   name             = "actions-runner-controller"
   namespace        = "actions-runner-system"
   create_namespace = true

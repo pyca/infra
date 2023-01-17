@@ -7,7 +7,7 @@ data "cloudinit_config" "worker" {
     filename     = "worker.sh"
     content_type = "text/x-shellscript"
     content      = <<-EOT
-      #!bin/bash
+      #!/bin/bash
       /usr/libexec/oci-growfs -y
     EOT
   }

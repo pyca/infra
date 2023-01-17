@@ -62,7 +62,7 @@ resource "oci_containerengine_node_pool" "create_node_pool_details1" {
   node_metadata = {
     user_data = data.cloudinit_config.worker.rendered
   }
-  node_shape = var.shape
+  node_shape = "VM.Standard.A1.Flex"
   node_shape_config {
     memory_in_gbs = "24"
     ocpus         = "4"

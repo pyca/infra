@@ -61,6 +61,10 @@ resource "oci_containerengine_node_pool" "create_node_pool_details1" {
     ocpus         = "4"
   }
   node_source_details {
+    # This corresponds to OL-8.6-aarch64-2022.12.15-0 in us-ashburn-1
+    # There's undoubtedly a smarter way to do this but for now
+    # https://docs.oracle.com/en-us/iaas/images/oracle-linux-8x/ contains the latest
+    # and we can periodically update this
     image_id                = "ocid1.image.oc1.iad.aaaaaaaabta3gqhlfoam3l7rayd4inr6hhg4cmvcqb7p43qadkiehnszyuka"
     source_type             = "IMAGE"
     boot_volume_size_in_gbs = 200

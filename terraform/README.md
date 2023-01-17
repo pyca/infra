@@ -12,6 +12,7 @@ Steps:
 * Configure the `terraform.tfvars` with OCI API key credentials
 * Create `bucket_credentials` with the OCI secret key (attached to a user).
 * `terraform init -backend-config=backend.conf`
-* `terraform apply`
+* `terraform plan -out plan`
+* `terraform apply plan`
 
 This gets you a fully functioning deployment, but with no runners. Finally, run `kubectl apply -f runnerdeployment.yml` to deploy the runners. Or, conversely, `kubectl delete -f runnerdeployment.yml` to delete them.

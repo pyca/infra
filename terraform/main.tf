@@ -1,3 +1,10 @@
+data "oci_core_images" "node_images" {
+  compartment_id           = var.compartment_id
+  operating_system         = var.os
+  operating_system_version = var.os_version
+  shape                    = var.shape
+}
+
 resource "oci_containerengine_cluster" "generated_oci_containerengine_cluster" {
   compartment_id = var.compartment_id
   endpoint_config {
@@ -55,17 +62,14 @@ resource "oci_containerengine_node_pool" "create_node_pool_details1" {
   node_metadata = {
     user_data = data.cloudinit_config.worker.rendered
   }
-  node_shape = "VM.Standard.A1.Flex"
+  node_shape = var.shape
   node_shape_config {
     memory_in_gbs = "24"
     ocpus         = "4"
   }
   node_source_details {
-    # This corresponds to OL-8.6-aarch64-2022.12.15-0 in us-ashburn-1
-    # There's undoubtedly a smarter way to do this but for now
-    # https://docs.oracle.com/en-us/iaas/images/oracle-linux-8x/ contains the latest
-    # and we can periodically update this
-    image_id                = "ocid1.image.oc1.iad.aaaaaaaabta3gqhlfoam3l7rayd4inr6hhg4cmvcqb7p43qadkiehnszyuka"
+    # get the latest image
+    image_id                = data.oci_core_images.node_images.images[0].id
     source_type             = "IMAGE"
     boot_volume_size_in_gbs = 200
   }

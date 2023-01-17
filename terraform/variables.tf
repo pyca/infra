@@ -48,3 +48,15 @@ variable "availability_domain" {
   description = "The availability domain for the node"
   type        = string
 }
+variable "shape" {
+  description = "The compute shape"
+  type        = string
+}
+variable "os" {
+  description = "The operation system (e.g. Oracle Linux)"
+  type        = string
+}
+variable "os_version" {
+  description = "The operation system major version (e.g. 8)"
+  type        = string
+}

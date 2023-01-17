@@ -1,8 +1,8 @@
 data "oci_core_images" "node_images" {
   compartment_id           = var.compartment_id
-  operating_system         = var.os
-  operating_system_version = var.os_version
-  shape                    = var.shape
+  operating_system         = "Oracle Linux"
+  operating_system_version = "8"
+  shape                    = "VM.Standard.A1.Flex"
 }
 
 resource "oci_containerengine_cluster" "generated_oci_containerengine_cluster" {
@@ -14,7 +14,7 @@ resource "oci_containerengine_cluster" "generated_oci_containerengine_cluster" {
   freeform_tags = {
     "OKEclusterName" = var.cluster_name
   }
-  kubernetes_version = var.k8s_version
+  kubernetes_version = "v1.24.1"
   name               = var.cluster_name
   options {
     admission_controller_options {
@@ -47,7 +47,7 @@ resource "oci_containerengine_node_pool" "create_node_pool_details1" {
     key   = "name"
     value = var.cluster_name
   }
-  kubernetes_version = var.k8s_version
+  kubernetes_version = "v1.24.1"
   name               = "${var.cluster_name}-pool1"
   node_config_details {
     freeform_tags = {

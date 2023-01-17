@@ -40,23 +40,7 @@ variable "ssh_public_key" {
   description = "An SSH public key to put on the nodes for debug."
   type        = string
 }
-variable "k8s_version" {
-  description = "The version of k8s to use. e.g. v1.24.1"
-  type        = string
-}
 variable "availability_domain" {
   description = "The availability domain for the node"
-  type        = string
-}
-variable "shape" {
-  description = "The compute shape"
-  type        = string
-}
-variable "os" {
-  description = "The operation system (e.g. Oracle Linux)"
-  type        = string
-}
-variable "os_version" {
-  description = "The operation system major version (e.g. 8)"
   type        = string
 }

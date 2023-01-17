@@ -7,8 +7,3 @@ availability_domain = ""
 region = ""
 cluster_name = ""
 ssh_public_key = ""
-k8s_version = ""
-shape = "VM.Standard.A1.Flex"
-os = "Oracle Linux"
-os_version = "8"
-

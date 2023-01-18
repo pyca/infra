@@ -37,6 +37,11 @@ RUN \
       apt-get clean -qq && \
       rm -rf /var/lib/apt/lists/*; \
     else \
+      # musllinux_1_1 ships with gcompat 0.4 which is too old. Commit computer crimes
+      # by adding a newer gcompat to an old alpine so that our GH actions will work.
+      # Your laptop is not waterproof so please turn away lest your tears damage it.
+      echo "http://dl-cdn.alpinelinux.org/alpine/v3.17/main" >> /etc/apk/repositories && \
+      echo "http://dl-cdn.alpinelinux.org/alpine/v3.17/community" >> /etc/apk/repositories && \
       apk add --no-cache gcompat; \
     fi; \
   fi

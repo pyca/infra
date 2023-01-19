@@ -1,0 +1,25 @@
+name: Terraform
+
+on:
+  pull_request:
+    paths:
+      - terraform/
+      - '.github/workflows/terraform.yml'
+  push:
+    branches:
+      - main
+    paths:
+      - terraform/
+      - '.github/workflows/terraform.yml'
+
+jobs:
+  # Build containers for x86
+  terraform:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3.3.0
+      - run: terraform -chdir=terraform/ fmt -check
+      - run: terraform -chdir=terraform/ init -backend=false
+      # Need to have a values.yaml for validate to pass.
+      - run: cp terraform/values.yaml.template terraform/values.yaml
+      - run: terraform -chdir=terraform/ validate

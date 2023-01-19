@@ -7,7 +7,7 @@ data "cloudinit_config" "worker" {
     filename     = "worker.sh"
     content_type = "text/x-shellscript"
     # https://github.com/oracle-terraform-modules/terraform-oci-oke/blob/9561e1ac70460335ae9e6d03ab73d503185d1d78/modules/oke/cloudinit/worker.template.sh
-    content      = <<-EOT
+    content = <<-EOT
         #!/bin/bash
 
         # DO NOT MODIFY

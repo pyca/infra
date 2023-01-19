@@ -8,7 +8,7 @@ resource "helm_release" "cm" {
   values = [<<EOF
     global:
       podSecurityPolicy:
-        enabled: true
+        enabled: false
         useAppArmor: true
     prometheus:
       enabled: false

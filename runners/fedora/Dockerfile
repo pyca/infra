@@ -5,7 +5,7 @@ FROM registry.fedoraproject.org/fedora:latest
 ENV LANG C.UTF-8
 
 RUN dnf install -y gcc redhat-rpm-config libffi-devel python3 \
-    python3-devel openssl-devel git findutils which pkg-config
+    python3-devel openssl-devel git findutils which pkg-config zstd
 
 RUN python3 -m venv /venv
 

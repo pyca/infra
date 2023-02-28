@@ -16,7 +16,8 @@ RUN apt-get -qq update && apt-get install -qq -y \
     python3-venv \
     git \
     curl \
-    pkg-config
+    pkg-config \
+    zstd
 
 RUN python3 -m venv /venv
 

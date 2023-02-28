@@ -19,7 +19,8 @@ RUN apt-get -qq update && apt-get install -qq -y \
     git \
     curl \
     tzdata \
-    pkg-config
+    pkg-config \
+    zstd
 
 RUN python3 -m venv /venv
 

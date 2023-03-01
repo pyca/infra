@@ -20,9 +20,11 @@ RUN apt-get -qq update && apt-get install -qq -y \
     curl \
     tzdata \
     pkg-config \
-    zstd
+    zstd && \
+    apt-get clean && \
+    rm -rf /var/lib/apt/lists
 
-RUN python3 -m venv /venv && /venv/bin/pip install -U pip wheel
+RUN python3 -m venv /venv && /venv/bin/pip install -U pip wheel --no-cache-dir
 
 RUN curl https://sh.rustup.rs -sSf | sh -s -- -y --default-toolchain stable --profile minimal
 ENV PATH="/root/.cargo/bin:$PATH"

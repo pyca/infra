@@ -99,7 +99,7 @@ resource "oci_core_security_list" "node_sec_list" {
   }
   egress_security_rules {
     description      = "Allow nodes to communicate with OKE to ensure correct start-up and continued functioning"
-    destination      = "all-iad-services-in-oracle-services-network"
+    destination      = "all-${ var.region_key }-services-in-oracle-services-network"
     destination_type = "SERVICE_CIDR_BLOCK"
     protocol         = "6"
     stateless        = "false"
@@ -158,7 +158,7 @@ resource "oci_core_security_list" "kubernetes_api_endpoint_sec_list" {
   display_name   = "oke-k8sApiEndpoint-${var.cluster_name}"
   egress_security_rules {
     description      = "Allow Kubernetes Control Plane to communicate with OKE"
-    destination      = "all-iad-services-in-oracle-services-network"
+    destination      = "all-${ var.region_key }-services-in-oracle-services-network"
     destination_type = "SERVICE_CIDR_BLOCK"
     protocol         = "6"
     stateless        = "false"

@@ -43,7 +43,6 @@ jobs:
           - {TAG_NAME: "cryptography-runner-bookworm", DOCKERFILE_PATH: "runners/debian", BUILD_ARGS: "--build-arg RELEASE=bookworm", RUNNER: "ubuntu-latest"}
           - {TAG_NAME: "cryptography-runner-sid", DOCKERFILE_PATH: "runners/debian", BUILD_ARGS: "--build-arg RELEASE=sid", RUNNER: "ubuntu-latest"}
 
-          - {TAG_NAME: "cryptography-runner-ubuntu-bionic", DOCKERFILE_PATH: "runners/ubuntu", BUILD_ARGS: "--build-arg RELEASE=bionic", RUNNER: "ubuntu-latest"}
           - {TAG_NAME: "cryptography-runner-ubuntu-focal", DOCKERFILE_PATH: "runners/ubuntu", BUILD_ARGS: "--build-arg RELEASE=focal", RUNNER: "ubuntu-latest"}
           - {TAG_NAME: "cryptography-runner-ubuntu-jammy", DOCKERFILE_PATH: "runners/ubuntu", BUILD_ARGS: "--build-arg RELEASE=jammy", RUNNER: "ubuntu-latest"}
           - {TAG_NAME: "cryptography-runner-ubuntu-rolling", DOCKERFILE_PATH: "runners/ubuntu", BUILD_ARGS: "--build-arg RELEASE=rolling", RUNNER: "ubuntu-latest"}

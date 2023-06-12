@@ -35,7 +35,7 @@ variable "region" {
 variable "region_key" {
   # List of regions: https://docs.cloud.oracle.com/iaas/Content/General/Concepts/regions.htm#ServiceAvailabilityAcrossRegions
   description = "The three letter code for the region where OKE resources will be created"
-  type = string
+  type        = string
 }
 variable "cluster_name" {
   description = "The name of the cluster."

@@ -41,6 +41,7 @@ jobs:
           - {TAG_NAME: "cryptography-runner-buster", DOCKERFILE_PATH: "runners/debian", BUILD_ARGS: "--build-arg RELEASE=buster", RUNNER: "ubuntu-latest"}
           - {TAG_NAME: "cryptography-runner-bullseye", DOCKERFILE_PATH: "runners/debian", BUILD_ARGS: "--build-arg RELEASE=bullseye", RUNNER: "ubuntu-latest"}
           - {TAG_NAME: "cryptography-runner-bookworm", DOCKERFILE_PATH: "runners/debian", BUILD_ARGS: "--build-arg RELEASE=bookworm", RUNNER: "ubuntu-latest"}
+          - {TAG_NAME: "cryptography-runner-trixie", DOCKERFILE_PATH: "runners/debian", BUILD_ARGS: "--build-arg RELEASE=trixie", RUNNER: "ubuntu-latest"}
           - {TAG_NAME: "cryptography-runner-sid", DOCKERFILE_PATH: "runners/debian", BUILD_ARGS: "--build-arg RELEASE=sid", RUNNER: "ubuntu-latest"}
 
           - {TAG_NAME: "cryptography-runner-ubuntu-focal", DOCKERFILE_PATH: "runners/ubuntu", BUILD_ARGS: "--build-arg RELEASE=focal", RUNNER: "ubuntu-latest"}

@@ -3,7 +3,7 @@ name: Terraform
 on:
   pull_request:
     paths:
-      - terraform/
+      - 'terraform/**'
       - '.github/workflows/terraform.yml'
   push:
     branches:

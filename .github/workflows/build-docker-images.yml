@@ -51,10 +51,12 @@ jobs:
           - {TAG_NAME: "cryptography-manylinux2014:x86_64", DOCKERFILE_PATH: "cryptography-linux", BUILD_ARGS: "--build-arg PYCA_RELEASE=manylinux2014_x86_64", RUNNER: "ubuntu-latest"}
           - {TAG_NAME: "cryptography-manylinux_2_28:x86_64", DOCKERFILE_PATH: "cryptography-linux", BUILD_ARGS: "--build-arg PYCA_RELEASE=manylinux_2_28_x86_64", RUNNER: "ubuntu-latest"}
           - {TAG_NAME: "cryptography-musllinux_1_1:x86_64", DOCKERFILE_PATH: "cryptography-linux", BUILD_ARGS: "--build-arg PYCA_RELEASE=musllinux_1_1_x86_64", RUNNER: "ubuntu-latest"}
+          - {TAG_NAME: "cryptography-musllinux_1_2:x86_64", DOCKERFILE_PATH: "cryptography-linux", BUILD_ARGS: "--build-arg PYCA_RELEASE=musllinux_1_2_x86_64", RUNNER: "ubuntu-latest"}
 
           - {TAG_NAME: "cryptography-manylinux2014_aarch64", DOCKERFILE_PATH: "cryptography-linux", BUILD_ARGS: "--build-arg PYCA_RELEASE=manylinux2014_aarch64", RUNNER: [self-hosted, Linux, ARM64]}
           - {TAG_NAME: "cryptography-manylinux_2_28:aarch64", DOCKERFILE_PATH: "cryptography-linux", BUILD_ARGS: "--build-arg PYCA_RELEASE=manylinux_2_28_aarch64", RUNNER: [self-hosted, Linux, ARM64]}
           - {TAG_NAME: "cryptography-musllinux_1_1:aarch64", DOCKERFILE_PATH: "cryptography-linux", BUILD_ARGS: "--build-arg PYCA_RELEASE=musllinux_1_1_aarch64", RUNNER: [self-hosted, Linux, ARM64]}
+          - {TAG_NAME: "cryptography-musllinux_1_2:aarch64", DOCKERFILE_PATH: "cryptography-linux", BUILD_ARGS: "--build-arg PYCA_RELEASE=musllinux_1_2_aarch64", RUNNER: [self-hosted, Linux, ARM64]}
           - {TAG_NAME: "cryptography-runner-ubuntu-jammy:aarch64", DOCKERFILE_PATH: "runners/ubuntu", BUILD_ARGS: "--build-arg RELEASE=jammy", RUNNER: [self-hosted, Linux, ARM64]}
           - {TAG_NAME: "cryptography-runner-alpine:aarch64", DOCKERFILE_PATH: "runners/alpine", RUNNER: [self-hosted, Linux, ARM64]}
 

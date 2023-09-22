@@ -60,6 +60,9 @@ jobs:
           - {TAG_NAME: "cryptography-runner-ubuntu-jammy:aarch64", DOCKERFILE_PATH: "runners/ubuntu", BUILD_ARGS: "--build-arg RELEASE=jammy", RUNNER: [self-hosted, Linux, ARM64]}
           - {TAG_NAME: "cryptography-runner-alpine:aarch64", DOCKERFILE_PATH: "runners/alpine", RUNNER: [self-hosted, Linux, ARM64]}
 
+          - {TAG_NAME: "cryptography-runner-ubuntu-jammy:arm32", DOCKERFILE_PATH: "runners/ubuntu", BUILD_ARGS: "--platform=linux/arm/v7 --build-arg RELEASE=jammy", RUNNER: [self-hosted, Linux, ARM64]}
+          - {TAG_NAME: "cryptography-runner-alpine:arm32", DOCKERFILE_PATH: "runners/alpine", BUILD_ARGS: "--platform=linux/arm/v7", RUNNER: [self-hosted, Linux, ARM64]}
+
     name: "${{ matrix.IMAGE.TAG_NAME }}"
     steps:
       - uses: actions/checkout@v4.0.0

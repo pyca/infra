@@ -86,7 +86,6 @@ jobs:
           mkdir bin lib
           cp -r ../x86-64/include .
           cp -r ../x86-64/lib/pkgconfig lib/
-          cp ../x86-64/bin/c_rehash bin/  # c_rehash is a perl script
           lipo -create -output bin/openssl ../x86-64/bin/openssl ../arm64/bin/openssl
           lipo -create -output lib/libssl.a ../x86-64/lib/libssl.a ../arm64/lib/libssl.a
           lipo -create -output lib/libcrypto.a ../x86-64/lib/libcrypto.a ../arm64/lib/libcrypto.a

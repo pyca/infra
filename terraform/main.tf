@@ -14,7 +14,7 @@ resource "oci_containerengine_cluster" "generated_oci_containerengine_cluster" {
   freeform_tags = {
     "OKEclusterName" = var.cluster_name
   }
-  kubernetes_version = "v1.24.1"
+  kubernetes_version = "v1.28.2"
   name               = var.cluster_name
   options {
     admission_controller_options {
@@ -47,7 +47,7 @@ resource "oci_containerengine_node_pool" "create_node_pool_details1" {
     key   = "name"
     value = var.cluster_name
   }
-  kubernetes_version = "v1.24.1"
+  kubernetes_version = "v1.28.2"
   name               = "${var.cluster_name}-pool1"
   node_config_details {
     freeform_tags = {

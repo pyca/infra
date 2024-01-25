@@ -7,3 +7,11 @@ spec:
   template:
     spec:
       organization: pyca
+      dockerVolumeMounts:
+        - mountPath: /var/lib/docker
+          name: docker
+      volumes:
+        - name: docker
+          emptyDir:
+            medium: Memory
+      ephemeral: true # recommended to not leak data between builds.

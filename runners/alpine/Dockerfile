@@ -7,8 +7,10 @@ ENV CACHE_BUSTER 1
 # "ANSI_X3.4-1968".
 ENV LANG C.UTF-8
 
-RUN apk add --no-cache git libffi-dev curl \
-    python3-dev openssl-dev bash gcc musl-dev tar pkgconfig gcompat zstd
+RUN apk add --no-cache git libffi-dev curl make \
+    python3-dev openssl-dev bash gcc musl-dev tar pkgconfig zstd
+
+RUN git clone https://git.adelielinux.org/adelie/gcompat && cd gcompat && make && make install && cd .. && rm -rf gcompat
 
 RUN python3 -m venv /venv && /venv/bin/pip install -U pip wheel --no-cache-dir
 

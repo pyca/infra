@@ -71,11 +71,11 @@ jobs:
     name: "Build OpenSSL for macOS universal2"
     needs: [ build ]
     steps:
-      - uses: actions/download-artifact@v4.1.2
+      - uses: actions/download-artifact@v4.1.3
         with:
           name: openssl-macos-x86-64
           path: x86-64
-      - uses: actions/download-artifact@v4.1.2
+      - uses: actions/download-artifact@v4.1.3
         with:
           name: openssl-macos-arm64
           path: arm64

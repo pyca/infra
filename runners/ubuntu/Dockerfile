@@ -28,6 +28,5 @@ RUN python3 -m venv /venv && /venv/bin/pip install -U pip wheel --no-cache-dir
 
 # Work around https://github.com/rust-lang/rustup/issues/3122
 # ENV RUSTUP_USE_CURL 1
-ENV RUSTUP_UPDATE_ROOT https://dev-static.rust-lang.org/rustup
 RUN curl https://sh.rustup.rs -sSf | sh -s -- -y --default-toolchain stable --profile minimal --component llvm-tools-preview -v
 ENV PATH="/root/.cargo/bin:$PATH"

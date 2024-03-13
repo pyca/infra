@@ -62,7 +62,7 @@ jobs:
 
     name: "${{ matrix.IMAGE.TAG_NAME }}"
     steps:
-      - uses: actions/checkout@v4.1.1
+      - uses: actions/checkout@v4.1.2
       # Pull the previous image, but if it fails return true anyway.
       # Sometimes we add new docker images and if they've never been pushed
       # they can't be pulled.

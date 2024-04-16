@@ -46,6 +46,7 @@ jobs:
 
           - {TAG_NAME: "cryptography-runner-ubuntu-focal", DOCKERFILE_PATH: "runners/ubuntu", BUILD_ARGS: "--build-arg RELEASE=focal", RUNNER: "ubuntu-latest"}
           - {TAG_NAME: "cryptography-runner-ubuntu-jammy", DOCKERFILE_PATH: "runners/ubuntu", BUILD_ARGS: "--build-arg RELEASE=jammy", RUNNER: "ubuntu-latest"}
+          - {TAG_NAME: "cryptography-runner-ubuntu-noble", DOCKERFILE_PATH: "runners/ubuntu", BUILD_ARGS: "--build-arg RELEASE=noble", RUNNER: "ubuntu-latest"}
           - {TAG_NAME: "cryptography-runner-ubuntu-rolling", DOCKERFILE_PATH: "runners/ubuntu", BUILD_ARGS: "--build-arg RELEASE=rolling", RUNNER: "ubuntu-latest"}
 
           - {TAG_NAME: "cryptography-manylinux2014:x86_64", DOCKERFILE_PATH: "cryptography-linux", BUILD_ARGS: "--build-arg PYCA_RELEASE=manylinux2014_x86_64", RUNNER: "ubuntu-latest"}

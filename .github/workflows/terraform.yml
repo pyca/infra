@@ -13,7 +13,6 @@ on:
       - '.github/workflows/terraform.yml'
 
 jobs:
-  # Build containers for x86
   terraform:
     runs-on: ubuntu-latest
     steps:

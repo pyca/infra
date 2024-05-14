@@ -1,0 +1,60 @@
+name: Build and Release Static Node.js
+permissions:
+  contents: read
+  packages: write
+
+on:
+  pull_request:
+    paths:
+      - '.github/workflows/build-static-node.yml'
+      - 'staticnode/**'
+  push:
+    branches:
+      - main
+    paths:
+      - '.github/workflows/build-static-node.yml'
+      - 'staticnode/**'
+
+jobs:
+  build:
+    name: Build node.js
+    runs-on: ${{ matrix.IMAGE.RUNNER }}
+    strategy:
+      fail-fast: false
+      matrix:
+        IMAGE:
+          - {RUNNER: "ubuntu-latest", ARCH: "x64", TAG_NAME: "static-nodejs-x64"}
+          - {RUNNER: [self-hosted, Linux, ARM64], ARCH: "arm64", TAG_NAME: "static-nodejs-arm64"}
+    steps:
+    - uses: actions/checkout@v4.1.5
+    - name: Set Node.js version
+      run: |
+        source ./staticnode/node-version.sh
+        echo "NODE_VERSION=$NODE_VERSION" >> $GITHUB_ENV
+    - name: Build the Docker image
+      run: |
+         echo building node.js $NODE_VERSION
+         docker build --tag ghcr.io/pyca/static-nodejs-${{ matrix.IMAGE.ARCH }}:$NODE_VERSION --build-arg VERSION=$NODE_VERSION --build-arg ARCH=${{ matrix.IMAGE.ARCH  }} staticnode
+    - name: Copy static node.js out
+      run: |
+         mkdir $RUNNER_TEMP/static_node
+         docker run --rm -v $RUNNER_TEMP/static_node:/node_output ghcr.io/pyca/static-nodejs-${{ matrix.IMAGE.ARCH }}:$NODE_VERSION cp -v -a /node_staging/. /node_output/
+         ls -l -R $RUNNER_TEMP/static_node
+    - name: Test that it works
+      run: |
+        mkdir $RUNNER_TEMP/test
+        cd $RUNNER_TEMP/test
+        tar xzf $RUNNER_TEMP/static_node/node-$NODE_VERSION-static-${{ matrix.IMAGE.ARCH }}.tar.gz
+        ls -l -R
+        ./bin/node -v
+        ./bin/node -e "console.log('hello world')"
+        uname -a
+    - name: Login to docker
+      run: 'docker login -u "$DOCKER_USERNAME" -p "$DOCKER_PASSWORD" ghcr.io'
+      env:
+        DOCKER_USERNAME: ${{ github.actor }}
+        DOCKER_PASSWORD: ${{ secrets.GITHUB_TOKEN }}
+      if: (github.event_name == 'push' || github.event_name == 'schedule' || github.event_name == 'workflow_dispatch') && github.ref == 'refs/heads/main'
+    - name: Push image
+      run: docker push ghcr.io/pyca/${{ matrix.IMAGE.TAG_NAME }}:${{ env.NODE_VERSION }}
+      if: (github.event_name == 'push' || github.event_name == 'schedule' || github.event_name == 'workflow_dispatch') && github.ref == 'refs/heads/main'

@@ -12,7 +12,8 @@ RUN mkdir -p /node_staging
 
 RUN curl -O https://nodejs.org/dist/$VERSION/node-$VERSION.tar.gz
 RUN tar -zxvf node-$VERSION.tar.gz
-RUN cd node-$VERSION && ./configure --dest-cpu=$ARCH --fully-static && make -j4
-RUN cp /build/node-$VERSION/LICENSE /out/LICENSE && cp /build/node-$VERSION/out/Release/node /out/bin/node && rm -rf /build
-WORKDIR /out
-RUN tar -czvf /node_staging/node-$VERSION-static-$ARCH.tar.gz ./bin ./LICENSE
+RUN cd node-$VERSION && ./configure --dest-cpu=$ARCH --fully-static && make -j$(nproc)
+RUN cp /build/node-$VERSION/LICENSE /out/LICENSE && cp /build/node-$VERSION/out/Release/node /out/bin/node
+
+FROM scratch
+COPY --from=0 /out/ /out

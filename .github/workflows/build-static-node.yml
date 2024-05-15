@@ -33,19 +33,17 @@ jobs:
         echo "NODE_VERSION=$NODE_VERSION" >> $GITHUB_ENV
     - name: Build the Docker image
       run: |
-         echo building node.js $NODE_VERSION
-         docker build --tag ghcr.io/pyca/static-nodejs-${{ matrix.IMAGE.ARCH }}:$NODE_VERSION --build-arg VERSION=$NODE_VERSION --build-arg ARCH=${{ matrix.IMAGE.ARCH  }} staticnode
+        echo building node.js $NODE_VERSION
+        docker build --tag ghcr.io/pyca/static-nodejs-${{ matrix.IMAGE.ARCH }}:$NODE_VERSION --build-arg VERSION=$NODE_VERSION --build-arg ARCH=${{ matrix.IMAGE.ARCH  }} staticnode
     - name: Copy static node.js out
       run: |
-         mkdir $RUNNER_TEMP/static_node
-         docker run --rm -v $RUNNER_TEMP/static_node:/node_output ghcr.io/pyca/static-nodejs-${{ matrix.IMAGE.ARCH }}:$NODE_VERSION cp -v -a /node_staging/. /node_output/
-         ls -l -R $RUNNER_TEMP/static_node
+        mkdir $RUNNER_TEMP/static_node
+        docker run --rm -v $RUNNER_TEMP/static_node:/node_output ghcr.io/pyca/static-nodejs-${{ matrix.IMAGE.ARCH }}:$NODE_VERSION cp -R -v -a /* /node_output/
+        ls -l -R $RUNNER_TEMP/static_node
+
     - name: Test that it works
       run: |
-        mkdir $RUNNER_TEMP/test
-        cd $RUNNER_TEMP/test
-        tar xzf $RUNNER_TEMP/static_node/node-$NODE_VERSION-static-${{ matrix.IMAGE.ARCH }}.tar.gz
-        ls -l -R
+        cd $RUNNER_TEMP/static_node
         ./bin/node -v
         ./bin/node -e "console.log('hello world')"
         uname -a

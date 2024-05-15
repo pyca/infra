@@ -36,7 +36,6 @@ jobs:
           - {TAG_NAME: "cryptography-runner-centos-stream9-fips", DOCKERFILE_PATH: "runners/rhel", BUILD_ARGS: "--build-arg FIPS=1 --build-arg RELEASE=quay.io/centos/centos:stream9", RUNNER: "ubuntu-latest"}
 
           - {TAG_NAME: "cryptography-runner-fedora", DOCKERFILE_PATH: "runners/fedora", RUNNER: "ubuntu-latest"}
-          # TODO
           - {TAG_NAME: "cryptography-runner-alpine", DOCKERFILE_PATH: "runners/alpine", BUILD_ARGS: "--build-arg NODE_ARCH_RELEASE=x64:v20.13.1", RUNNER: "ubuntu-latest"}
 
           - {TAG_NAME: "cryptography-runner-buster", DOCKERFILE_PATH: "runners/debian", BUILD_ARGS: "--build-arg RELEASE=buster", RUNNER: "ubuntu-latest"}
@@ -60,7 +59,6 @@ jobs:
           - {TAG_NAME: "cryptography-musllinux_1_1:aarch64", DOCKERFILE_PATH: "cryptography-linux", BUILD_ARGS: "--build-arg PYCA_RELEASE=musllinux_1_1_aarch64 --build-arg NODE_ARCH_RELEASE=arm64:v20.13.1", RUNNER: [self-hosted, Linux, ARM64]}
           - {TAG_NAME: "cryptography-musllinux_1_2:aarch64", DOCKERFILE_PATH: "cryptography-linux", BUILD_ARGS: "--build-arg PYCA_RELEASE=musllinux_1_2_aarch64 --build-arg NODE_ARCH_RELEASE=arm64:v20.13.1", RUNNER: [self-hosted, Linux, ARM64]}
           - {TAG_NAME: "cryptography-runner-ubuntu-rolling:aarch64", DOCKERFILE_PATH: "runners/ubuntu", BUILD_ARGS: "--build-arg RELEASE=rolling", RUNNER: [self-hosted, Linux, ARM64]}
-          # TODO
           - {TAG_NAME: "cryptography-runner-alpine:aarch64", DOCKERFILE_PATH: "runners/alpine", BUILD_ARGS: "--build-arg NODE_ARCH_RELEASE=arm64:v20.13.1", RUNNER: [self-hosted, Linux, ARM64]}
 
     name: "${{ matrix.IMAGE.TAG_NAME }}"

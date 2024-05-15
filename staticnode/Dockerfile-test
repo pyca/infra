@@ -1,6 +1,6 @@
 ARG MANYLINUX_ARCH
 ARG CONTAINER_NAME
 FROM ${CONTAINER_NAME} as staticnodejs
-FROM quay.io/pypa/manylinux2014_${ARCH}
+FROM quay.io/pypa/manylinux2014_${MANYLINUX_ARCH}
 
 COPY --from=staticnodejs /out /staticnode/

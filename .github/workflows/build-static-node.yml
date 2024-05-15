@@ -37,7 +37,8 @@ jobs:
         docker build --tag ghcr.io/pyca/static-nodejs-${{ matrix.IMAGE.NODE_ARCH }}:$NODE_VERSION --build-arg VERSION=$NODE_VERSION --build-arg ARCH=${{ matrix.IMAGE.NODE_ARCH  }} staticnode
     - name: Test static node.js on manylinux2014
       run: |
-        docker build -f Dockerfile-test -t test-node --build-arg MANYLINUX_ARCH=${{ matrix.IMAGE.MANYLINUX_ARCH }} --build-arg CONTAINER_NAME=ghcr.io/pyca/static-nodejs-${{ matrix.IMAGE.NODE_ARCH }}:$NODE_VERSION staticnode
+        cd staticnode
+        docker build -f Dockerfile-test -t test-node --build-arg MANYLINUX_ARCH=${{ matrix.IMAGE.MANYLINUX_ARCH }} --build-arg CONTAINER_NAME=ghcr.io/pyca/static-nodejs-${{ matrix.IMAGE.NODE_ARCH }}:$NODE_VERSION .
         docker run test-node /staticnode/bin/node -e "console.log('hello world'); console.log(process.version)"
     - name: Login to docker
       run: 'docker login -u "$DOCKER_USERNAME" -p "$DOCKER_PASSWORD" ghcr.io'

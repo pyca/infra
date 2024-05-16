@@ -1,0 +1,51 @@
+name: Build Static Node.js Container
+permissions:
+  contents: read
+  packages: write
+
+on:
+  pull_request:
+    paths:
+      - '.github/workflows/build-static-node.yml'
+      - 'staticnode/**'
+  push:
+    branches:
+      - main
+    paths:
+      - '.github/workflows/build-static-node.yml'
+      - 'staticnode/**'
+
+jobs:
+  build:
+    name: Build node.js
+    runs-on: ${{ matrix.IMAGE.RUNNER }}
+    strategy:
+      fail-fast: false
+      matrix:
+        IMAGE:
+          - {RUNNER: "ubuntu-latest", NODE_ARCH: "x64", MANYLINUX_ARCH: "x86_64"}
+          - {RUNNER: [self-hosted, Linux, ARM64], NODE_ARCH: "arm64", MANYLINUX_ARCH: "aarch64"}
+    steps:
+    - uses: actions/checkout@v4.1.5
+    - name: Set Node.js version
+      run: |
+        source ./staticnode/node-version.sh
+        echo "NODE_VERSION=$NODE_VERSION" >> $GITHUB_ENV
+    - name: Build the Docker image
+      run: |
+        echo building node.js $NODE_VERSION
+        docker build --tag ghcr.io/pyca/static-nodejs-${{ matrix.IMAGE.NODE_ARCH }}:$NODE_VERSION --build-arg VERSION=$NODE_VERSION --build-arg ARCH=${{ matrix.IMAGE.NODE_ARCH  }} staticnode
+    - name: Test static node.js on manylinux2014
+      run: |
+        cd staticnode
+        docker build -f Dockerfile-test -t test-node --build-arg MANYLINUX_ARCH=${{ matrix.IMAGE.MANYLINUX_ARCH }} --build-arg CONTAINER_NAME=ghcr.io/pyca/static-nodejs-${{ matrix.IMAGE.NODE_ARCH }}:$NODE_VERSION .
+        docker run test-node /staticnode/bin/node -e "console.log('hello world'); console.log(process.version)"
+    - name: Login to docker
+      run: 'docker login -u "$DOCKER_USERNAME" -p "$DOCKER_PASSWORD" ghcr.io'
+      env:
+        DOCKER_USERNAME: ${{ github.actor }}
+        DOCKER_PASSWORD: ${{ secrets.GITHUB_TOKEN }}
+      if: (github.event_name == 'push' || github.event_name == 'schedule' || github.event_name == 'workflow_dispatch') && github.ref == 'refs/heads/main'
+    - name: Push image
+      run: docker push ghcr.io/pyca/static-nodejs-${{ matrix.IMAGE.NODE_ARCH }}:${{ env.NODE_VERSION }}
+      if: (github.event_name == 'push' || github.event_name == 'schedule' || github.event_name == 'workflow_dispatch') && github.ref == 'refs/heads/main'

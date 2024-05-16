@@ -8,7 +8,6 @@ WORKDIR /build
 
 RUN apk add --no-cache binutils-gold curl g++ gcc gnupg libgcc linux-headers make python3 libstdc++
 RUN mkdir -p /out/bin
-RUN mkdir -p /node_staging
 
 RUN curl -O https://nodejs.org/dist/$VERSION/node-$VERSION.tar.gz
 RUN tar -zxvf node-$VERSION.tar.gz

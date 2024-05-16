@@ -23,22 +23,24 @@ jobs:
       fail-fast: false
       matrix:
         IMAGE:
-          - {RUNNER: "ubuntu-latest", NODE_ARCH: "x64", MANYLINUX_ARCH: "x86_64"}
-          - {RUNNER: [self-hosted, Linux, ARM64], NODE_ARCH: "arm64", MANYLINUX_ARCH: "aarch64"}
+          - {RUNNER: "ubuntu-latest", MANYLINUX_ARCH: "x86_64"}
+          - {RUNNER: [self-hosted, Linux, ARM64], MANYLINUX_ARCH: "aarch64"}
     steps:
     - uses: actions/checkout@v4.1.5
     - name: Set Node.js version
       run: |
         source ./staticnode/node-version.sh
         echo "NODE_VERSION=$NODE_VERSION" >> $GITHUB_ENV
+        arch=$(echo "${{ runner.arch }}" | tr '[:upper:]' '[:lower:]')
+        echo "NODE_ARCH=$arch" >> $GITHUB_ENV
     - name: Build the Docker image
       run: |
         echo building node.js $NODE_VERSION
-        docker build --tag ghcr.io/pyca/static-nodejs-${{ matrix.IMAGE.NODE_ARCH }}:$NODE_VERSION --build-arg VERSION=$NODE_VERSION --build-arg ARCH=${{ matrix.IMAGE.NODE_ARCH  }} staticnode
+        docker build --tag ghcr.io/pyca/static-nodejs-$NODE_ARCH:$NODE_VERSION --build-arg VERSION=$NODE_VERSION --build-arg ARCH=$NODE_ARCH staticnode
     - name: Test static node.js on manylinux2014
       run: |
         cd staticnode
-        docker build -f Dockerfile-test -t test-node --build-arg MANYLINUX_ARCH=${{ matrix.IMAGE.MANYLINUX_ARCH }} --build-arg CONTAINER_NAME=ghcr.io/pyca/static-nodejs-${{ matrix.IMAGE.NODE_ARCH }}:$NODE_VERSION .
+        docker build -f Dockerfile-test -t test-node --build-arg MANYLINUX_ARCH=${{ matrix.IMAGE.MANYLINUX_ARCH }} --build-arg CONTAINER_NAME=ghcr.io/pyca/static-nodejs-$NODE_ARCH:$NODE_VERSION .
         docker run test-node /staticnode/bin/node -e "console.log('hello world'); console.log(process.version)"
     - name: Login to docker
       run: 'docker login -u "$DOCKER_USERNAME" -p "$DOCKER_PASSWORD" ghcr.io'

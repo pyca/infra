@@ -49,5 +49,5 @@ jobs:
         DOCKER_PASSWORD: ${{ secrets.GITHUB_TOKEN }}
       if: (github.event_name == 'push' || github.event_name == 'schedule' || github.event_name == 'workflow_dispatch') && github.ref == 'refs/heads/main'
     - name: Push image
-      run: docker push ghcr.io/pyca/static-nodejs-${{ matrix.IMAGE.NODE_ARCH }}:${{ env.NODE_VERSION }}
+      run: docker push ghcr.io/pyca/static-nodejs-${{ env.NODE_ARCH }}:${{ env.NODE_VERSION }}
       if: (github.event_name == 'push' || github.event_name == 'schedule' || github.event_name == 'workflow_dispatch') && github.ref == 'refs/heads/main'

@@ -63,7 +63,7 @@ jobs:
 
     name: "${{ matrix.IMAGE.TAG_NAME }}"
     steps:
-      - uses: actions/checkout@v4.1.5
+      - uses: actions/checkout@v4.1.6
       - run: |
           source ./staticnode/node-version.sh
           arch=$(echo "${{ runner.arch }}" | tr '[:upper:]' '[:lower:]')

@@ -31,12 +31,13 @@ jobs:
       run: |
         source ./staticnode/node-version.sh
         echo "NODE_VERSION=$NODE_VERSION" >> $GITHUB_ENV
+        echo "NODE_SHA256SUM=$NODE_SHA256SUM" >> $GITHUB_ENV
         arch=$(echo "${{ runner.arch }}" | tr '[:upper:]' '[:lower:]')
         echo "NODE_ARCH=$arch" >> $GITHUB_ENV
     - name: Build the Docker image
       run: |
         echo building node.js $NODE_VERSION
-        docker build --tag ghcr.io/pyca/static-nodejs-$NODE_ARCH:$NODE_VERSION --build-arg VERSION=$NODE_VERSION --build-arg ARCH=$NODE_ARCH staticnode
+        docker build --tag ghcr.io/pyca/static-nodejs-$NODE_ARCH:$NODE_VERSION --build-arg VERSION=$NODE_VERSION --build-arg ARCH=$NODE_ARCH --build-arg SHA256SUM=$NODE_SHA256SUM staticnode
     - name: Test static node.js on manylinux2014
       run: |
         cd staticnode

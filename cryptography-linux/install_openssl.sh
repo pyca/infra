@@ -7,9 +7,7 @@ source /root/openssl-version.sh
 function check_sha256sum {
     local fname=$1
     local sha256=$2
-    echo "${sha256}  ${fname}" > "${fname}.sha256"
-    sha256sum -c "${fname}.sha256"
-    rm "${fname}.sha256"
+    echo "${sha256}  ${fname}" | sha256sum -c -
 }
 
 curl -#O "${OPENSSL_URL}/${OPENSSL_VERSION}.tar.gz"

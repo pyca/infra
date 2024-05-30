@@ -11,12 +11,6 @@ RUN \
       yum -y install binutils perl-IPC-Cmd && \
       yum -y clean all && \
       rm -rf /var/cache/yum; \
-    elif stat /etc/debian_version 1>&2 2>/dev/null; then \
-      export DEBIAN_FRONTEND=noninteractive && \
-      apt-get update -qq && \
-      apt-get install -qq -y --no-install-recommends prelink && \
-      apt-get clean -qq && \
-      rm -rf /var/lib/apt/lists/*; \
     fi; \
   fi
 
@@ -29,12 +23,6 @@ RUN \
       yum -y install libffi-devel perl-IPC-Cmd && \
       yum -y clean all && \
       rm -rf /var/cache/yum; \
-    elif stat /etc/debian_version 1>&2 2>/dev/null; then \
-      export DEBIAN_FRONTEND=noninteractive && \
-      apt-get update -qq && \
-      apt-get install -qq -y --no-install-recommends libffi-dev && \
-      apt-get clean -qq && \
-      rm -rf /var/lib/apt/lists/*; \
     fi; \
   fi
 

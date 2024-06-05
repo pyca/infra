@@ -4,14 +4,8 @@ set -xe
 OPENSSL_URL="https://www.openssl.org/source/"
 source /root/openssl-version.sh
 
-function check_sha256sum {
-    local fname=$1
-    local sha256=$2
-    echo "${sha256}  ${fname}" | sha256sum -c -
-}
-
-curl -#O "${OPENSSL_URL}/${OPENSSL_VERSION}.tar.gz"
-check_sha256sum ${OPENSSL_VERSION}.tar.gz ${OPENSSL_SHA256}
+curl -#LO "${OPENSSL_URL}/${OPENSSL_VERSION}.tar.gz"
+echo "${OPENSSL_SHA256}  ${OPENSSL_VERSION}.tar.gz" | sha256sum -c -
 tar zxf ${OPENSSL_VERSION}.tar.gz
 pushd ${OPENSSL_VERSION}
 ./config $OPENSSL_BUILD_FLAGS --prefix=/opt/pyca/cryptography/openssl --openssldir=/opt/pyca/cryptography/openssl

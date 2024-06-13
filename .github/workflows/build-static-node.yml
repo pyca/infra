@@ -26,7 +26,7 @@ jobs:
           - {RUNNER: "ubuntu-latest", MANYLINUX_ARCH: "x86_64"}
           - {RUNNER: [self-hosted, Linux, ARM64], MANYLINUX_ARCH: "aarch64"}
     steps:
-    - uses: actions/checkout@v4.1.6
+    - uses: actions/checkout@v4.1.7
     - name: Set Node.js version
       run: |
         source ./staticnode/node-version.sh

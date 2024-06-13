@@ -36,7 +36,7 @@ jobs:
       - name: Download OpenSSL
         run: |
           source ./cryptography-linux/openssl-version.sh
-          curl -o openssl.tar.gz https://www.openssl.org/source/$OPENSSL_VERSION.tar.gz
+          curl -Lo openssl.tar.gz https://www.openssl.org/source/$OPENSSL_VERSION.tar.gz
           shasum -a 256 -c <<< "$OPENSSL_SHA256 *openssl.tar.gz"
       - name: Extract OpenSSL
         run: |

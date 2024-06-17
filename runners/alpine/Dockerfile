@@ -1,3 +1,6 @@
+ARG NODE_ARCH_RELEASE
+FROM ghcr.io/pyca/static-nodejs-${NODE_ARCH_RELEASE} as staticnodejs
+
 FROM alpine:latest
 
 # Increment this to blow away the docker cache
@@ -9,6 +12,8 @@ ENV LANG C.UTF-8
 
 RUN apk add --no-cache git libffi-dev curl \
     python3-dev openssl-dev bash gcc musl-dev tar pkgconfig zstd libucontext-dev musl-obstack-dev make
+
+COPY --from=staticnodejs /out/ /staticnode/
 
 # Derived from https://git.alpinelinux.org/aports/tree/community/gcompat/APKBUILD?h=3.18-stable and pinned to the
 # latest gcompat at the time this was written

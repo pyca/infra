@@ -32,11 +32,11 @@ jobs:
             OPENSSLDIR: "/opt/homebrew/etc/openssl@3"
     name: "Build OpenSSL for macOS (${{ matrix.ARCH.NAME }})"
     steps:
-      - uses: actions/checkout@v4.1.2
+      - uses: actions/checkout@v4.1.7
       - name: Download OpenSSL
         run: |
           source ./cryptography-linux/openssl-version.sh
-          curl -o openssl.tar.gz https://www.openssl.org/source/$OPENSSL_VERSION.tar.gz
+          curl -Lo openssl.tar.gz https://www.openssl.org/source/$OPENSSL_VERSION.tar.gz
           shasum -a 256 -c <<< "$OPENSSL_SHA256 *openssl.tar.gz"
       - name: Extract OpenSSL
         run: |
@@ -61,7 +61,7 @@ jobs:
         env:
           CFLAGS: ${{ matrix.ARCH.CFLAGS }}
 
-      - uses: actions/upload-artifact@v4.3.1
+      - uses: actions/upload-artifact@v4.3.3
         with:
           name: "openssl-macos-${{ matrix.ARCH.ARTIFACT_NAME }}"
           path: artifact/
@@ -71,11 +71,11 @@ jobs:
     name: "Build OpenSSL for macOS universal2"
     needs: [ build ]
     steps:
-      - uses: actions/download-artifact@v4.1.4
+      - uses: actions/download-artifact@v4.1.7
         with:
           name: openssl-macos-x86-64
           path: x86-64
-      - uses: actions/download-artifact@v4.1.4
+      - uses: actions/download-artifact@v4.1.7
         with:
           name: openssl-macos-arm64
           path: arm64
@@ -88,7 +88,7 @@ jobs:
           cp -r ../x86-64/lib/pkgconfig lib/
           lipo -create -output lib/libssl.a ../x86-64/lib/libssl.a ../arm64/lib/libssl.a
           lipo -create -output lib/libcrypto.a ../x86-64/lib/libcrypto.a ../arm64/lib/libcrypto.a
-      - uses: actions/upload-artifact@v4.3.1
+      - uses: actions/upload-artifact@v4.3.3
         with:
           name: "openssl-macos-universal2"
           path: artifact/

@@ -46,7 +46,7 @@ jobs:
         shell: cmd
       - run: windows\openssl\build_openssl.bat ${{ matrix.ARCH }}
         shell: cmd
-      - uses: actions/upload-artifact@v4.3.4
+      - uses: actions/upload-artifact@v4.3.5
         with:
           name: "openssl-${{ matrix.ARCH }}"
           path: build\

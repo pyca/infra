@@ -15,12 +15,12 @@ RUN \
   fi
 
 # This is done as two separate steps because readelf (binutils) is not available on
-# aarch64, and libffi-dev/devel isn't required on x86_64 (since wheels exist)
+# aarch64.
 RUN \
   if [ $(uname -m) = "aarch64" ]; \
   then \
     if stat /etc/redhat-release 1>&2 2>/dev/null; then \
-      yum -y install libffi-devel perl-IPC-Cmd && \
+      yum -y install perl-IPC-Cmd && \
       yum -y clean all && \
       rm -rf /var/cache/yum; \
     fi; \

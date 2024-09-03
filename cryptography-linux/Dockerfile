@@ -29,6 +29,7 @@ RUN \
 COPY --from=staticnodejs /out/ /staticnode/
 ADD install_openssl.sh /root/install_openssl.sh
 ADD openssl-version.sh /root/openssl-version.sh
+ADD list-util-pairs-25367.patch /root/list-util-pairs-25367.patch
 RUN ./install_openssl.sh
 
 RUN curl https://sh.rustup.rs -sSf | sh -s -- -y --default-toolchain stable --profile minimal

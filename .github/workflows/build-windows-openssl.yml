@@ -37,7 +37,7 @@ jobs:
         shell: bash
       - name: Download OpenSSL source
         run: |
-          wget "https://www.openssl.org/source/${env:OPENSSL_VERSION}.tar.gz" -OutFile 'openssl-latest.tar.gz'
+          wget "https://github.com/openssl/openssl/releases/download/${env:OPENSSL_VERSION}/${env:OPENSSL_VERSION}.tar.gz" -OutFile 'openssl-latest.tar.gz'
           if ((Get-FileHash openssl-latest.tar.gz -Algorithm SHA256).Hash -ne $env:OPENSSL_SHA256) {
               Write-Error 'Hashes do not match' -ErrorAction Stop
           }

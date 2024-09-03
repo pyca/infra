@@ -1,10 +1,10 @@
 #!/bin/bash
 set -xe
 
-OPENSSL_URL="https://www.openssl.org/source/"
+OPENSSL_URL="https://github.com/openssl/openssl/releases/download"
 source /root/openssl-version.sh
 
-curl -#LO "${OPENSSL_URL}/${OPENSSL_VERSION}.tar.gz"
+curl -#LO "${OPENSSL_URL}/${OPENSSL_VERSION}/${OPENSSL_VERSION}.tar.gz"
 echo "${OPENSSL_SHA256}  ${OPENSSL_VERSION}.tar.gz" | sha256sum -c -
 tar zxf ${OPENSSL_VERSION}.tar.gz
 pushd ${OPENSSL_VERSION}

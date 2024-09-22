@@ -17,6 +17,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4.1.7
+        with:
+          persist-credentials: false
       - run: terraform -chdir=terraform/ fmt -check
       - run: terraform -chdir=terraform/ init -backend=false
       # Need to have a values.yaml for validate to pass.

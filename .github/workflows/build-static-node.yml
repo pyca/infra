@@ -1,7 +1,4 @@
 name: Build Static Node.js Container
-permissions:
-  contents: read
-  packages: write
 
 on:
   pull_request:
@@ -19,6 +16,9 @@ jobs:
   build:
     name: Build node.js
     runs-on: ${{ matrix.IMAGE.RUNNER }}
+    permissions:
+      contents: read
+      packages: write
     strategy:
       fail-fast: false
       matrix:
@@ -27,6 +27,8 @@ jobs:
           - {RUNNER: [self-hosted, Linux, ARM64], MANYLINUX_ARCH: "aarch64"}
     steps:
     - uses: actions/checkout@v4.1.7
+      with:
+        persist-credentials: false
     - name: Set Node.js version
       run: |
         source ./staticnode/node-version.sh
@@ -50,5 +52,5 @@ jobs:
         DOCKER_PASSWORD: ${{ secrets.GITHUB_TOKEN }}
       if: (github.event_name == 'push' || github.event_name == 'schedule' || github.event_name == 'workflow_dispatch') && github.ref == 'refs/heads/main'
     - name: Push image
-      run: docker push ghcr.io/pyca/static-nodejs-${{ env.NODE_ARCH }}:${{ env.NODE_VERSION }}
+      run: docker push "ghcr.io/pyca/static-nodejs-${NODE_ARCH}:${NODE_VERSION}"
       if: (github.event_name == 'push' || github.event_name == 'schedule' || github.event_name == 'workflow_dispatch') && github.ref == 'refs/heads/main'

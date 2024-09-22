@@ -27,6 +27,8 @@ jobs:
     name: "Build OpenSSL for ${{ matrix.ARCH }} on MSVC 2022"
     steps:
       - uses: actions/checkout@v4.1.7
+        with:
+          persist-credentials: false
       - run: choco install -y nasm winrar
       - name: Export OpenSSL version
         run: |

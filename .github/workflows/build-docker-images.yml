@@ -18,14 +18,13 @@ on:
       - 'runners/**'
       - 'cryptography-linux/**'
 
-permissions:
-  contents: read
-  packages: write
-
 jobs:
-  # Build containers for x86
   build:
     runs-on: ${{ matrix.IMAGE.RUNNER }}
+    permissions:
+      contents: read
+      packages: write
+
     strategy:
       fail-fast: false
       matrix:
@@ -63,6 +62,8 @@ jobs:
     name: "${{ matrix.IMAGE.TAG_NAME }}"
     steps:
       - uses: actions/checkout@v4.1.7
+        with:
+          persist-credentials: false
       - run: |
           source ./staticnode/node-version.sh
           arch=$(echo "${{ runner.arch }}" | tr '[:upper:]' '[:lower:]')
@@ -74,7 +75,7 @@ jobs:
         run: docker pull ghcr.io/pyca/${{ matrix.IMAGE.TAG_NAME }} || true
         if: github.event_name != 'schedule' && github.event_name != 'workflow_dispatch'
       - name: Build image
-        run: docker build --pull --cache-from ghcr.io/pyca/${{ matrix.IMAGE.TAG_NAME }} -t ghcr.io/pyca/${{ matrix.IMAGE.TAG_NAME }} ${{ matrix.IMAGE.DOCKERFILE_PATH }} ${{ matrix.IMAGE.BUILD_ARGS }} --build-arg NODE_ARCH_RELEASE=${{ env.NODE_ARCH_RELEASE }}
+        run: docker build --pull --cache-from ghcr.io/pyca/${{ matrix.IMAGE.TAG_NAME }} -t ghcr.io/pyca/${{ matrix.IMAGE.TAG_NAME }} ${{ matrix.IMAGE.DOCKERFILE_PATH }} ${{ matrix.IMAGE.BUILD_ARGS }} --build-arg "NODE_ARCH_RELEASE=${NODE_ARCH_RELEASE}"
       - name: Login to docker
         run: 'docker login -u "$DOCKER_USERNAME" -p "$DOCKER_PASSWORD" ghcr.io'
         env:

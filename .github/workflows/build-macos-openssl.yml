@@ -33,6 +33,8 @@ jobs:
     name: "Build OpenSSL for macOS (${{ matrix.ARCH.NAME }})"
     steps:
       - uses: actions/checkout@v4.1.7
+        with:
+          persist-credentials: false
       - name: Download OpenSSL
         run: |
           source ./cryptography-linux/openssl-version.sh

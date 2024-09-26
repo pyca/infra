@@ -16,7 +16,7 @@ jobs:
   terraform:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4.1.7
+      - uses: actions/checkout@v4.2.0
         with:
           persist-credentials: false
       - run: terraform -chdir=terraform/ fmt -check

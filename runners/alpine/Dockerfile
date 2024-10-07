@@ -3,22 +3,25 @@ FROM ghcr.io/pyca/static-nodejs-${NODE_ARCH_RELEASE} as staticnodejs
 
 FROM alpine:latest
 
-# Increment this to blow away the docker cache
+# Increment this to blow away the Docker cache when needed
 ENV CACHE_BUSTER 1
 
-# This is needed because otherwise `sys.getfilesystemencoding()` returns
-# "ANSI_X3.4-1968".
+# Set environment variables
 ENV LANG C.UTF-8
+ENV PATH="/root/.cargo/bin:$PATH"
 
-RUN apk add --no-cache git libffi-dev curl \
-    python3-dev openssl-dev bash gcc musl-dev tar pkgconfig zstd libucontext-dev musl-obstack-dev make
+# Combine package installations and clean up in one layer
+RUN apk add --no-cache git libffi-dev curl python3-dev openssl-dev bash gcc musl-dev tar pkgconfig zstd \
+    libucontext-dev musl-obstack-dev make && \
+    python3 -m venv /venv && \
+    /venv/bin/pip install -U pip wheel --no-cache-dir && \
+    curl https://sh.rustup.rs -sSf | sh -s -- -y --default-toolchain stable --profile minimal --component llvm-tools-preview
 
+# Copy the Node.js static binary from the staticnodejs stage
 COPY --from=staticnodejs /out/ /staticnode/
 
-# Derived from https://git.alpinelinux.org/aports/tree/community/gcompat/APKBUILD?h=3.18-stable and pinned to the
-# latest gcompat at the time this was written
-RUN if [ $(uname -m) = "x86_64" ]; \
-    then \
+# Download, build, and install gcompat in one RUN layer
+RUN if [ $(uname -m) = "x86_64" ]; then \
         _ld="ld-linux-x86-64.so.2"; \
         _arch="x86_64"; \
     else \
@@ -29,12 +32,8 @@ RUN if [ $(uname -m) = "x86_64" ]; \
     tar xf gcompat*.tar.gz && \
     cd gcompat* && \
     make WITH_LIBUCONTEXT=1 WITH_OBSTACK=musl-obstack LINKER_PATH="/lib/ld-musl-${_arch}.so.1" LOADER_NAME="${_ld}" install && \
-    mkdir /lib64 &&\
-    ln -s "/lib/${_ld}" "/lib64/${_ld}" &&\
+    mkdir /lib64 && \
+    ln -s "/lib/${_ld}" "/lib64/${_ld}" && \
     ln -s "/lib/${_ld}" /lib/libresolv.so.2 && \
-    cd .. && rm -rf gcompat*
-
-RUN python3 -m venv /venv && /venv/bin/pip install -U pip wheel --no-cache-dir
-
-RUN curl https://sh.rustup.rs -sSf | sh -s -- -y --default-toolchain stable --profile minimal --component llvm-tools-preview
-ENV PATH="/root/.cargo/bin:$PATH"
+    cd .. && rm -rf gcompat* && \
+    apk del gcc musl-dev make  # Clean up build dependencies

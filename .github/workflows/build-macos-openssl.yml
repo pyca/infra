@@ -63,7 +63,7 @@ jobs:
         env:
           CFLAGS: ${{ matrix.ARCH.CFLAGS }}
 
-      - uses: actions/upload-artifact@v4.4.1
+      - uses: actions/upload-artifact@v4.4.2
         with:
           name: "openssl-macos-${{ matrix.ARCH.ARTIFACT_NAME }}"
           path: artifact/
@@ -90,7 +90,7 @@ jobs:
           cp -r ../x86-64/lib/pkgconfig lib/
           lipo -create -output lib/libssl.a ../x86-64/lib/libssl.a ../arm64/lib/libssl.a
           lipo -create -output lib/libcrypto.a ../x86-64/lib/libcrypto.a ../arm64/lib/libcrypto.a
-      - uses: actions/upload-artifact@v4.4.1
+      - uses: actions/upload-artifact@v4.4.2
         with:
           name: "openssl-macos-universal2"
           path: artifact/

@@ -81,7 +81,7 @@ jobs:
       - name: Get image digest
         id: image-digest
         run: |
-            DIGEST=$(docker inspect --format="json" "ghcr.io/pyca/${{ matrix.IMAGE.TAG_NAME }}")
+            DIGEST=$(docker inspect --format="{{ .Id }}" "ghcr.io/pyca/${{ matrix.IMAGE.TAG_NAME }}")
             echo "DIGEST=${DIGEST}" | tee -a "$GITHUB_OUTPUT"
       - name: Login to docker
         run: 'docker login -u "$DOCKER_USERNAME" -p "$DOCKER_PASSWORD" ghcr.io'

@@ -97,7 +97,7 @@ jobs:
       - name: Generate attestation
         uses: actions/attest-build-provenance@897ed5eab6ed058a474202017ada7f40bfa52940  # v1.0.0
         with:
-          subject-name: "ghcr.io/pyca/${{ step.image-digest.outputs.IMAGE_NAME }}"
+          subject-name: "ghcr.io/pyca/${{ steps.image-digest.outputs.IMAGE_NAME }}"
           subject-digest: ${{ steps.image-digest.outputs.DIGEST }}
           push-to-registry: true
         if: (github.event_name == 'push' || github.event_name == 'schedule' || github.event_name == 'workflow_dispatch') && github.ref == 'refs/heads/main'

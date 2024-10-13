@@ -83,6 +83,8 @@ jobs:
         run: |
             DIGEST=$(docker inspect --format="{{ .Id }}" "ghcr.io/pyca/${{ matrix.IMAGE.TAG_NAME }}")
             echo "DIGEST=${DIGEST}" | tee -a "$GITHUB_OUTPUT"
+            IMAGE_NAME=$(echo "${{ matrix.IMAGE.TAG_NAME }}" | cut -d ':' -f 1)
+            echo "IMAGE_NAME=${IMAGE_NAME}" | tee -a "$GITHUB_OUTPUT"
       - name: Login to docker
         run: 'docker login -u "$DOCKER_USERNAME" -p "$DOCKER_PASSWORD" ghcr.io'
         env:
@@ -95,7 +97,7 @@ jobs:
       - name: Generate attestation
         uses: actions/attest-build-provenance@897ed5eab6ed058a474202017ada7f40bfa52940  # v1.0.0
         with:
-          subject-name: "ghcr.io/pyca/${{ matrix.IMAGE.TAG_NAME }}"
-          subject-digest: ${{ steps.image-digest.outputs.digest }}
+          subject-name: "ghcr.io/pyca/${{ step.image-digest.outputs.IMAGE_NAME }}"
+          subject-digest: ${{ steps.image-digest.outputs.DIGEST }}
           push-to-registry: true
         if: (github.event_name == 'push' || github.event_name == 'schedule' || github.event_name == 'workflow_dispatch') && github.ref == 'refs/heads/main'

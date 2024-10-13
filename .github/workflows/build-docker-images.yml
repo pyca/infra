@@ -92,10 +92,10 @@ jobs:
       - name: Push image
         run: docker push ghcr.io/pyca/${{ matrix.IMAGE.TAG_NAME }}
         if: (github.event_name == 'push' || github.event_name == 'schedule' || github.event_name == 'workflow_dispatch') && github.ref == 'refs/heads/main'
-      # - name: Generate attestation
-      #   uses: actions/attest-build-provenance@897ed5eab6ed058a474202017ada7f40bfa52940  # v1.0.0
-      #   with:
-      #     subject-name: "ghcr.io/pyca/${{ matrix.IMAGE.TAG_NAME }}"
-      #     subject-digest: ${{ steps.image-digest.outputs.digest }}
-      #     push-to-registry: true
-      #   if: (github.event_name == 'push' || github.event_name == 'schedule' || github.event_name == 'workflow_dispatch') && github.ref == 'refs/heads/main'
+      - name: Generate attestation
+        uses: actions/attest-build-provenance@897ed5eab6ed058a474202017ada7f40bfa52940  # v1.0.0
+        with:
+          subject-name: "ghcr.io/pyca/${{ matrix.IMAGE.TAG_NAME }}"
+          subject-digest: ${{ steps.image-digest.outputs.digest }}
+          push-to-registry: true
+        if: (github.event_name == 'push' || github.event_name == 'schedule' || github.event_name == 'workflow_dispatch') && github.ref == 'refs/heads/main'

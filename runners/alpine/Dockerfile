@@ -1,5 +1,5 @@
 ARG NODE_ARCH_RELEASE
-FROM ghcr.io/pyca/static-nodejs-${NODE_ARCH_RELEASE} as staticnodejs
+FROM ghcr.io/pyca/static-nodejs-${NODE_ARCH_RELEASE} AS staticnodejs
 
 FROM alpine:latest
 

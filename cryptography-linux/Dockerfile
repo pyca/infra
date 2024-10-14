@@ -1,6 +1,6 @@
 ARG NODE_ARCH_RELEASE
 ARG PYCA_RELEASE
-FROM ghcr.io/pyca/static-nodejs-${NODE_ARCH_RELEASE} as staticnodejs
+FROM ghcr.io/pyca/static-nodejs-${NODE_ARCH_RELEASE} AS staticnodejs
 FROM quay.io/pypa/${PYCA_RELEASE}
 LABEL org.opencontainers.image.authors="Python Cryptographic Authority"
 WORKDIR /root

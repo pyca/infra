@@ -31,34 +31,34 @@ jobs:
       fail-fast: false
       matrix:
         IMAGE:
-          - {TAG_NAME: "cryptography-runner-rhel8", DOCKERFILE_PATH: "runners/rhel", BUILD_ARGS: "--build-arg RELEASE=redhat/ubi8", RUNNER: "ubuntu-latest"}
-          - {TAG_NAME: "cryptography-runner-rhel8-fips", DOCKERFILE_PATH: "runners/rhel", BUILD_ARGS: "--build-arg FIPS=1 --build-arg RELEASE=redhat/ubi8", RUNNER: "ubuntu-latest"}
-          - {TAG_NAME: "cryptography-runner-centos-stream9", DOCKERFILE_PATH: "runners/rhel", BUILD_ARGS: "--build-arg RELEASE=quay.io/centos/centos:stream9", RUNNER: "ubuntu-latest"}
-          - {TAG_NAME: "cryptography-runner-centos-stream9-fips", DOCKERFILE_PATH: "runners/rhel", BUILD_ARGS: "--build-arg FIPS=1 --build-arg RELEASE=quay.io/centos/centos:stream9", RUNNER: "ubuntu-latest"}
+          - {TAG_NAME: "cryptography-runner-rhel8", DOCKERFILE_PATH: "runners/rhel", BUILD_ARGS: "RELEASE=redhat/ubi8", RUNNER: "ubuntu-latest"}
+          - {TAG_NAME: "cryptography-runner-rhel8-fips", DOCKERFILE_PATH: "runners/rhel", BUILD_ARGS: "FIPS=1\nRELEASE=redhat/ubi8", RUNNER: "ubuntu-latest"}
+          - {TAG_NAME: "cryptography-runner-centos-stream9", DOCKERFILE_PATH: "runners/rhel", BUILD_ARGS: "RELEASE=quay.io/centos/centos:stream9", RUNNER: "ubuntu-latest"}
+          - {TAG_NAME: "cryptography-runner-centos-stream9-fips", DOCKERFILE_PATH: "runners/rhel", BUILD_ARGS: "FIPS=1\nRELEASE=quay.io/centos/centos:stream9", RUNNER: "ubuntu-latest"}
 
           - {TAG_NAME: "cryptography-runner-fedora", DOCKERFILE_PATH: "runners/fedora", RUNNER: "ubuntu-latest"}
           - {TAG_NAME: "cryptography-runner-alpine", DOCKERFILE_PATH: "runners/alpine", RUNNER: "ubuntu-latest"}
 
-          - {TAG_NAME: "cryptography-runner-bullseye", DOCKERFILE_PATH: "runners/debian", BUILD_ARGS: "--build-arg RELEASE=bullseye", RUNNER: "ubuntu-latest"}
-          - {TAG_NAME: "cryptography-runner-bookworm", DOCKERFILE_PATH: "runners/debian", BUILD_ARGS: "--build-arg RELEASE=bookworm", RUNNER: "ubuntu-latest"}
-          - {TAG_NAME: "cryptography-runner-trixie", DOCKERFILE_PATH: "runners/debian", BUILD_ARGS: "--build-arg RELEASE=trixie", RUNNER: "ubuntu-latest"}
-          - {TAG_NAME: "cryptography-runner-sid", DOCKERFILE_PATH: "runners/debian", BUILD_ARGS: "--build-arg RELEASE=sid", RUNNER: "ubuntu-latest"}
+          - {TAG_NAME: "cryptography-runner-bullseye", DOCKERFILE_PATH: "runners/debian", BUILD_ARGS: "RELEASE=bullseye", RUNNER: "ubuntu-latest"}
+          - {TAG_NAME: "cryptography-runner-bookworm", DOCKERFILE_PATH: "runners/debian", BUILD_ARGS: "RELEASE=bookworm", RUNNER: "ubuntu-latest"}
+          - {TAG_NAME: "cryptography-runner-trixie", DOCKERFILE_PATH: "runners/debian", BUILD_ARGS: "RELEASE=trixie", RUNNER: "ubuntu-latest"}
+          - {TAG_NAME: "cryptography-runner-sid", DOCKERFILE_PATH: "runners/debian", BUILD_ARGS: "RELEASE=sid", RUNNER: "ubuntu-latest"}
 
-          - {TAG_NAME: "cryptography-runner-ubuntu-focal", DOCKERFILE_PATH: "runners/ubuntu", BUILD_ARGS: "--build-arg RELEASE=focal", RUNNER: "ubuntu-latest"}
-          - {TAG_NAME: "cryptography-runner-ubuntu-jammy", DOCKERFILE_PATH: "runners/ubuntu", BUILD_ARGS: "--build-arg RELEASE=jammy", RUNNER: "ubuntu-latest"}
-          - {TAG_NAME: "cryptography-runner-ubuntu-noble", DOCKERFILE_PATH: "runners/ubuntu", BUILD_ARGS: "--build-arg RELEASE=noble", RUNNER: "ubuntu-latest"}
-          - {TAG_NAME: "cryptography-runner-ubuntu-rolling", DOCKERFILE_PATH: "runners/ubuntu", BUILD_ARGS: "--build-arg RELEASE=rolling", RUNNER: "ubuntu-latest"}
+          - {TAG_NAME: "cryptography-runner-ubuntu-focal", DOCKERFILE_PATH: "runners/ubuntu", BUILD_ARGS: "RELEASE=focal", RUNNER: "ubuntu-latest"}
+          - {TAG_NAME: "cryptography-runner-ubuntu-jammy", DOCKERFILE_PATH: "runners/ubuntu", BUILD_ARGS: "RELEASE=jammy", RUNNER: "ubuntu-latest"}
+          - {TAG_NAME: "cryptography-runner-ubuntu-noble", DOCKERFILE_PATH: "runners/ubuntu", BUILD_ARGS: "RELEASE=noble", RUNNER: "ubuntu-latest"}
+          - {TAG_NAME: "cryptography-runner-ubuntu-rolling", DOCKERFILE_PATH: "runners/ubuntu", BUILD_ARGS: "RELEASE=rolling", RUNNER: "ubuntu-latest"}
 
-          - {TAG_NAME: "cryptography-manylinux2014:x86_64", DOCKERFILE_PATH: "cryptography-linux", BUILD_ARGS: "--build-arg PYCA_RELEASE=manylinux2014_x86_64", RUNNER: "ubuntu-latest"}
-          - {TAG_NAME: "cryptography-manylinux_2_28:x86_64", DOCKERFILE_PATH: "cryptography-linux", BUILD_ARGS: "--build-arg PYCA_RELEASE=manylinux_2_28_x86_64", RUNNER: "ubuntu-latest"}
-          - {TAG_NAME: "cryptography-musllinux_1_1:x86_64", DOCKERFILE_PATH: "cryptography-linux", BUILD_ARGS: "--build-arg PYCA_RELEASE=musllinux_1_1_x86_64", RUNNER: "ubuntu-latest"}
-          - {TAG_NAME: "cryptography-musllinux_1_2:x86_64", DOCKERFILE_PATH: "cryptography-linux", BUILD_ARGS: "--build-arg PYCA_RELEASE=musllinux_1_2_x86_64", RUNNER: "ubuntu-latest"}
+          - {TAG_NAME: "cryptography-manylinux2014:x86_64", DOCKERFILE_PATH: "cryptography-linux", BUILD_ARGS: "PYCA_RELEASE=manylinux2014_x86_64", RUNNER: "ubuntu-latest"}
+          - {TAG_NAME: "cryptography-manylinux_2_28:x86_64", DOCKERFILE_PATH: "cryptography-linux", BUILD_ARGS: "PYCA_RELEASE=manylinux_2_28_x86_64", RUNNER: "ubuntu-latest"}
+          - {TAG_NAME: "cryptography-musllinux_1_1:x86_64", DOCKERFILE_PATH: "cryptography-linux", BUILD_ARGS: "PYCA_RELEASE=musllinux_1_1_x86_64", RUNNER: "ubuntu-latest"}
+          - {TAG_NAME: "cryptography-musllinux_1_2:x86_64", DOCKERFILE_PATH: "cryptography-linux", BUILD_ARGS: "PYCA_RELEASE=musllinux_1_2_x86_64", RUNNER: "ubuntu-latest"}
 
-          - {TAG_NAME: "cryptography-manylinux2014_aarch64", DOCKERFILE_PATH: "cryptography-linux", BUILD_ARGS: "--build-arg PYCA_RELEASE=manylinux2014_aarch64", RUNNER: [self-hosted, Linux, ARM64]}
-          - {TAG_NAME: "cryptography-manylinux_2_28:aarch64", DOCKERFILE_PATH: "cryptography-linux", BUILD_ARGS: "--build-arg PYCA_RELEASE=manylinux_2_28_aarch64", RUNNER: [self-hosted, Linux, ARM64]}
-          - {TAG_NAME: "cryptography-musllinux_1_1:aarch64", DOCKERFILE_PATH: "cryptography-linux", BUILD_ARGS: "--build-arg PYCA_RELEASE=musllinux_1_1_aarch64", RUNNER: [self-hosted, Linux, ARM64]}
-          - {TAG_NAME: "cryptography-musllinux_1_2:aarch64", DOCKERFILE_PATH: "cryptography-linux", BUILD_ARGS: "--build-arg PYCA_RELEASE=musllinux_1_2_aarch64", RUNNER: [self-hosted, Linux, ARM64]}
-          - {TAG_NAME: "cryptography-runner-ubuntu-rolling:aarch64", DOCKERFILE_PATH: "runners/ubuntu", BUILD_ARGS: "--build-arg RELEASE=rolling", RUNNER: [self-hosted, Linux, ARM64]}
+          - {TAG_NAME: "cryptography-manylinux2014_aarch64", DOCKERFILE_PATH: "cryptography-linux", BUILD_ARGS: "PYCA_RELEASE=manylinux2014_aarch64", RUNNER: [self-hosted, Linux, ARM64]}
+          - {TAG_NAME: "cryptography-manylinux_2_28:aarch64", DOCKERFILE_PATH: "cryptography-linux", BUILD_ARGS: "PYCA_RELEASE=manylinux_2_28_aarch64", RUNNER: [self-hosted, Linux, ARM64]}
+          - {TAG_NAME: "cryptography-musllinux_1_1:aarch64", DOCKERFILE_PATH: "cryptography-linux", BUILD_ARGS: "PYCA_RELEASE=musllinux_1_1_aarch64", RUNNER: [self-hosted, Linux, ARM64]}
+          - {TAG_NAME: "cryptography-musllinux_1_2:aarch64", DOCKERFILE_PATH: "cryptography-linux", BUILD_ARGS: "PYCA_RELEASE=musllinux_1_2_aarch64", RUNNER: [self-hosted, Linux, ARM64]}
+          - {TAG_NAME: "cryptography-runner-ubuntu-rolling:aarch64", DOCKERFILE_PATH: "runners/ubuntu", BUILD_ARGS: "RELEASE=rolling", RUNNER: [self-hosted, Linux, ARM64]}
           - {TAG_NAME: "cryptography-runner-alpine:aarch64", DOCKERFILE_PATH: "runners/alpine", RUNNER: [self-hosted, Linux, ARM64]}
 
     name: "${{ matrix.IMAGE.TAG_NAME }}"
@@ -76,28 +76,24 @@ jobs:
       - name: Pull existing image
         run: docker pull ghcr.io/pyca/${{ matrix.IMAGE.TAG_NAME }} || true
         if: github.event_name != 'schedule' && github.event_name != 'workflow_dispatch'
-      - name: Build image
-        run: docker build --pull --cache-from ghcr.io/pyca/${{ matrix.IMAGE.TAG_NAME }} -t ghcr.io/pyca/${{ matrix.IMAGE.TAG_NAME }} ${{ matrix.IMAGE.DOCKERFILE_PATH }} ${{ matrix.IMAGE.BUILD_ARGS }} --build-arg "NODE_ARCH_RELEASE=${NODE_ARCH_RELEASE}"
-      - name: Get image digest
-        id: image-digest
-        run: |
-            DIGEST=$(docker inspect --format="{{ .Id }}" "ghcr.io/pyca/${{ matrix.IMAGE.TAG_NAME }}")
-            echo "DIGEST=${DIGEST}" | tee -a "$GITHUB_OUTPUT"
-            IMAGE_NAME=$(echo "${{ matrix.IMAGE.TAG_NAME }}" | cut -d ':' -f 1)
-            echo "IMAGE_NAME=${IMAGE_NAME}" | tee -a "$GITHUB_OUTPUT"
-      - name: Login to docker
-        run: 'docker login -u "$DOCKER_USERNAME" -p "$DOCKER_PASSWORD" ghcr.io'
-        env:
-          DOCKER_USERNAME: ${{ github.actor }}
-          DOCKER_PASSWORD: ${{ secrets.GITHUB_TOKEN }}
-        if: (github.event_name == 'push' || github.event_name == 'schedule' || github.event_name == 'workflow_dispatch') && github.ref == 'refs/heads/main'
-      - name: Push image
-        run: docker push ghcr.io/pyca/${{ matrix.IMAGE.TAG_NAME }}
-        if: (github.event_name == 'push' || github.event_name == 'schedule' || github.event_name == 'workflow_dispatch') && github.ref == 'refs/heads/main'
-      - name: Generate attestation
-        uses: actions/attest-build-provenance@1c608d11d69870c2092266b3f9a6f3abbf17002c  # v1.4.3
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@c47758b77c9736f4b2ef4073d4d51994fabfe349  # v3.7.1
+      - name: Login to ghcr.io
+        uses: docker/login-action@9780b0c442fbb1117ed29e0efdff1e18412f7567  # v3.3.0
         with:
-          subject-name: "ghcr.io/pyca/${{ steps.image-digest.outputs.IMAGE_NAME }}"
-          subject-digest: ${{ steps.image-digest.outputs.DIGEST }}
-          push-to-registry: false
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
         if: (github.event_name == 'push' || github.event_name == 'schedule' || github.event_name == 'workflow_dispatch') && github.ref == 'refs/heads/main'
+      - name: Build (and push if main) docker image
+        uses: docker/build-push-action@4f58ea79222b3b9dc2c8bbdd6debcef730109a75  # v6.9.0
+        with:
+          context: ${{ matrix.IMAGE.DOCKERFILE_PATH }}
+          cache-from: ghcr.io/pyca/${{ matrix.IMAGE.TAG_NAME }}
+          tags: ghcr.io/pyca/${{ matrix.IMAGE.TAG_NAME }}
+          pull: true
+          build-args: |
+            NODE_ARCH_RELEASE=${{ env.NODE_ARCH_RELEASE }}
+            ${{ matrix.IMAGE.BUILD_ARGS }}
+          push: ${{ (github.event_name == 'push' || github.event_name == 'schedule' || github.event_name == 'workflow_dispatch') && github.ref == 'refs/heads/main' }}

@@ -77,6 +77,12 @@ jobs:
         run: docker pull ghcr.io/pyca/${{ matrix.IMAGE.TAG_NAME }} || true
         if: github.event_name != 'schedule' && github.event_name != 'workflow_dispatch'
 
+      - name: Get image name
+        id: image-name
+        run: |
+          ATTEST_IMAGE=$(echo "${{ matrix.IMAGE.TAG_NAME }}" | cut -d ':' -f 1)
+          echo "ATTEST_IMAGE=${ATTEST_IMAGE}" | tee -a "$GITHUB_OUTPUT"
+
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@c47758b77c9736f4b2ef4073d4d51994fabfe349  # v3.7.1
       - name: Login to ghcr.io
@@ -100,7 +106,7 @@ jobs:
           push: ${{ (github.event_name == 'push' || github.event_name == 'schedule' || github.event_name == 'workflow_dispatch') && github.ref == 'refs/heads/main' }}
       - uses: actions/attest-build-provenance@1c608d11d69870c2092266b3f9a6f3abbf17002c  # v1.4.3
         with:
-          subject-name: ghcr.io/pyca/${{ matrix.IMAGE.TAG_NAME }}
+          subject-name: "ghcr.io/pyca/${{ steps.image-name.outputs.ATTEST_IMAGE }}"
           subject-digest: ${{ steps.docker-build.outputs.digest }}
           push-to-registry: true
         if: (github.event_name == 'push' || github.event_name == 'schedule' || github.event_name == 'workflow_dispatch') && github.ref == 'refs/heads/main'

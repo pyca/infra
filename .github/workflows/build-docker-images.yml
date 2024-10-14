@@ -88,6 +88,7 @@ jobs:
         if: (github.event_name == 'push' || github.event_name == 'schedule' || github.event_name == 'workflow_dispatch') && github.ref == 'refs/heads/main'
       - name: Build (and push if main) docker image
         uses: docker/build-push-action@4f58ea79222b3b9dc2c8bbdd6debcef730109a75  # v6.9.0
+        id: docker-build
         with:
           context: ${{ matrix.IMAGE.DOCKERFILE_PATH }}
           cache-from: ghcr.io/pyca/${{ matrix.IMAGE.TAG_NAME }}
@@ -97,3 +98,9 @@ jobs:
             NODE_ARCH_RELEASE=${{ env.NODE_ARCH_RELEASE }}
             ${{ matrix.IMAGE.BUILD_ARGS }}
           push: ${{ (github.event_name == 'push' || github.event_name == 'schedule' || github.event_name == 'workflow_dispatch') && github.ref == 'refs/heads/main' }}
+      - uses: actions/attest-build-provenance@1c608d11d69870c2092266b3f9a6f3abbf17002c  # v1.4.3
+        with:
+          subject-name: ghcr.io/pyca/${{ matrix.IMAGE.TAG_NAME }}
+          subject-digest: ${{ steps.docker-build.outputs.digest }}
+          push-to-registry: true
+        if: (github.event_name == 'push' || github.event_name == 'schedule' || github.event_name == 'workflow_dispatch') && github.ref == 'refs/heads/main'

@@ -4,11 +4,11 @@ FROM ghcr.io/pyca/static-nodejs-${NODE_ARCH_RELEASE} AS staticnodejs
 FROM alpine:latest
 
 # Increment this to blow away the docker cache
-ENV CACHE_BUSTER 1
+ENV CACHE_BUSTER=1
 
 # This is needed because otherwise `sys.getfilesystemencoding()` returns
 # "ANSI_X3.4-1968".
-ENV LANG C.UTF-8
+ENV LANG=C.UTF-8
 
 RUN apk add --no-cache git libffi-dev curl \
     python3-dev openssl-dev bash gcc musl-dev tar pkgconfig zstd libucontext-dev musl-obstack-dev make

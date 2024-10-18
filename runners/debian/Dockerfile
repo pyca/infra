@@ -2,11 +2,11 @@ ARG RELEASE
 FROM debian:${RELEASE}
 
 # Increment this to blow away the docker cache
-ENV CACHE_BUSTER 5
+ENV CACHE_BUSTER=5
 
 # This is needed because otherwise `sys.getfilesystemencoding()` returns
 # "ANSI_X3.4-1968".
-ENV LANG C.UTF-8
+ENV LANG=C.UTF-8
 
 RUN apt-get -qq update && apt-get install -qq -y \
     build-essential \

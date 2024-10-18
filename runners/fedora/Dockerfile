@@ -2,7 +2,7 @@ FROM registry.fedoraproject.org/fedora:latest
 
 # This is needed because otherwise `sys.getfilesystemencoding()` returns
 # "ANSI_X3.4-1968".
-ENV LANG C.UTF-8
+ENV LANG=C.UTF-8
 
 RUN dnf install -y gcc redhat-rpm-config libffi-devel python3 \
     python3-devel openssl-devel git findutils which pkg-config zstd && \

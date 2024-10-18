@@ -2,13 +2,13 @@ ARG RELEASE
 FROM ubuntu:${RELEASE}
 
 # Increment this to blow away the docker cache
-ENV CACHE_BUSTER 3
+ENV CACHE_BUSTER=3
 
-ENV DEBIAN_FRONTEND noninteractive
+ENV DEBIAN_FRONTEND=noninteractive
 
 # This is needed because otherwise `sys.getfilesystemencoding()` returns
 # "ANSI_X3.4-1968".
-ENV LANG C.UTF-8
+ENV LANG=C.UTF-8
 
 RUN apt-get -qq update && apt-get install -qq -y \
     build-essential \

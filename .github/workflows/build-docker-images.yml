@@ -21,6 +21,7 @@ on:
 jobs:
   build:
     runs-on: ${{ matrix.IMAGE.RUNNER }}
+    timeout-minutes: 10
     permissions:
       contents: read
       packages: write

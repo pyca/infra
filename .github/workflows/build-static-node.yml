@@ -26,7 +26,7 @@ jobs:
           - {RUNNER: "ubuntu-latest", MANYLINUX_ARCH: "x86_64"}
           - {RUNNER: [self-hosted, Linux, ARM64], MANYLINUX_ARCH: "aarch64"}
     steps:
-    - uses: actions/checkout@v4.2.1
+    - uses: actions/checkout@v4.2.2
       with:
         persist-credentials: false
     - name: Set Node.js version

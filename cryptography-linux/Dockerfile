@@ -8,7 +8,7 @@ RUN \
   if [ $(uname -m) = "x86_64" ]; \
   then \
     if stat /etc/redhat-release 1>&2 2>/dev/null; then \
-      yum -y install binutils perl-IPC-Cmd && \
+      yum -y install binutils perl perl-IPC-Cmd && \
       yum -y clean all && \
       rm -rf /var/cache/yum; \
     fi; \
@@ -20,7 +20,7 @@ RUN \
   if [ $(uname -m) = "aarch64" ]; \
   then \
     if stat /etc/redhat-release 1>&2 2>/dev/null; then \
-      yum -y install perl-IPC-Cmd && \
+      yum -y install perl perl-IPC-Cmd && \
       yum -y clean all && \
       rm -rf /var/cache/yum; \
     fi; \

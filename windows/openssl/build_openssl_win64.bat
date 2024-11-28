@@ -4,7 +4,7 @@ SET PATH=%PATH%;C:\Program Files\NASM
 SET CL=/FS
 
 perl Configure %OPENSSL_BUILD_FLAGS_WINDOWS% VC-WIN64A
-jom -j4
+jom
 if %errorlevel% neq 0 exit /b %errorlevel%
 
 mkdir ..\build

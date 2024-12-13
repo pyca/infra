@@ -36,6 +36,8 @@ jobs:
           - {TAG_NAME: "cryptography-runner-rhel8-fips", DOCKERFILE_PATH: "runners/rhel", BUILD_ARGS: "FIPS=1\nRELEASE=redhat/ubi8", RUNNER: "ubuntu-latest"}
           - {TAG_NAME: "cryptography-runner-centos-stream9", DOCKERFILE_PATH: "runners/rhel", BUILD_ARGS: "RELEASE=quay.io/centos/centos:stream9", RUNNER: "ubuntu-latest"}
           - {TAG_NAME: "cryptography-runner-centos-stream9-fips", DOCKERFILE_PATH: "runners/rhel", BUILD_ARGS: "FIPS=1\nRELEASE=quay.io/centos/centos:stream9", RUNNER: "ubuntu-latest"}
+          - {TAG_NAME: "cryptography-runner-centos-stream10", DOCKERFILE_PATH: "runners/rhel", BUILD_ARGS: "RELEASE=quay.io/centos/centos:stream10", RUNNER: "ubuntu-latest"}
+          - {TAG_NAME: "cryptography-runner-centos-stream10-fips", DOCKERFILE_PATH: "runners/rhel", BUILD_ARGS: "FIPS=1\nRELEASE=quay.io/centos/centos:stream10", RUNNER: "ubuntu-latest"}
 
           - {TAG_NAME: "cryptography-runner-fedora", DOCKERFILE_PATH: "runners/fedora", RUNNER: "ubuntu-latest"}
           - {TAG_NAME: "cryptography-runner-alpine", DOCKERFILE_PATH: "runners/alpine", RUNNER: "ubuntu-latest"}

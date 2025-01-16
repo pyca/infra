@@ -58,13 +58,13 @@ jobs:
           - {TAG_NAME: "cryptography-musllinux_1_1:x86_64", DOCKERFILE_PATH: "cryptography-linux", BUILD_ARGS: "PYCA_RELEASE=musllinux_1_1_x86_64", RUNNER: "ubuntu-latest"}
           - {TAG_NAME: "cryptography-musllinux_1_2:x86_64", DOCKERFILE_PATH: "cryptography-linux", BUILD_ARGS: "PYCA_RELEASE=musllinux_1_2_x86_64", RUNNER: "ubuntu-latest"}
 
-          - {TAG_NAME: "cryptography-manylinux2014_aarch64", DOCKERFILE_PATH: "cryptography-linux", BUILD_ARGS: "PYCA_RELEASE=manylinux2014_aarch64", RUNNER: [self-hosted, Linux, ARM64]}
-          - {TAG_NAME: "cryptography-manylinux_2_28:aarch64", DOCKERFILE_PATH: "cryptography-linux", BUILD_ARGS: "PYCA_RELEASE=manylinux_2_28_aarch64", RUNNER: [self-hosted, Linux, ARM64]}
-          - {TAG_NAME: "cryptography-manylinux_2_34:aarch64", DOCKERFILE_PATH: "cryptography-linux", BUILD_ARGS: "PYCA_RELEASE=manylinux_2_34_aarch64", RUNNER: [self-hosted, Linux, ARM64]}
-          - {TAG_NAME: "cryptography-musllinux_1_1:aarch64", DOCKERFILE_PATH: "cryptography-linux", BUILD_ARGS: "PYCA_RELEASE=musllinux_1_1_aarch64", RUNNER: [self-hosted, Linux, ARM64]}
-          - {TAG_NAME: "cryptography-musllinux_1_2:aarch64", DOCKERFILE_PATH: "cryptography-linux", BUILD_ARGS: "PYCA_RELEASE=musllinux_1_2_aarch64", RUNNER: [self-hosted, Linux, ARM64]}
-          - {TAG_NAME: "cryptography-runner-ubuntu-rolling:aarch64", DOCKERFILE_PATH: "runners/ubuntu", BUILD_ARGS: "RELEASE=rolling", RUNNER: [self-hosted, Linux, ARM64]}
-          - {TAG_NAME: "cryptography-runner-alpine:aarch64", DOCKERFILE_PATH: "runners/alpine", RUNNER: [self-hosted, Linux, ARM64]}
+          - {TAG_NAME: "cryptography-manylinux2014_aarch64", DOCKERFILE_PATH: "cryptography-linux", BUILD_ARGS: "PYCA_RELEASE=manylinux2014_aarch64", RUNNER: "ubuntu-24.04-arm"}
+          - {TAG_NAME: "cryptography-manylinux_2_28:aarch64", DOCKERFILE_PATH: "cryptography-linux", BUILD_ARGS: "PYCA_RELEASE=manylinux_2_28_aarch64", RUNNER: "ubuntu-24.04-arm"}
+          - {TAG_NAME: "cryptography-manylinux_2_34:aarch64", DOCKERFILE_PATH: "cryptography-linux", BUILD_ARGS: "PYCA_RELEASE=manylinux_2_34_aarch64", RUNNER: "ubuntu-24.04-arm"}
+          - {TAG_NAME: "cryptography-musllinux_1_1:aarch64", DOCKERFILE_PATH: "cryptography-linux", BUILD_ARGS: "PYCA_RELEASE=musllinux_1_1_aarch64", RUNNER: "ubuntu-24.04-arm"}
+          - {TAG_NAME: "cryptography-musllinux_1_2:aarch64", DOCKERFILE_PATH: "cryptography-linux", BUILD_ARGS: "PYCA_RELEASE=musllinux_1_2_aarch64", RUNNER: "ubuntu-24.04-arm"}
+          - {TAG_NAME: "cryptography-runner-ubuntu-rolling:aarch64", DOCKERFILE_PATH: "runners/ubuntu", BUILD_ARGS: "RELEASE=rolling", RUNNER: "ubuntu-24.04-arm"}
+          - {TAG_NAME: "cryptography-runner-alpine:aarch64", DOCKERFILE_PATH: "runners/alpine", RUNNER: "ubuntu-24.04-arm"}
 
     name: "${{ matrix.IMAGE.TAG_NAME }}"
     steps:

@@ -24,7 +24,7 @@ jobs:
       matrix:
         IMAGE:
           - {RUNNER: "ubuntu-latest", MANYLINUX_ARCH: "x86_64"}
-          - {RUNNER: [self-hosted, Linux, ARM64], MANYLINUX_ARCH: "aarch64"}
+          - {RUNNER: "ubuntu-24.04-arm", MANYLINUX_ARCH: "aarch64"}
     steps:
     - uses: actions/checkout@v4.2.2
       with:

@@ -110,7 +110,7 @@ jobs:
           context: ${{ matrix.IMAGE.DOCKERFILE_PATH }}
           cache-from: ghcr.io/pyca/${{ matrix.IMAGE.TAG_NAME }}
           tags: ghcr.io/pyca/${{ matrix.IMAGE.TAG_NAME }}
-          platform: ${{ matrix.IMAGE.DOCKER_PLATFORM }}
+          platforms: ${{ matrix.IMAGE.DOCKER_PLATFORM }}
           pull: true
           build-args: |
             NODE_ARCH_RELEASE=${{ env.NODE_ARCH_RELEASE }}

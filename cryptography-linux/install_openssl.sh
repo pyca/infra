@@ -8,7 +8,11 @@ curl -#LO "${OPENSSL_URL}/${OPENSSL_VERSION}/${OPENSSL_VERSION}.tar.gz"
 echo "${OPENSSL_SHA256}  ${OPENSSL_VERSION}.tar.gz" | sha256sum -c -
 tar zxf ${OPENSSL_VERSION}.tar.gz
 pushd ${OPENSSL_VERSION}
-./config $OPENSSL_BUILD_FLAGS --prefix=/opt/pyca/cryptography/openssl --openssldir=/opt/pyca/cryptography/openssl
+BUILD_FLAGS="$OPENSSL_BUILD_FLAGS"
+if [ "$(uname -m)" = "armv7l" ]; then
+    BUILD_FLAGS="$OPENSSL_BUILD_FLAGS_ARMV7L"
+fi
+./config $BUILD_FLAGS --prefix=/opt/pyca/cryptography/openssl --openssldir=/opt/pyca/cryptography/openssl
 make depend
 make -j4
 # avoid installing the docs

@@ -66,6 +66,10 @@ jobs:
           - {TAG_NAME: "cryptography-runner-ubuntu-rolling:aarch64", DOCKERFILE_PATH: "runners/ubuntu", BUILD_ARGS: "RELEASE=rolling", RUNNER: "ubuntu-24.04-arm"}
           - {TAG_NAME: "cryptography-runner-alpine:aarch64", DOCKERFILE_PATH: "runners/alpine", RUNNER: "ubuntu-24.04-arm"}
 
+          - {TAG_NAME: "cryptography-runner-ubuntu-rolling:armv7l", DOCKERFILE_PATH: "runners/ubuntu", DOCKER_PLATFORM: "linux/arm/v7", BUILD_ARGS: "RELEASE=rolling", RUNNER: "ubuntu-24.04-arm"}
+
+          - {TAG_NAME: "cryptography-manylinux_2_31:armv7l", DOCKERFILE_PATH: "cryptography-linux", DOCKER_PLATFORM: "linux/arm/v7", BUILD_ARGS: "PYCA_RELEASE=manylinux_2_31_armv7l", RUNNER: "ubuntu-24.04-arm"}
+
     name: "${{ matrix.IMAGE.TAG_NAME }}"
     steps:
       - uses: actions/checkout@v4.2.2
@@ -106,6 +110,7 @@ jobs:
           context: ${{ matrix.IMAGE.DOCKERFILE_PATH }}
           cache-from: ghcr.io/pyca/${{ matrix.IMAGE.TAG_NAME }}
           tags: ghcr.io/pyca/${{ matrix.IMAGE.TAG_NAME }}
+          platform: ${{ matrix.IMAGE.DOCKER_PLATFORM }}
           pull: true
           build-args: |
             NODE_ARCH_RELEASE=${{ env.NODE_ARCH_RELEASE }}

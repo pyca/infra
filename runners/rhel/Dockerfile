@@ -3,8 +3,7 @@ FROM ${RELEASE}
 ARG FIPS
 ARG RELEASE
 
-# TODO use yum clean all once we drop py36 support
-RUN yum install -y gcc libffi-devel python3-devel openssl-devel git which pkg-config zstd
+RUN yum install -y gcc libffi-devel python3-devel openssl-devel git which pkg-config zstd && yum clean all
 RUN if [ "$RELEASE" = "redhat/ubi8" ] ; then yum install -y python38-devel; fi
 
 RUN if [ "$FIPS" = "1" ] ; then if [ "$RELEASE" = "redhat/ubi8" ] ; then rm -rf /etc/system-fips && touch /etc/system-fips; else update-crypto-policies --set FIPS; fi && echo "FIPS mode"; else echo "Not FIPS mode"; fi

@@ -28,11 +28,11 @@ RUN apt-get -qq update && apt-get install -qq -y \
 # usually on an arm64 host), install arm64 libc/c++. This is so that when
 # Github Actions injects an arm64 node binary into the container, it can find
 # the dynamic linker.
-RUN if [ "$(readelf -h /proc/self/exe | grep -o 'Machine:.* ARM')" ];
+RUN if [ "$(readelf -h /proc/self/exe | grep -o 'Machine:.* ARM')" ]; \
     then \
         dpkg --add-architecture arm64 && \
         apt-get update -qq && \
-        apt-get install -qq -y libc6:arm64 libstdc++6:arm64
+        apt-get install -qq -y libc6:arm64 libstdc++6:arm64 \
     fi
 
 RUN python3 -m venv /venv && /venv/bin/pip install -U pip wheel --no-cache-dir

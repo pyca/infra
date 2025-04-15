@@ -22,6 +22,7 @@ jobs:
   build:
     runs-on: windows-latest
     strategy:
+      fail-fast: false
       matrix:
         ARCH: ["win32", "win64"]
     name: "Build OpenSSL for ${{ matrix.ARCH }} on MSVC 2022"

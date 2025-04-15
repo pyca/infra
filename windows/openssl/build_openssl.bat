@@ -16,10 +16,10 @@ if "%BUILDARCH%" == "win32" (
 
     perl Configure %OPENSSL_BUILD_FLAGS_WINDOWS% VC-WIN64A
 ) else if "%BUILDARCH%" == "arm64" (
-    CALL "C:\Program Files\Microsoft Visual Studio\2022\Enterprise\BuildTools\Common7\Tools\VsDevCmd.bat" -arch=arm64
-    CALL "C:\Program Files\Microsoft Visual Studio\2022\Enterprise\VC\Auxiliary\Build\vcvarsall.bat" arm64
-
-    perl Configure %OPENSSL_BUILD_FLAGS_WINDOWS% VC-WIN64-ARM
+    REM See https://github.com/openssl/openssl/issues/26258
+    REM But also this config fails if you don't pass the target CFLAG and define AR/LD for LLVM
+    SET CFLAGS=%CFLAGS% -DNO_INTERLOCKEDOR64 --target=arm64-pc-windows-msvc
+    perl Configure %OPENSSL_BUILD_FLAGS_WINDOWS% VC-CLANG-WIN64-CLANGASM-ARM AR=llvm-lib LD=lld-link
 )
 
 jom

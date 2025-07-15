@@ -5,7 +5,7 @@ FROM quay.io/pypa/${PYCA_RELEASE}
 LABEL org.opencontainers.image.authors="Python Cryptographic Authority"
 WORKDIR /root
 RUN \
-  if [ $(uname -m) = "x86_64" ] || [ $(uname -m) = "ppc64le" ]; \
+  if [ $(uname -m) = "x86_64" ]; \
   then \
     if stat /etc/redhat-release 1>&2 2>/dev/null; then \
       yum -y install binutils perl perl-IPC-Cmd && \

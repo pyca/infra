@@ -72,10 +72,6 @@ jobs:
           - {TAG_NAME: "cryptography-manylinux_2_31:armv7l", DOCKERFILE_PATH: "cryptography-linux", DOCKER_PLATFORM: "linux/arm/v7", BUILD_ARGS: "PYCA_RELEASE=manylinux_2_31_armv7l", RUNNER: "ubuntu-24.04-arm"}
           - {TAG_NAME: "cryptography-musllinux_1_2:armv7l", DOCKERFILE_PATH: "cryptography-linux", DOCKER_PLATFORM: "linux/arm/v7", BUILD_ARGS: "PYCA_RELEASE=musllinux_1_2_armv7l", RUNNER: "ubuntu-24.04-arm"}
 
-          - {TAG_NAME: "cryptography-runner-ubuntu-24.04:ppc64le", DOCKERFILE_PATH: "runners/ubuntu", BUILD_ARGS: "RELEASE=24.04", RUNNER: "ubuntu-24.04-ppc64le"}
-          - {TAG_NAME: "cryptography-manylinux_2_28:ppc64le", DOCKERFILE_PATH: "cryptography-linux", BUILD_ARGS: "PYCA_RELEASE=manylinux_2_28_ppc64le", RUNNER: "ubuntu-24.04-ppc64le"}
-          - {TAG_NAME: "cryptography-manylinux2014:ppc64le", DOCKERFILE_PATH: "cryptography-linux", BUILD_ARGS: "PYCA_RELEASE=manylinux2014_ppc64le", RUNNER: "ubuntu-24.04-ppc64le"}
-
     name: "${{ matrix.IMAGE.TAG_NAME }}"
     steps:
       - uses: actions/checkout@v4.2.2

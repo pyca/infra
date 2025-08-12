@@ -1,6 +1,6 @@
-ARG NODE_ARCH_RELEASE
+ARG NODE20_ARCH_RELEASE
 ARG PYCA_RELEASE
-FROM ghcr.io/pyca/static-nodejs-${NODE_ARCH_RELEASE} AS staticnodejs
+FROM ghcr.io/pyca/static-nodejs-${NODE20_ARCH_RELEASE} AS staticnodejs20
 FROM quay.io/pypa/${PYCA_RELEASE}
 LABEL org.opencontainers.image.authors="Python Cryptographic Authority"
 WORKDIR /root
@@ -26,7 +26,7 @@ RUN \
     fi; \
   fi
 
-COPY --from=staticnodejs /out/ /staticnode/
+COPY --from=staticnodejs20 /out/ /staticnode/20/
 ADD install_openssl.sh /root/install_openssl.sh
 ADD openssl-version.sh /root/openssl-version.sh
 RUN ./install_openssl.sh

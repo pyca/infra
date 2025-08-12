@@ -1,5 +1,5 @@
-ARG NODE_ARCH_RELEASE
-FROM ghcr.io/pyca/static-nodejs-${NODE_ARCH_RELEASE} AS staticnodejs
+ARG NODE20_ARCH_RELEASE
+FROM ghcr.io/pyca/static-nodejs-${NODE20_ARCH_RELEASE} AS staticnodejs20
 
 FROM alpine:latest
 
@@ -13,7 +13,7 @@ ENV LANG=C.UTF-8
 RUN apk add --no-cache git libffi-dev curl \
     python3-dev openssl-dev bash gcc musl-dev tar pkgconfig zstd make
 
-COPY --from=staticnodejs /out/ /staticnode/
+COPY --from=staticnodejs20 /out/ /staticnode/20/
 
 RUN python3 -m venv /venv && /venv/bin/pip install -U pip wheel --no-cache-dir
 

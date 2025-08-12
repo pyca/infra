@@ -13,9 +13,22 @@ on:
       - 'staticnode/**'
 
 jobs:
+  load-node-versions:
+    runs-on: ubuntu-latest
+    outputs:
+      versions: ${{ steps.load-versions.outputs.versions }}
+    steps:
+      - uses: actions/checkout@v4.2.2
+        with:
+          persist-credentials: false
+      - name: Load Node.js versions
+        id: load-versions
+        run: |
+          echo "versions=$(cat staticnode/node-versions.json | jq -c '.')" >> $GITHUB_OUTPUT
+
   build:
-    name: Build node.js
     runs-on: ${{ matrix.IMAGE.RUNNER }}
+    needs: load-node-versions
     permissions:
       contents: read
       packages: write
@@ -26,15 +39,15 @@ jobs:
           - {RUNNER: "ubuntu-latest", MANYLINUX_ARCH: "x86_64"}
           - {RUNNER: "ubuntu-24.04-arm", MANYLINUX_ARCH: "aarch64"}
           - {RUNNER: "ubuntu-24.04-ppc64le", MANYLINUX_ARCH: "ppc64le"}
+        NODE_CONFIG: ${{ fromJson(needs.load-node-versions.outputs.versions) }}
     steps:
     - uses: actions/checkout@v4.2.2
       with:
         persist-credentials: false
     - name: Set Node.js version
       run: |
-        source ./staticnode/node-version.sh
-        echo "NODE_VERSION=$NODE_VERSION" >> $GITHUB_ENV
-        echo "NODE_SHA256SUM=$NODE_SHA256SUM" >> $GITHUB_ENV
+        echo "NODE_VERSION=${{ matrix.NODE_CONFIG.version }}" >> $GITHUB_ENV
+        echo "NODE_SHA256SUM=${{ matrix.NODE_CONFIG.sha256sum }}" >> $GITHUB_ENV
         arch=$(echo "${{ runner.arch }}" | tr '[:upper:]' '[:lower:]')
         echo "NODE_ARCH=$arch" >> $GITHUB_ENV
     - name: Build the Docker image

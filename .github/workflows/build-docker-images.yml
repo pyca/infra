@@ -92,9 +92,10 @@ jobs:
         with:
           persist-credentials: false
       - run: |
-          source ./staticnode/node-version.sh
           arch=$(echo "${{ runner.arch }}" | tr '[:upper:]' '[:lower:]')
-          echo "NODE_ARCH_RELEASE=$arch:$NODE_VERSION" >> $GITHUB_ENV
+          NODE20_VERSION=$(cat staticnode/node-versions.json | jq -r '.[] | select(.version | startswith("v20")) | .version')
+
+          echo "NODE20_ARCH_RELEASE=$arch:${NODE20_VERSION}" >> $GITHUB_ENV
       # Pull the previous image, but if it fails return true anyway.
       # Sometimes we add new docker images and if they've never been pushed
       # they can't be pulled.
@@ -129,7 +130,7 @@ jobs:
           platforms: ${{ matrix.IMAGE.DOCKER_PLATFORM }}
           pull: true
           build-args: |
-            NODE_ARCH_RELEASE=${{ env.NODE_ARCH_RELEASE }}
+            NODE20_ARCH_RELEASE=${{ env.NODE20_ARCH_RELEASE }}
             ${{ matrix.IMAGE.BUILD_ARGS }}
           push: ${{ (github.event_name == 'push' || github.event_name == 'schedule' || github.event_name == 'workflow_dispatch') && github.ref == 'refs/heads/main' }}
       - uses: actions/attest-build-provenance@e8998f949152b193b063cb0ec769d69d929409be  # v2.4.0

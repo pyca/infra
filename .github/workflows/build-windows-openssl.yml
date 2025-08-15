@@ -26,8 +26,8 @@ jobs:
       fail-fast: false
       matrix:
         ARCH:
-          - {ARCH: "win32", RUNNER: "windows-latest"}
-          - {ARCH: "win64", RUNNER: "windows-latest"}
+          - {ARCH: "win32", RUNNER: "windows-2025"}
+          - {ARCH: "win64", RUNNER: "windows-2025"}
           - {ARCH: "arm64", RUNNER: "windows-11-arm"}
     name: "Build OpenSSL for ${{ matrix.ARCH.ARCH }} on MSVC 2022"
     steps:

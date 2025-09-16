@@ -22,7 +22,7 @@ RUN \
   if [ $(uname -m) = "aarch64" ]; \
   then \
     if stat /etc/redhat-release 1>&2 2>/dev/null; then \
-      yum -y install perl perl-IPC-Cmd && \
+      yum -y install perl perl-IPC-Cmd perl-Time-Piece && \
       yum -y clean all && \
       rm -rf /var/cache/yum; \
     fi; \

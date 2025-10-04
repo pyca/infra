@@ -18,7 +18,7 @@ on:
 
 jobs:
   build:
-    runs-on: macos-13
+    runs-on: macos-15
     strategy:
       matrix:
         ARCH:
@@ -69,7 +69,7 @@ jobs:
           path: artifact/
 
   universal2:
-    runs-on: macos-13
+    runs-on: macos-15
     name: "Build OpenSSL for macOS universal2"
     needs: [ build ]
     steps:

@@ -31,7 +31,7 @@ jobs:
           - {ARCH: "arm64", RUNNER: "windows-11-arm"}
     name: "Build OpenSSL for ${{ matrix.ARCH.ARCH }} on MSVC 2022"
     steps:
-      - uses: actions/checkout@v5.0.0
+      - uses: actions/checkout@v5.0.1
         with:
           persist-credentials: false
       - run: choco install -y nasm winrar jom

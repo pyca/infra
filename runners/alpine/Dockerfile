@@ -13,12 +13,12 @@ ENV CACHE_BUSTER=1
 ENV LANG=C.UTF-8
 
 RUN apk add --no-cache git libffi-dev curl \
-    python3-dev openssl-dev bash gcc musl-dev tar pkgconfig zstd make
+    python3-dev openssl-dev bash gcc musl-dev tar pkgconfig zstd make rustup
 
 COPY --from=staticnodejs20 /out/ /staticnode/20/
 COPY --from=staticnodejs24 /out/ /staticnode/24/
 
-RUN python3 -m venv /venv && /venv/bin/pip install -U pip wheel --no-cache-dir
-
-RUN curl https://sh.rustup.rs -sSf | sh -s -- -y --default-toolchain stable --profile minimal --component llvm-tools-preview
+RUN rustup-init -y --default-toolchain stable --profile minimal --component llvm-tools-preview
 ENV PATH="/root/.cargo/bin:$PATH"
+
+RUN python3 -m venv /venv && /venv/bin/pip install -U pip wheel --no-cache-dir

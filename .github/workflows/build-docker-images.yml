@@ -73,7 +73,6 @@ jobs:
 
           # armv7l distro images
           - {TAG_NAME: "cryptography-runner-ubuntu-rolling:armv7l", DOCKERFILE_PATH: "runners/ubuntu", DOCKER_PLATFORM: "linux/arm/v7", BUILD_ARGS: "RELEASE=rolling", RUNNER: "ubuntu-24.04-arm"}
-          - {TAG_NAME: "cryptography-runner-alpine:armv7l", DOCKERFILE_PATH: "runners/alpine", DOCKER_PLATFORM: "linux/arm/v7", RUNNER: "ubuntu-24.04-arm"}
 
           # armv7l manylinux images
           - {TAG_NAME: "cryptography-manylinux_2_31:armv7l", DOCKERFILE_PATH: "cryptography-linux", DOCKER_PLATFORM: "linux/arm/v7", BUILD_ARGS: "PYCA_RELEASE=manylinux_2_31_armv7l", RUNNER: "ubuntu-24.04-arm"}

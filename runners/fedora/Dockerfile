@@ -5,10 +5,10 @@ FROM registry.fedoraproject.org/fedora:latest
 ENV LANG=C.UTF-8
 
 RUN dnf install -y gcc redhat-rpm-config libffi-devel python3 \
-    python3-devel openssl-devel git findutils which pkg-config zstd && \
+    python3-devel openssl-devel git findutils which pkg-config zstd rustup && \
     dnf clean all
 
-RUN python3 -m venv /venv && /venv/bin/pip install -U pip wheel --no-cache-dir
-
-RUN curl https://sh.rustup.rs -sSf | sh -s -- -y --default-toolchain stable --profile minimal --component llvm-tools-preview
+RUN rustup-init -y --default-toolchain stable --profile minimal --component llvm-tools-preview
 ENV PATH="/root/.cargo/bin:$PATH"
+
+RUN python3 -m venv /venv && /venv/bin/pip install -U pip wheel --no-cache-dir

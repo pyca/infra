@@ -10,7 +10,7 @@ ENV DEBIAN_FRONTEND=noninteractive
 # "ANSI_X3.4-1968".
 ENV LANG=C.UTF-8
 
-RUN apt-get -qq update && apt-get install -qq -y \
+RUN apt-get update && apt-get install -y \
     build-essential \
     libssl-dev \
     libffi-dev \
@@ -31,8 +31,8 @@ RUN apt-get -qq update && apt-get install -qq -y \
 RUN if [ "$(readelf -h /proc/self/exe | grep -o 'Machine:.* ARM')" ]; \
     then \
         dpkg --add-architecture arm64; \
-        apt-get update -qq; \
-        apt-get install -qq -y libc6:arm64 libstdc++6:arm64; \
+        apt-get update; \
+        apt-get install -y libc6:arm64 libstdc++6:arm64; \
     fi
 
 RUN python3 -m venv /venv && /venv/bin/pip install -U pip wheel --no-cache-dir

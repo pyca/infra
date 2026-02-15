@@ -32,6 +32,7 @@ COPY --from=staticnodejs20 /out/ /staticnode/20/
 COPY --from=staticnodejs24 /out/ /staticnode/24/
 ADD install_openssl.sh /root/install_openssl.sh
 ADD openssl-version.sh /root/openssl-version.sh
+ADD generate_sbom.py /root/generate_sbom.py
 RUN ./install_openssl.sh
 
 RUN curl https://sh.rustup.rs -sSf | sh -s -- -y --default-toolchain stable --profile minimal

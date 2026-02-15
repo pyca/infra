@@ -53,6 +53,18 @@ jobs:
         shell: cmd
       - run: windows\openssl\build_openssl.bat ${{ matrix.ARCH.ARCH }}
         shell: cmd
+      - name: Generate SBOM
+        run: |
+          source ./cryptography-linux/openssl-version.sh
+          python3 ./cryptography-linux/generate_sbom.py \
+            --openssl-version "$OPENSSL_VERSION" \
+            --openssl-sha256 "$OPENSSL_SHA256" \
+            --architecture "${{ matrix.ARCH.ARCH }}" \
+            --operating-system windows \
+            --build-flags "$OPENSSL_BUILD_FLAGS_WINDOWS" \
+            --output build/sbom.json
+        shell: bash
+
       - uses: actions/upload-artifact@v6.0.0
         with:
           name: "openssl-${{ matrix.ARCH.ARCH }}"

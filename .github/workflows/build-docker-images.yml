@@ -87,7 +87,7 @@ jobs:
 
     name: "${{ matrix.IMAGE.TAG_NAME }}"
     steps:
-      - uses: actions/checkout@v6.0.1
+      - uses: actions/checkout@v6.0.2
         with:
           persist-credentials: false
       - run: |

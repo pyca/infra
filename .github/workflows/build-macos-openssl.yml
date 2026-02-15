@@ -63,6 +63,17 @@ jobs:
         env:
           CFLAGS: ${{ matrix.ARCH.CFLAGS }}
 
+      - name: Generate SBOM
+        run: |
+          source ./cryptography-linux/openssl-version.sh
+          python3 ./cryptography-linux/generate_sbom.py \
+            --openssl-version "$OPENSSL_VERSION" \
+            --openssl-sha256 "$OPENSSL_SHA256" \
+            --architecture "${{ matrix.ARCH.NAME }}" \
+            --operating-system macos \
+            --build-flags "$OPENSSL_BUILD_FLAGS" \
+            --output artifact/sbom.json
+
       - uses: actions/upload-artifact@v6.0.0
         with:
           name: "openssl-macos-${{ matrix.ARCH.ARTIFACT_NAME }}"
@@ -73,6 +84,9 @@ jobs:
     name: "Build OpenSSL for macOS universal2"
     needs: [ build ]
     steps:
+      - uses: actions/checkout@v6.0.1
+        with:
+          persist-credentials: false
       - uses: actions/download-artifact@v7.0.0
         with:
           name: openssl-macos-x86-64
@@ -90,6 +104,17 @@ jobs:
           cp -r ../x86-64/lib/pkgconfig lib/
           lipo -create -output lib/libssl.a ../x86-64/lib/libssl.a ../arm64/lib/libssl.a
           lipo -create -output lib/libcrypto.a ../x86-64/lib/libcrypto.a ../arm64/lib/libcrypto.a
+      - name: Generate SBOM
+        run: |
+          source ./cryptography-linux/openssl-version.sh
+          python3 ./cryptography-linux/generate_sbom.py \
+            --openssl-version "$OPENSSL_VERSION" \
+            --openssl-sha256 "$OPENSSL_SHA256" \
+            --architecture universal2 \
+            --operating-system macos \
+            --build-flags "$OPENSSL_BUILD_FLAGS" \
+            --output artifact/sbom.json
+
       - uses: actions/upload-artifact@v6.0.0
         with:
           name: "openssl-macos-universal2"

@@ -32,7 +32,7 @@ jobs:
             OPENSSLDIR: "/opt/homebrew/etc/openssl@3"
     name: "Build OpenSSL for macOS (${{ matrix.ARCH.NAME }})"
     steps:
-      - uses: actions/checkout@v6.0.1
+      - uses: actions/checkout@v6.0.2
         with:
           persist-credentials: false
       - name: Download OpenSSL
@@ -84,7 +84,7 @@ jobs:
     name: "Build OpenSSL for macOS universal2"
     needs: [ build ]
     steps:
-      - uses: actions/checkout@v6.0.1
+      - uses: actions/checkout@v6.0.2
         with:
           persist-credentials: false
       - uses: actions/download-artifact@v7.0.0

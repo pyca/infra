@@ -74,7 +74,7 @@ jobs:
             --build-flags "$OPENSSL_BUILD_FLAGS" \
             --output artifact/sbom.json
 
-      - uses: actions/upload-artifact@v6.0.0
+      - uses: actions/upload-artifact@v7.0.0
         with:
           name: "openssl-macos-${{ matrix.ARCH.ARTIFACT_NAME }}"
           path: artifact/
@@ -115,7 +115,7 @@ jobs:
             --build-flags "$OPENSSL_BUILD_FLAGS" \
             --output artifact/sbom.json
 
-      - uses: actions/upload-artifact@v6.0.0
+      - uses: actions/upload-artifact@v7.0.0
         with:
           name: "openssl-macos-universal2"
           path: artifact/

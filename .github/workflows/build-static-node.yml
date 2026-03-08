@@ -18,7 +18,7 @@ jobs:
     outputs:
       versions: ${{ steps.load-versions.outputs.versions }}
     steps:
-      - uses: actions/checkout@v6.0.1
+      - uses: actions/checkout@v6.0.2
         with:
           persist-credentials: false
       - name: Load Node.js versions
@@ -41,7 +41,7 @@ jobs:
           - {RUNNER: "ubuntu-24.04-ppc64le", MANYLINUX_ARCH: "ppc64le"}
         NODE_CONFIG: ${{ fromJson(needs.load-node-versions.outputs.versions) }}
     steps:
-    - uses: actions/checkout@v6.0.1
+    - uses: actions/checkout@v6.0.2
       with:
         persist-credentials: false
     - name: Set Node.js version

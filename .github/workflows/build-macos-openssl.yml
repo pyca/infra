@@ -87,11 +87,11 @@ jobs:
       - uses: actions/checkout@v6.0.1
         with:
           persist-credentials: false
-      - uses: actions/download-artifact@v8.0.0
+      - uses: actions/download-artifact@v8.0.1
         with:
           name: openssl-macos-x86-64
           path: x86-64
-      - uses: actions/download-artifact@v8.0.0
+      - uses: actions/download-artifact@v8.0.1
         with:
           name: openssl-macos-arm64
           path: arm64

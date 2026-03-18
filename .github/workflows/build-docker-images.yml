@@ -85,6 +85,12 @@ jobs:
           - {TAG_NAME: "cryptography-manylinux_2_28:ppc64le", DOCKERFILE_PATH: "cryptography-linux", BUILD_ARGS: "PYCA_RELEASE=manylinux_2_28_ppc64le", RUNNER: "ubuntu-24.04-ppc64le"}
           - {TAG_NAME: "cryptography-manylinux_2_34:ppc64le", DOCKERFILE_PATH: "cryptography-linux", BUILD_ARGS: "PYCA_RELEASE=manylinux_2_34_ppc64le", RUNNER: "ubuntu-24.04-ppc64le"}
 
+          # riscv64 distro images
+          - {TAG_NAME: "cryptography-runner-ubuntu-rolling:riscv64", DOCKERFILE_PATH: "runners/ubuntu", BUILD_ARGS: "RELEASE=rolling", RUNNER: "ubuntu-24.04-riscv"}
+
+          # riscv64 manylinux images
+          - {TAG_NAME: "cryptography-manylinux_2_39:riscv64", DOCKERFILE_PATH: "cryptography-linux", BUILD_ARGS: "PYCA_RELEASE=manylinux_2_39_riscv64", RUNNER: "ubuntu-24.04-riscv"}
+
     name: "${{ matrix.IMAGE.TAG_NAME }}"
     steps:
       - uses: actions/checkout@v6.0.1

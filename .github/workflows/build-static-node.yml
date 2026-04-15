@@ -36,9 +36,10 @@ jobs:
       fail-fast: false
       matrix:
         IMAGE:
-          - {RUNNER: "ubuntu-latest", MANYLINUX_ARCH: "x86_64"}
-          - {RUNNER: "ubuntu-24.04-arm", MANYLINUX_ARCH: "aarch64"}
-          - {RUNNER: "ubuntu-24.04-ppc64le", MANYLINUX_ARCH: "ppc64le"}
+          - {RUNNER: "ubuntu-latest", MANYLINUX_IMAGE: "quay.io/pypa/manylinux2014_x86_64"}
+          - {RUNNER: "ubuntu-24.04-arm", MANYLINUX_IMAGE: "quay.io/pypa/manylinux2014_aarch64"}
+          - {RUNNER: "ubuntu-24.04-ppc64le", MANYLINUX_IMAGE: "quay.io/pypa/manylinux2014_ppc64le"}
+          - {RUNNER: "ubuntu-24.04-riscv", MANYLINUX_IMAGE: "quay.io/pypa/manylinux_2_39_riscv64"}
         NODE_CONFIG: ${{ fromJson(needs.load-node-versions.outputs.versions) }}
     steps:
     - uses: actions/checkout@v6.0.1
@@ -54,10 +55,10 @@ jobs:
       run: |
         echo building node.js $NODE_VERSION
         docker build --tag ghcr.io/pyca/static-nodejs-$NODE_ARCH:$NODE_VERSION --build-arg VERSION=$NODE_VERSION --build-arg ARCH=$NODE_ARCH --build-arg SHA256SUM=$NODE_SHA256SUM staticnode
-    - name: Test static node.js on manylinux2014
+    - name: Test static node.js
       run: |
         cd staticnode
-        docker build -f Dockerfile-test -t test-node --build-arg MANYLINUX_ARCH=${{ matrix.IMAGE.MANYLINUX_ARCH }} --build-arg CONTAINER_NAME=ghcr.io/pyca/static-nodejs-$NODE_ARCH:$NODE_VERSION .
+        docker build -f Dockerfile-test -t test-node --build-arg MANYLINUX_IMAGE=${{ matrix.IMAGE.MANYLINUX_IMAGE }} --build-arg CONTAINER_NAME=ghcr.io/pyca/static-nodejs-$NODE_ARCH:$NODE_VERSION .
         docker run test-node /staticnode/bin/node -e "console.log('hello world'); console.log(process.version)"
     - name: Login to docker
       run: 'docker login -u "$DOCKER_USERNAME" -p "$DOCKER_PASSWORD" ghcr.io'

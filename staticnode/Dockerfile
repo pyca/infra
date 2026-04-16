@@ -18,7 +18,7 @@ RUN tar -zxvf node-$VERSION.tar.gz
 # Apply https://github.com/abseil/abseil-cpp/pull/1918
 # Needed to build on ppc64le
 COPY frequency-musl-ppc64le.patch /tmp/
-RUN if [ "$VERSION" = "v24.5.0" ]; then \
+RUN if [ "$VERSION" = "v24.14.1" ]; then \
     cd node-$VERSION && \
     patch -p1 < /tmp/frequency-musl-ppc64le.patch; \
 fi

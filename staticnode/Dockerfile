@@ -1,4 +1,4 @@
-FROM alpine:latest
+FROM alpine:3.21
 ARG VERSION
 # One of x64 or arm64 or ppc64le or riscv64
 ARG ARCH

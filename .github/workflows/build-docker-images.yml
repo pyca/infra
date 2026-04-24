@@ -51,6 +51,7 @@ jobs:
           - {TAG_NAME: "cryptography-runner-ubuntu-focal", DOCKERFILE_PATH: "runners/ubuntu", BUILD_ARGS: "RELEASE=focal", RUNNER: "ubuntu-latest"}
           - {TAG_NAME: "cryptography-runner-ubuntu-jammy", DOCKERFILE_PATH: "runners/ubuntu", BUILD_ARGS: "RELEASE=jammy", RUNNER: "ubuntu-latest"}
           - {TAG_NAME: "cryptography-runner-ubuntu-noble", DOCKERFILE_PATH: "runners/ubuntu", BUILD_ARGS: "RELEASE=noble", RUNNER: "ubuntu-latest"}
+          - {TAG_NAME: "cryptography-runner-ubuntu-resolute", DOCKERFILE_PATH: "runners/ubuntu", BUILD_ARGS: "RELEASE=resolute", RUNNER: "ubuntu-latest"}
           - {TAG_NAME: "cryptography-runner-ubuntu-rolling", DOCKERFILE_PATH: "runners/ubuntu", BUILD_ARGS: "RELEASE=rolling", RUNNER: "ubuntu-latest"}
 
           # x86-64 manylinux images

@@ -1,9 +1,5 @@
 [
   {
-    "version": "v20.19.4",
-    "sha256sum": "cc363c0a90fe5025939175c1c29ab67235f36ebe4b5d78506634da27a73eef5d"
-  },
-  {
     "version": "v24.14.1",
     "sha256sum": "8298cf1f5774093ca819f41b8dd392fd2cff058688b4d5c8805026352e2d31b3"
   }

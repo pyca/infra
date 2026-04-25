@@ -93,10 +93,8 @@ jobs:
           persist-credentials: false
       - run: |
           arch=$(echo "${{ runner.arch }}" | tr '[:upper:]' '[:lower:]')
-          NODE20_VERSION=$(cat staticnode/node-versions.json | jq -r '.[] | select(.version | startswith("v20")) | .version')
           NODE24_VERSION=$(cat staticnode/node-versions.json | jq -r '.[] | select(.version | startswith("v24")) | .version')
 
-          echo "NODE20_ARCH_RELEASE=$arch:${NODE20_VERSION}" >> $GITHUB_ENV
           echo "NODE24_ARCH_RELEASE=$arch:${NODE24_VERSION}" >> $GITHUB_ENV
       # Pull the previous image, but if it fails return true anyway.
       # Sometimes we add new docker images and if they've never been pushed
@@ -132,7 +130,6 @@ jobs:
           platforms: ${{ matrix.IMAGE.DOCKER_PLATFORM }}
           pull: true
           build-args: |
-            NODE20_ARCH_RELEASE=${{ env.NODE20_ARCH_RELEASE }}
             NODE24_ARCH_RELEASE=${{ env.NODE24_ARCH_RELEASE }}
             ${{ matrix.IMAGE.BUILD_ARGS }}
           outputs: ${{ ((github.event_name == 'push' || github.event_name == 'schedule' || github.event_name == 'workflow_dispatch') && github.ref == 'refs/heads/main') && 'type=registry,compression=zstd' || 'type=docker' }}

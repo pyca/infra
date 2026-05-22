@@ -32,5 +32,7 @@ ADD openssl-version.sh /root/openssl-version.sh
 ADD generate_sbom.py /root/generate_sbom.py
 RUN ./install_openssl.sh
 
-RUN curl https://sh.rustup.rs -sSf | sh -s -- -y --default-toolchain stable --profile minimal
+RUN curl -sSf https://sh.rustup.rs -o /tmp/rustup-init.sh && \
+    sh /tmp/rustup-init.sh -y --default-toolchain stable --profile minimal && \
+    rm /tmp/rustup-init.sh
 ENV PATH="/root/.cargo/bin:$PATH"

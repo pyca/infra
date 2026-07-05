@@ -41,7 +41,6 @@ jobs:
           - {TAG_NAME: "cryptography-runner-fedora", DOCKERFILE_PATH: "runners/fedora", RUNNER: "ubuntu-latest"}
           - {TAG_NAME: "cryptography-runner-alpine", DOCKERFILE_PATH: "runners/alpine", RUNNER: "ubuntu-latest"}
 
-          - {TAG_NAME: "cryptography-runner-bullseye", DOCKERFILE_PATH: "runners/debian", BUILD_ARGS: "RELEASE=bullseye", RUNNER: "ubuntu-latest"}
           - {TAG_NAME: "cryptography-runner-bookworm", DOCKERFILE_PATH: "runners/debian", BUILD_ARGS: "RELEASE=bookworm", RUNNER: "ubuntu-latest"}
           - {TAG_NAME: "cryptography-runner-trixie", DOCKERFILE_PATH: "runners/debian", BUILD_ARGS: "RELEASE=trixie", RUNNER: "ubuntu-latest"}
           - {TAG_NAME: "cryptography-runner-sid", DOCKERFILE_PATH: "runners/debian", BUILD_ARGS: "RELEASE=sid", RUNNER: "ubuntu-latest"}

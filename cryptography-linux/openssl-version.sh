@@ -1,5 +1,5 @@
-export OPENSSL_VERSION="openssl-4.0.1"
-export OPENSSL_SHA256="2db3f3a0d6ea4b59e1f094ace2c8cd536dffb87cdc39084c5afa1e6f7f37dd09"
+export OPENSSL_VERSION="openssl-4.0.2"
+export OPENSSL_SHA256="736b467530f916737b7031310ccb21d8218c6229e61e8e160cd1d3458cd543a8"
 # We need a base set of flags because on Windows using MSVC
 # enable-ec_nistp_64_gcc_128 doesn't work since there's no 128-bit type
 export OPENSSL_BUILD_FLAGS_WINDOWS="no-zlib no-shared no-module no-comp no-apps no-docs no-sm2-precomp no-atexit"

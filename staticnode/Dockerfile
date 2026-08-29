@@ -8,7 +8,7 @@ ARG SHA256SUM
 RUN mkdir -p /build
 WORKDIR /build
 
-RUN apk add --no-cache binutils-gold curl g++ gcc gnupg libgcc linux-headers make ninja python3 libstdc++ patch
+RUN apk add --no-cache clang curl g++ gcc gnupg libgcc lld linux-headers make ninja python3 libstdc++ patch
 RUN mkdir -p /out/bin
 
 RUN curl -O https://nodejs.org/dist/$VERSION/node-$VERSION.tar.gz
@@ -28,7 +28,8 @@ RUN cd node-$VERSION && \
       ppc64le) CPU=ppc64 ;; \
       *) CPU="$ARCH" ;; \
     esac && \
-    ./configure --dest-cpu=$CPU --fully-static --ninja --without-inspector --with-intl=none --without-npm --without-corepack && \
+    CC=clang CXX=clang++ CFLAGS=-O2 CXXFLAGS=-O2 LDFLAGS=-fuse-ld=lld \
+    ./configure --dest-cpu=$CPU --fully-static --ninja --without-inspector --with-intl=none --without-npm --without-corepack --without-sqlite --without-amaro && \
     ninja -j$(nproc) -C out/Release node
 
 RUN cp /build/node-$VERSION/LICENSE /out/LICENSE && cp /build/node-$VERSION/out/Release/node /out/bin/node

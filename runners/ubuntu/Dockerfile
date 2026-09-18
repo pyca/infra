@@ -48,8 +48,24 @@ RUN if [ "$(readelf -h /proc/self/exe | grep -o 'Machine:.* ARM')" ]; \
 
 RUN python3 -m venv /venv && /venv/bin/pip install -U pip wheel --no-cache-dir
 
+# llvm-tools-preview is only installed for Rust coverage, which needs just
+# llvm-profdata and llvm-cov. Drop the other tools (llc, opt, llvm-objdump,
+# ...) and, since the component ships its own copy of libLLVM.so that is
+# byte-identical to the one rustc already has in the toolchain's lib/, replace
+# that copy with a symlink (the tools look it up via a $ORIGIN/../lib runpath).
 RUN curl -sSf https://sh.rustup.rs -o /tmp/rustup-init.sh && \
     sh /tmp/rustup-init.sh -y --default-toolchain stable --profile minimal --component llvm-tools-preview && \
     rm /tmp/rustup-init.sh && \
-    rm -rf /root/.rustup/toolchains/*/share/doc /root/.rustup/toolchains/*/share/man
+    rm -rf /root/.rustup/toolchains/*/share/doc /root/.rustup/toolchains/*/share/man && \
+    sysroot="$(/root/.cargo/bin/rustc --print sysroot)" && \
+    host="$(/root/.cargo/bin/rustc -vV | sed -n 's/^host: //p')" && \
+    cd "$sysroot/lib/rustlib/$host" && \
+    for f in $(sed -n "s|^file:lib/rustlib/$host/bin/||p" "$sysroot/lib/rustlib/manifest-llvm-tools-preview-$host"); do \
+        case "$f" in llvm-cov|llvm-profdata) ;; *) rm "bin/$f" ;; esac; \
+    done && \
+    for lib in lib/libLLVM*; do \
+        if [ ! -L "$lib" ] && cmp -s "$lib" "$sysroot/lib/${lib#lib/}"; then \
+            ln -sf "../../../${lib#lib/}" "$lib"; \
+        fi; \
+    done
 ENV PATH="/root/.cargo/bin:$PATH"

@@ -10,13 +10,8 @@ ENV DEBIAN_FRONTEND=noninteractive
 # "ANSI_X3.4-1968".
 ENV LANG=C.UTF-8
 
-# Don't unpack files from packages we need that nothing in CI uses:
-# - python3-dev's static libpython (extension modules link dynamically, if
-#   at all) and libssl-dev's static OpenSSL (openssl-sys only uses it when
-#   OPENSSL_STATIC is set)
-# - gcc's LTO compiler and lto-dump (nothing builds with -flto)
-# - the sanitizer runtimes, which are hard dependencies of libgcc-dev
-#   (nothing builds with -fsanitize)
+# Don't unpack things nothing in CI uses: static libpython and OpenSSL, gcc's
+# LTO backend, and the sanitizer runtimes (hard deps of libgcc-dev).
 RUN printf '%s\n' \
     'path-exclude=/usr/lib/python3*/config-*/libpython*.a' \
     'path-exclude=/usr/lib/*/libcrypto.a' \
@@ -69,21 +64,9 @@ RUN if [ "$(readelf -h /proc/self/exe | grep -o 'Machine:.* ARM')" ]; \
 
 RUN python3 -m venv /venv && /venv/bin/pip install -U pip wheel --no-cache-dir
 
-# Trim the toolchain after installing it (in the same layer, so the removed
-# bytes don't linger in a lower layer):
-# - llvm-tools-preview is only installed for Rust coverage, which needs just
-#   llvm-profdata and llvm-cov. It also ships its own copy of libLLVM.so that
-#   is byte-identical to the one rustc already has in the toolchain's lib/;
-#   replace that copy with a symlink (the tools find it through their
-#   $ORIGIN/../lib runpath). Then drop the other tools listed in the
-#   component's manifest (llc, opt, llvm-objdump, ...).
-# - Strip the symbol tables from the big binaries. This must use llvm-strip
-#   (GNU strip corrupts these lld-linked binaries), so do it before llvm-strip
-#   is removed, and after the libLLVM dedupe so the two copies still match.
-#   Not every host has every file (e.g. 32-bit ARM has no shared libLLVM,
-#   and only some hosts ship sanitizer runtimes), so skip what's missing.
-# - Drop rust-std's sanitizer runtimes (only usable on nightly) and
-#   wasm-component-ld (only used for wasm targets).
+# We only need llvm-profdata and llvm-cov from llvm-tools-preview (for rust
+# coverage). Its libLLVM.so is identical to rustc's, so symlink it, then strip
+# the big binaries (with llvm-strip; GNU strip breaks them) and drop the rest.
 RUN curl -sSf https://sh.rustup.rs -o /tmp/rustup-init.sh && \
     sh /tmp/rustup-init.sh -y --default-toolchain stable --profile minimal --component llvm-tools-preview && \
     rm /tmp/rustup-init.sh && \

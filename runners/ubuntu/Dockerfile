@@ -10,9 +10,30 @@ ENV DEBIAN_FRONTEND=noninteractive
 # "ANSI_X3.4-1968".
 ENV LANG=C.UTF-8
 
-# python3-dev ships a static libpython that nothing we build links against
-# (extension modules link dynamically, if at all), so don't unpack it.
-RUN echo 'path-exclude=/usr/lib/python3*/config-*/libpython*.a' > /etc/dpkg/dpkg.cfg.d/excludes-libpython-static
+# Don't unpack files from packages we need that nothing in CI uses:
+# - python3-dev's static libpython (extension modules link dynamically, if
+#   at all) and libssl-dev's static OpenSSL (openssl-sys only uses it when
+#   OPENSSL_STATIC is set)
+# - gcc's LTO compiler and lto-dump (nothing builds with -flto)
+# - the sanitizer runtimes, which are hard dependencies of libgcc-dev
+#   (nothing builds with -fsanitize)
+RUN printf '%s\n' \
+    'path-exclude=/usr/lib/python3*/config-*/libpython*.a' \
+    'path-exclude=/usr/lib/*/libcrypto.a' \
+    'path-exclude=/usr/lib/*/libssl.a' \
+    'path-exclude=/usr/libexec/gcc/*/*/lto1' \
+    'path-exclude=/usr/bin/*-lto-dump-*' \
+    'path-exclude=/usr/lib/*/libasan*' \
+    'path-exclude=/usr/lib/*/libhwasan*' \
+    'path-exclude=/usr/lib/*/liblsan*' \
+    'path-exclude=/usr/lib/*/libtsan*' \
+    'path-exclude=/usr/lib/*/libubsan*' \
+    'path-exclude=/usr/lib/gcc/*/*/libasan*' \
+    'path-exclude=/usr/lib/gcc/*/*/libhwasan*' \
+    'path-exclude=/usr/lib/gcc/*/*/liblsan*' \
+    'path-exclude=/usr/lib/gcc/*/*/libtsan*' \
+    'path-exclude=/usr/lib/gcc/*/*/libubsan*' \
+    > /etc/dpkg/dpkg.cfg.d/excludes-unused-dev-files
 
 # We only need a C compiler and linker for cffi/cc-rs, not all of
 # build-essential (g++, make, dpkg-dev, ...), and none of the recommended
@@ -48,11 +69,19 @@ RUN if [ "$(readelf -h /proc/self/exe | grep -o 'Machine:.* ARM')" ]; \
 
 RUN python3 -m venv /venv && /venv/bin/pip install -U pip wheel --no-cache-dir
 
-# llvm-tools-preview is only installed for Rust coverage, which needs just
-# llvm-profdata and llvm-cov. Drop the other tools (llc, opt, llvm-objdump,
-# ...) and, since the component ships its own copy of libLLVM.so that is
-# byte-identical to the one rustc already has in the toolchain's lib/, replace
-# that copy with a symlink (the tools look it up via a $ORIGIN/../lib runpath).
+# Trim the toolchain after installing it (in the same layer, so the removed
+# bytes don't linger in a lower layer):
+# - llvm-tools-preview is only installed for Rust coverage, which needs just
+#   llvm-profdata and llvm-cov. It also ships its own copy of libLLVM.so that
+#   is byte-identical to the one rustc already has in the toolchain's lib/;
+#   replace that copy with a symlink (the tools find it through their
+#   $ORIGIN/../lib runpath). Then drop the other tools listed in the
+#   component's manifest (llc, opt, llvm-objdump, ...).
+# - Strip the symbol tables from the big binaries. This must use llvm-strip
+#   (GNU strip corrupts these lld-linked binaries), so do it before llvm-strip
+#   is removed, and after the libLLVM dedupe so the two copies still match.
+# - Drop rust-std's sanitizer runtimes (only usable on nightly) and
+#   wasm-component-ld (only used for wasm targets).
 RUN curl -sSf https://sh.rustup.rs -o /tmp/rustup-init.sh && \
     sh /tmp/rustup-init.sh -y --default-toolchain stable --profile minimal --component llvm-tools-preview && \
     rm /tmp/rustup-init.sh && \
@@ -60,12 +89,18 @@ RUN curl -sSf https://sh.rustup.rs -o /tmp/rustup-init.sh && \
     sysroot="$(/root/.cargo/bin/rustc --print sysroot)" && \
     host="$(/root/.cargo/bin/rustc -vV | sed -n 's/^host: //p')" && \
     cd "$sysroot/lib/rustlib/$host" && \
-    for f in $(sed -n "s|^file:lib/rustlib/$host/bin/||p" "$sysroot/lib/rustlib/manifest-llvm-tools-preview-$host"); do \
-        case "$f" in llvm-cov|llvm-profdata) ;; *) rm "bin/$f" ;; esac; \
-    done && \
     for lib in lib/libLLVM*; do \
         if [ ! -L "$lib" ] && cmp -s "$lib" "$sysroot/lib/${lib#lib/}"; then \
             ln -sf "../../../${lib#lib/}" "$lib"; \
         fi; \
-    done
+    done && \
+    bin/llvm-strip --strip-all \
+        "$sysroot/bin/cargo" "$sysroot/bin/rustc" \
+        "$sysroot"/lib/librustc_driver-*.so "$sysroot"/lib/libLLVM.so.* \
+        /root/.cargo/bin/rustup \
+        bin/rust-lld bin/llvm-cov bin/llvm-profdata && \
+    for f in $(sed -n "s|^file:lib/rustlib/$host/bin/||p" "$sysroot/lib/rustlib/manifest-llvm-tools-preview-$host"); do \
+        case "$f" in llvm-cov|llvm-profdata) ;; *) rm "bin/$f" ;; esac; \
+    done && \
+    rm lib/librustc-stable_rt.*.a bin/wasm-component-ld
 ENV PATH="/root/.cargo/bin:$PATH"

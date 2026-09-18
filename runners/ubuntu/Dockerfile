@@ -80,6 +80,8 @@ RUN python3 -m venv /venv && /venv/bin/pip install -U pip wheel --no-cache-dir
 # - Strip the symbol tables from the big binaries. This must use llvm-strip
 #   (GNU strip corrupts these lld-linked binaries), so do it before llvm-strip
 #   is removed, and after the libLLVM dedupe so the two copies still match.
+#   Not every host has every file (e.g. 32-bit ARM has no shared libLLVM,
+#   and only some hosts ship sanitizer runtimes), so skip what's missing.
 # - Drop rust-std's sanitizer runtimes (only usable on nightly) and
 #   wasm-component-ld (only used for wasm targets).
 RUN curl -sSf https://sh.rustup.rs -o /tmp/rustup-init.sh && \
@@ -94,13 +96,14 @@ RUN curl -sSf https://sh.rustup.rs -o /tmp/rustup-init.sh && \
             ln -sf "../../../${lib#lib/}" "$lib"; \
         fi; \
     done && \
-    bin/llvm-strip --strip-all \
-        "$sysroot/bin/cargo" "$sysroot/bin/rustc" \
-        "$sysroot"/lib/librustc_driver-*.so "$sysroot"/lib/libLLVM.so.* \
-        /root/.cargo/bin/rustup \
-        bin/rust-lld bin/llvm-cov bin/llvm-profdata && \
+    for f in "$sysroot/bin/cargo" "$sysroot/bin/rustc" \
+             "$sysroot"/lib/librustc_driver-*.so "$sysroot"/lib/libLLVM.so.* \
+             /root/.cargo/bin/rustup \
+             bin/rust-lld bin/llvm-cov bin/llvm-profdata; do \
+        if [ -f "$f" ]; then bin/llvm-strip --strip-all "$f"; fi; \
+    done && \
     for f in $(sed -n "s|^file:lib/rustlib/$host/bin/||p" "$sysroot/lib/rustlib/manifest-llvm-tools-preview-$host"); do \
         case "$f" in llvm-cov|llvm-profdata) ;; *) rm "bin/$f" ;; esac; \
     done && \
-    rm lib/librustc-stable_rt.*.a bin/wasm-component-ld
+    rm -f lib/librustc-stable_rt.*.a bin/wasm-component-ld
 ENV PATH="/root/.cargo/bin:$PATH"

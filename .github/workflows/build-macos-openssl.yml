@@ -57,11 +57,12 @@ jobs:
               --prefix="${BASEDIR}/artifact" \
               --openssldir=${{ matrix.ARCH.OPENSSLDIR }} \
               darwin64-${{ matrix.ARCH.NAME }}-cc \
-              $OPENSSL_BUILD_FLAGS
+              $OPENSSL_BUILD_FLAGS \
+              $MACOS_CFLAGS
           make -j$(sysctl -n hw.logicalcpu)
           make install_sw
         env:
-          CFLAGS: ${{ matrix.ARCH.CFLAGS }}
+          MACOS_CFLAGS: ${{ matrix.ARCH.CFLAGS }}
 
       - name: Generate SBOM
         run: |

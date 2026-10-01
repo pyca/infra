@@ -64,13 +64,13 @@ RUN if [ "$(readelf -h /proc/self/exe | grep -o 'Machine:.* ARM')" ]; \
 
 RUN python3 -m venv /venv && /venv/bin/pip install -U pip wheel --no-cache-dir
 
-# We only need llvm-profdata and llvm-cov from llvm-tools-preview (for rust
-# coverage). Its libLLVM.so is identical to rustc's, so symlink it, then strip
-# the big binaries (with llvm-strip; GNU strip breaks them) and drop the rest.
+# Deduplicate libLLVM and strip the big binaries (with llvm-strip; GNU strip
+# breaks them). Keep all files recorded in rustup's component manifests:
+# deleting even unused files prevents rustup from uninstalling or updating
+# the toolchain.
 RUN curl -sSf https://sh.rustup.rs -o /tmp/rustup-init.sh && \
     sh /tmp/rustup-init.sh -y --default-toolchain stable --profile minimal --component llvm-tools-preview && \
     rm /tmp/rustup-init.sh && \
-    rm -rf /root/.rustup/toolchains/*/share/doc /root/.rustup/toolchains/*/share/man && \
     sysroot="$(/root/.cargo/bin/rustc --print sysroot)" && \
     host="$(/root/.cargo/bin/rustc -vV | sed -n 's/^host: //p')" && \
     cd "$sysroot/lib/rustlib/$host" && \
@@ -84,9 +84,5 @@ RUN curl -sSf https://sh.rustup.rs -o /tmp/rustup-init.sh && \
              /root/.cargo/bin/rustup \
              bin/rust-lld bin/llvm-cov bin/llvm-profdata; do \
         if [ -f "$f" ]; then bin/llvm-strip --strip-all "$f"; fi; \
-    done && \
-    for f in $(sed -n "s|^file:lib/rustlib/$host/bin/||p" "$sysroot/lib/rustlib/manifest-llvm-tools-preview-$host"); do \
-        case "$f" in llvm-cov|llvm-profdata) ;; *) rm "bin/$f" ;; esac; \
-    done && \
-    rm -f lib/librustc-stable_rt.*.a bin/wasm-component-ld
+    done
 ENV PATH="/root/.cargo/bin:$PATH"

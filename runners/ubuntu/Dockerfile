@@ -10,6 +10,10 @@ ENV DEBIAN_FRONTEND=noninteractive
 # "ANSI_X3.4-1968".
 ENV LANG=C.UTF-8
 
+# Docker overlay filesystems can reject directory renames during toolchain
+# updates with EXDEV. Allow rustup to copy the files in that case.
+ENV RUSTUP_PERMIT_COPY_RENAME=1
+
 # Don't unpack things nothing in CI uses: static libpython and OpenSSL, gcc's
 # LTO backend, and the sanitizer runtimes (hard deps of libgcc-dev).
 RUN printf '%s\n' \

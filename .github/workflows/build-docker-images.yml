@@ -129,6 +129,15 @@ jobs:
             NODE24_ARCH_RELEASE=${{ env.NODE24_ARCH_RELEASE }}
             ${{ matrix.IMAGE.BUILD_ARGS }}
           outputs: ${{ ((github.event_name == 'push' || github.event_name == 'schedule' || github.event_name == 'workflow_dispatch') && github.ref == 'refs/heads/main') && 'type=registry,compression=zstd' || 'type=docker' }}
+      - name: Check Rust component manifests
+        if: matrix.IMAGE.DOCKERFILE_PATH == 'runners/ubuntu'
+        run: |
+          # Exercise the uninstall path even if stable has not changed since
+          # the image was built. This container is disposable.
+          docker run --rm \
+            --pull=${{ github.ref == 'refs/heads/main' && github.event_name != 'pull_request' && 'always' || 'never' }} \
+            ghcr.io/pyca/${{ matrix.IMAGE.TAG_NAME }} \
+            rustup component remove cargo llvm-tools-preview rustc rust-std
       - uses: actions/attest-build-provenance@4d101475d8b20a2381f78447822ac1eab6504dd8  # v4.2.2
         with:
           subject-name: "ghcr.io/pyca/${{ steps.image-name.outputs.ATTEST_IMAGE }}"

@@ -1,0 +1,110 @@
+name: verified-garbage Image Builder
+
+on:
+  workflow_dispatch:
+  schedule:
+    # Run once a week on Fridays
+    - cron: "0 0 * * FRI"
+  pull_request:
+    paths:
+      - '.github/workflows/build-verified-garbage-images.yml'
+      - 'verified-garbage/**'
+  push:
+    branches:
+      - main
+    paths:
+      - '.github/workflows/build-verified-garbage-images.yml'
+      - 'verified-garbage/**'
+
+jobs:
+  # The 32-bit userspaces verified-garbage's CI runs its x86 and ARMv7 jobs
+  # in, each natively on a 64-bit runner of its architecture.
+  build:
+    runs-on: ${{ matrix.IMAGE.RUNNER }}
+    timeout-minutes: 20
+    permissions:
+      contents: read
+      packages: write
+      id-token: write
+      attestations: write
+
+    strategy:
+      fail-fast: false
+      matrix:
+        IMAGE:
+          - {TAG_NAME: "verified-garbage-runner:i686", DOCKER_PLATFORM: "linux/386", RUNNER: "ubuntu-latest"}
+          - {TAG_NAME: "verified-garbage-runner:armv7l", DOCKER_PLATFORM: "linux/arm/v7", RUNNER: "ubuntu-24.04-arm"}
+
+    name: "${{ matrix.IMAGE.TAG_NAME }}"
+    steps:
+      - uses: actions/checkout@v7.0.1
+        with:
+          persist-credentials: false
+      # Pull the previous image, but if it fails return true anyway.
+      # Sometimes we add new docker images and if they've never been pushed
+      # they can't be pulled.
+      - name: Pull existing image
+        run: docker pull --platform ${{ matrix.IMAGE.DOCKER_PLATFORM }} ghcr.io/pyca/${{ matrix.IMAGE.TAG_NAME }} || true
+        if: github.event_name != 'schedule' && github.event_name != 'workflow_dispatch'
+
+      - name: Get image name
+        id: image-name
+        run: |
+          ATTEST_IMAGE=$(echo "${{ matrix.IMAGE.TAG_NAME }}" | cut -d ':' -f 1)
+          echo "ATTEST_IMAGE=${ATTEST_IMAGE}" | tee -a "$GITHUB_OUTPUT"
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@594f3bf4285d9ea8dc53c9a0c9c4092420091003  # v4.4.0
+        with:
+          cache-binary: false
+      - name: Login to ghcr.io
+        uses: docker/login-action@dbcb813823bdd20940b903addbd779551569679f  # v4.6.0
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+        if: (github.event_name == 'push' || github.event_name == 'schedule' || github.event_name == 'workflow_dispatch') && github.ref == 'refs/heads/main'
+      - name: Build (and push if main) docker image
+        uses: docker/build-push-action@c3c9e263c25d99ce0380d002d59b67737d91b0dc  # v7.4.0
+        id: docker-build
+        with:
+          context: verified-garbage
+          cache-from: ghcr.io/pyca/${{ matrix.IMAGE.TAG_NAME }}
+          tags: ghcr.io/pyca/${{ matrix.IMAGE.TAG_NAME }}
+          platforms: ${{ matrix.IMAGE.DOCKER_PLATFORM }}
+          pull: true
+          outputs: ${{ ((github.event_name == 'push' || github.event_name == 'schedule' || github.event_name == 'workflow_dispatch') && github.ref == 'refs/heads/main') && 'type=registry,compression=zstd' || 'type=docker' }}
+      # What verified-garbage's jobs need: the runner's Node (which GitHub
+      # Actions injects into the container for JS actions), a toolchain
+      # that builds and runs for the host and each installed target, and one
+      # that rustup can update in place (exercising the uninstall path even if
+      # stable has not changed since the image was built; this container is
+      # disposable).
+      - name: Check the image
+        run: |
+          docker run --rm --platform ${{ matrix.IMAGE.DOCKER_PLATFORM }} \
+            --pull=${{ github.ref == 'refs/heads/main' && github.event_name != 'pull_request' && 'always' || 'never' }} \
+            -v "$(readlink -f "$(command -v node)")":/runner-node:ro \
+            ghcr.io/pyca/${{ matrix.IMAGE.TAG_NAME }} \
+            sh -euxc '
+              /runner-node -e "console.log(process.version, process.arch)"
+              git --version
+              python3 -V
+              openssl version
+              pkg-config --exists openssl
+              rustc -vV
+              cargo clippy -V
+              cargo fmt -V
+              command -v "$(rustc --print sysroot)/lib/rustlib/$(rustc -vV | sed -n "s/^host: //p")/bin/llvm-cov"
+              cd /tmp && cargo new -q hello && cd hello
+              for target in $(rustup target list --installed); do
+                cargo run -q --target "$target"
+              done
+              rustup component remove cargo clippy llvm-tools rustc rust-std rustfmt
+            '
+      - uses: actions/attest-build-provenance@4d101475d8b20a2381f78447822ac1eab6504dd8  # v4.2.2
+        with:
+          subject-name: "ghcr.io/pyca/${{ steps.image-name.outputs.ATTEST_IMAGE }}"
+          subject-digest: ${{ steps.docker-build.outputs.digest }}
+          push-to-registry: true
+        if: (github.event_name == 'push' || github.event_name == 'schedule' || github.event_name == 'workflow_dispatch') && github.ref == 'refs/heads/main'

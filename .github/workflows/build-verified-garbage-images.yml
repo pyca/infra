@@ -94,7 +94,7 @@ jobs:
               pkg-config --exists openssl
               rustc -vV
               cargo clippy -V
-              cargo fmt -V
+              cargo fmt --version
               command -v "$(rustc --print sysroot)/lib/rustlib/$(rustc -vV | sed -n "s/^host: //p")/bin/llvm-cov"
               cd /tmp && cargo new -q hello && cd hello
               for target in $(rustup target list --installed); do

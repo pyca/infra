@@ -38,7 +38,7 @@ jobs:
         IMAGE:
           - {RUNNER: "ubuntu-latest", MANYLINUX_ARCH: "x86_64"}
           - {RUNNER: "ubuntu-24.04-arm", MANYLINUX_ARCH: "aarch64"}
-          - {RUNNER: "ubuntu-24.04-ppc64le", MANYLINUX_ARCH: "ppc64le"}
+          - {RUNNER: "ubuntu-24.04-ppc64le-p10", MANYLINUX_ARCH: "ppc64le"}
         NODE_CONFIG: ${{ fromJson(needs.load-node-versions.outputs.versions) }}
     steps:
     - uses: actions/checkout@v7.0.1
